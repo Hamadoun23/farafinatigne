@@ -114,3 +114,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initCounters();
 });
 document.addEventListener("langchange", renderHome);
+/* données rafraîchies depuis la base : on redessine à l'identique */
+document.addEventListener("datachange", renderHome);

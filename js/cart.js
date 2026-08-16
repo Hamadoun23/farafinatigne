@@ -79,7 +79,7 @@ function renderCart() {
         : '<span class="price--quote">' + t("p.quote") + "</span>";
       return `
       <div class="cart-line">
-        <img src="assets/images/${p.img}.jpg" alt="${p[LANG].name}" loading="lazy">
+        <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy">
         <div class="cart-line__body">
           <span class="cart-line__ref">${p.ref}</span>
           <h4>${p[LANG].name}</h4>

@@ -109,3 +109,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("langchange", renderShop);
+document.addEventListener("datachange", renderShop);

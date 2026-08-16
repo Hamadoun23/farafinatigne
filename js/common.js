@@ -12,7 +12,9 @@ const CATALOGUE_PDF = "assets/catalogue-farafinatigne.pdf";
    les demandes de devis : WhatsApp et les messageries n'affichent un aperçu
    que sur une URL absolue. À changer si le nom de domaine change. */
 const SITE_URL = "https://farafinatigne.com/";
-const productImageUrl = p => SITE_URL + "assets/images/" + p.img + ".jpg";
+const productImageUrl = p => (p.img && p.img.indexOf("://") !== -1)
+  ? p.img
+  : SITE_URL + "assets/images/" + p.img + ".jpg";
 
 /* Endpoint de collecte des prospects (Formspree, Getform, Basin…).
    Laisser vide : le formulaire bascule alors sur un envoi par e-mail. */
@@ -30,6 +32,12 @@ const euro = n => {
 const waLink = txt => "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(txt);
 const mailLink = (subject, body) =>
   "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+/* URL d'une photo produit : nom de fichier local, ou adresse absolue
+   quand l'image a été remplacée depuis le back-office. */
+const imgUrl = p => (p.img && p.img.indexOf("://") !== -1)
+  ? p.img
+  : "assets/images/" + p.img + ".jpg";
 
 const productById = id => PRODUCTS.find(p => p.id === id);
 const catById = id => CATEGORIES.find(c => c.id === id);
@@ -68,9 +76,9 @@ function cardHTML(p) {
   return `
   <article class="card reveal" data-id="${p.id}">
     <div class="card__media">
-      <img src="assets/images/${p.img}.jpg" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
+      <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
       ${tag}
-      <button class="card__zoom" data-zoom="assets/images/${p.img}.jpg" aria-label="${t("p.zoom")}">
+      <button class="card__zoom" data-zoom="${imgUrl(p)}" aria-label="${t("p.zoom")}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
       </button>
     </div>

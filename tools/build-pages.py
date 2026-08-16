@@ -69,7 +69,11 @@ def page(fname, title, desc, canonical, body, extra_script, ogimg):
 <script src="js/products.js"></script>
 <script src="js/common.js"></script>
 <script src="js/cart.js"></script>
-{extra_script}</body>
+{extra_script}<!-- Données vivantes : contenu embarqué d'abord, puis valeurs de la base -->
+<script src="js/live-data.js"></script>
+<!-- Édition en direct depuis le back-office (inerte hors du cadre autorisé) -->
+<script src="js/editor-bridge.js"></script>
+</body>
 </html>
 """
     io.open(os.path.join(SITE, fname), "w", encoding="utf-8", newline="\n").write(html)
