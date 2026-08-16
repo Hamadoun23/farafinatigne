@@ -1,12 +1,11 @@
 /* =========================================================
-   Farafina Tignè — code partagé par toutes les pages
+   Farafinatignɛ — code partagé par toutes les pages
    Chargé après products.js et i18n.js, avant cart.js.
    ========================================================= */
 
 /* ---------- coordonnées (source unique) ---------- */
-const WHATSAPP_NUMBER = "22376110632";          // +223 76 11 06 32
-const WHATSAPP_ALT = "22376870695";             // +223 76 87 06 95
-const EMAIL = "farafinatigne@hotmail.com";
+const WHATSAPP_NUMBER = "22365450202";          // +223 65 45 02 02 — numéro unique
+const EMAIL = "farafinatigne@gmail.com";
 const CATALOGUE_PDF = "assets/catalogue-farafinatigne.pdf";
 
 /* Endpoint de collecte des prospects (Formspree, Getform, Basin…).
@@ -50,10 +49,10 @@ function priceLabel(p) {
 /* message pré-rempli pour une référence */
 function productMessage(p) {
   return LANG === "fr"
-    ? "Bonjour Farafina Tignè,\nJe souhaite un devis de gros pour : " + p[LANG].name +
+    ? "Bonjour Farafinatignɛ,\nJe souhaite un devis de gros pour : " + p[LANG].name +
       " (réf. " + p.ref + ")" + (p.price != null ? " — " + euro(p.price) : "") +
       ".\nQuantité souhaitée : \nPays de livraison : "
-    : "Hello Farafina Tignè,\nI would like a wholesale quote for: " + p[LANG].name +
+    : "Hello Farafinatignɛ,\nI would like a wholesale quote for: " + p[LANG].name +
       " (ref. " + p.ref + ")" + (p.price != null ? " — " + euro(p.price) : "") +
       ".\nQuantity needed: \nDelivery country: ";
 }
@@ -68,7 +67,8 @@ function cardHTML(p) {
         signature: LANG === "fr" ? "Signature" : "Signature",
         best: LANG === "fr" ? "Best-seller" : "Best-seller",
         gros: LANG === "fr" ? "Lot export" : "Export lot",
-        "piece-speciale": LANG === "fr" ? "Pièce spéciale" : "Special piece"
+        "piece-speciale": LANG === "fr" ? "Pièce spéciale" : "Special piece",
+        nouveau: LANG === "fr" ? "Nouveauté" : "New"
       }[p.tag] || "") + "</span>"
     : "";
   return `

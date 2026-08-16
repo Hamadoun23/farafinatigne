@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — boutique / catalogue
+   Farafinatignɛ — boutique / catalogue
    URL : boutique.html?cat=bijoux&sub=colliers
    ========================================================= */
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — formulaire de contact
+   Farafinatignɛ — formulaire de contact
    Site statique : le message part par e-mail (mailto) si aucun
    endpoint n'est configuré dans common.js (LEAD_ENDPOINT).
    ========================================================= */
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const fr = LANG === "fr";
-    const subj = subject || (fr ? "Demande — site Farafina Tignè" : "Enquiry — Farafina Tignè website");
+    const subj = subject || (fr ? "Demande — site Farafinatignɛ" : "Enquiry — Farafinatignɛ website");
     const body =
       (fr ? "Nom : " : "Name: ") + name + "\n" +
       (fr ? "Société : " : "Company: ") + (company || "—") + "\n" +

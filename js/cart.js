@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — sélection / demande de devis
+   Farafinatignɛ — sélection / demande de devis
    Pas de paiement en ligne : la sélection produit un récapitulatif
    envoyé par WhatsApp ou par e-mail pour facture proforma.
    ========================================================= */
@@ -120,8 +120,8 @@ function cartSummary() {
   }).join("\n");
 
   const head = fr
-    ? "Bonjour Farafina Tignè,\nVoici ma demande de devis de gros :\n\n"
-    : "Hello Farafina Tignè,\nHere is my wholesale quote request:\n\n";
+    ? "Bonjour Farafinatignɛ,\nVoici ma demande de devis de gros :\n\n"
+    : "Hello Farafinatignɛ,\nHere is my wholesale quote request:\n\n";
   const foot = fr
     ? "\n\nTotal estimé : " + euro(cartTotal()) +
       "\n(Commande minimum 500 € — merci de me transmettre la facture proforma avec les frais de port.)" +

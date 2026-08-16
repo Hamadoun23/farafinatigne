@@ -1,6 +1,6 @@
-# Farafina Tignè — site vitrine & catalogue de gros
+# Farafinatignɛ — site vitrine & catalogue de gros
 
-Site de **Farafina Tignè**, entreprise artisanale de Mopti-Sévaré (Mali) :
+Site de **Farafinatignɛ**, entreprise artisanale de Mopti-Sévaré (Mali) :
 bijoux en cauris, laiton et plastique recyclés, textiles bogolan et indigo,
 objets d'art. Vente **en gros uniquement**, prix en euros, commande minimum 500 €,
 expédition depuis l'atelier.
@@ -17,7 +17,7 @@ tel quel sur n'importe quel hébergement.
 |---|---|
 | Pages | Accueil, Boutique, À propos, Contact |
 | Langues | Français / Anglais (sélecteur en en-tête, persistant, `?lang=en`) |
-| Catalogue | 87 références, 3 gammes, 12 sous-catégories, tarifs de gros en euros |
+| Catalogue | 96 références, 3 gammes, 12 sous-catégories, tarifs de gros en euros |
 | Commande | Pas de paiement en ligne : sélection → récapitulatif WhatsApp ou e-mail → facture proforma |
 | Catalogue PDF | 20 pages (5,8 Mo), derrière un formulaire nom + e-mail (capture de prospects) |
 
@@ -60,8 +60,7 @@ connus.
 - [ ] Renseigner `LEAD_ENDPOINT` dans `js/common.js` (Formspree, Getform, Basin…),
       sinon les prospects du catalogue ne remontent que par e-mail pré-rempli.
 - [ ] Ajouter le lien TikTok (l'icône figure sur la brochure, l'identifiant manque).
-- [ ] Compléter les 7 références en « prix sur demande » (`price: null`).
-- [ ] Confirmer l'adresse e-mail (`farafinatigne@hotmail.com`).
+- [ ] Compléter les 16 références en « prix sur demande » (`price: null`).
 - [ ] Faire pointer le domaine, forcer le HTTPS, soumettre `sitemap.xml`.
 
 ## Déploiement
@@ -72,4 +71,4 @@ dans les balises `canonical` / `og:url`, `sitemap.xml` et `robots.txt`.
 
 ---
 
-© Farafina Tignè — Mopti-Sévaré, Mali.
+© Farafinatignɛ — Mopti-Sévaré, Mali.

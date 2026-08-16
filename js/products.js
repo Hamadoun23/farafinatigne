@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — source unique de vérité des produits
+   Farafinatignɛ — source unique de vérité des produits
    Prix : tarifs GROS en euros, repris de la brochure officielle.
    price: null  ->  affiché « Prix sur demande / Price on request »
    unit :  piece | pair | set10 | set12 | set20 | set50 | set60 | douz20 | douz100 | metre
@@ -24,7 +24,6 @@ const CATEGORIES = [
       { id: "tissus", fr: "Tissus", en: "Fabrics" },
       { id: "coussins", fr: "Coussins", en: "Pillows" },
       { id: "couvertures", fr: "Couvertures & Plaids", en: "Blankets & Throws" },
-      { id: "chemins", fr: "Chemins de table", en: "Table runners" },
       { id: "mode", fr: "Mode & accessoires", en: "Fashion & accessories" }
     ]
   },
@@ -33,7 +32,9 @@ const CATEGORIES = [
     fr: "Décor & Art", en: "Decor & Art",
     subs: [
       { id: "pieces", fr: "Pièces spéciales", en: "Special pieces" },
-      { id: "objets", fr: "Objets de décoration", en: "Decorative objects" }
+      { id: "objets", fr: "Objets de décoration", en: "Decorative objects" },
+      /* déplacé depuis Textile & Mode à la demande du client (août 2026) */
+      { id: "chemins", fr: "Chemins de table", en: "Table runners" }
     ]
   }
 ];
@@ -294,6 +295,24 @@ const PRODUCTS = [
     fr: { name: "Collier Ankh bois & bronze", desc: "Croix de vie sculptée dans l'ébène, bagues de bronze, cordon tressé." },
     en: { name: "Wood & bronze Ankh necklace", desc: "Cross of life carved in ebony with bronze rings, braided cord." }
   },
+  {
+    id: "co-cauri-coffret", cat: "bijoux", sub: "colliers", img: "collier-cauri-parure-boite",
+    price: null, unit: "lot", tag: "nouveau",
+    fr: { name: "Colliers cauris, coffret", desc: "Quatre plastrons de cauris présentés en coffret bois, prêts pour la vitrine. Composition au choix." },
+    en: { name: "Cowrie necklaces, boxed set", desc: "Four cowrie breastplates presented in a wooden box, ready for display. Composition to order." }
+  },
+  {
+    id: "co-perles-assortiment", cat: "bijoux", sub: "colliers", img: "collier-buste-peint",
+    price: null, unit: "lot", tag: "nouveau",
+    fr: { name: "Colliers de perles, assortiment", desc: "Sautoirs et ras-de-cou en perles de verre et graines, présentés sur bustes peints à la main." },
+    en: { name: "Bead necklaces, assortment", desc: "Long necklaces and chokers in glass beads and seeds, shown on hand-painted busts." }
+  },
+  {
+    id: "co-plastron-perles", cat: "bijoux", sub: "colliers", img: "collier-buste-peint-2",
+    price: null, unit: "lot", tag: "nouveau",
+    fr: { name: "Plastrons perlés, assortiment", desc: "Plastrons à franges et pendentifs de bronze, montés sur perles de rocaille. Coloris assortis." },
+    en: { name: "Beaded breastplates, assortment", desc: "Fringed breastplates with bronze pendants on seed beads. Assorted colours." }
+  },
 
   /* ============ BIJOUX · BRACELETS ============ */
   {
@@ -505,20 +524,6 @@ const PRODUCTS = [
     en: { name: "Dogon indigo throw, 4 metres", desc: "Four metres of indigo, as a bed throw or wall hanging." }
   },
 
-  /* ============ TEXTILE · CHEMINS DE TABLE ============ */
-  {
-    id: "tx-chemin-bogolan", cat: "textile", sub: "chemins", img: "echarpe-bogolan",
-    price: null, unit: "piece",
-    fr: { name: "Chemin de table bogolan", desc: "Bande de bogolan ourlée, longueur et largeur au choix. Dimensions et prix sur demande." },
-    en: { name: "Bogolan table runner", desc: "Hemmed bogolan strip, length and width to order. Dimensions and price on request." }
-  },
-  {
-    id: "tx-chemin-indigo", cat: "textile", sub: "chemins", img: "tissu-indigo-motif",
-    price: null, unit: "piece",
-    fr: { name: "Chemin de table indigo", desc: "Indigo noué-ligaturé monté en chemin de table. Dimensions sur demande." },
-    en: { name: "Indigo table runner", desc: "Tie-dyed indigo made up as a table runner. Dimensions on request." }
-  },
-
   /* ============ TEXTILE · MODE ============ */
   {
     id: "tx-boubou-noir", cat: "textile", sub: "mode", img: "boubou-bogolan-noir",
@@ -543,6 +548,42 @@ const PRODUCTS = [
     price: 12, unit: "piece",
     fr: { name: "Étole bogolan à franges", desc: "Écharpe longue à franges nouées, coton bogolan souple." },
     en: { name: "Fringed bogolan stole", desc: "Long scarf with knotted fringes, soft bogolan cotton." }
+  },
+  {
+    id: "tx-boubou-capuche", cat: "textile", sub: "mode", img: "boubou-bogolan-capuche",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Boubou bogolan à capuche", desc: "Coton écru peint à la boue, capuche et bords effrangés, cauris cousus à l'encolure. Coupe unisexe." },
+    en: { name: "Hooded bogolan boubou", desc: "Mud-painted natural cotton, hood and frayed edges, cowries sewn at the neckline. Unisex cut." }
+  },
+  {
+    id: "tx-poncho-bogolan", cat: "textile", sub: "mode", img: "poncho-bogolan-cauri",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Poncho bogolan à cauris", desc: "Bogolan noir à motifs blancs, semé de cauris cousus main, franges au bas." },
+    en: { name: "Cowrie bogolan poncho", desc: "Black bogolan with white patterns, scattered hand-sewn cowries, fringed hem." }
+  },
+  {
+    id: "tx-tunique-bogolan", cat: "textile", sub: "mode", img: "tunique-bogolan",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Tunique bogolan", desc: "Tunique droite en bogolan noir, motifs losanges peints à la boue, franges au bas." },
+    en: { name: "Bogolan tunic", desc: "Straight black bogolan tunic, mud-painted diamond patterns, fringed hem." }
+  },
+  {
+    id: "tx-ensemble-bogolan", cat: "textile", sub: "mode", img: "ensemble-bogolan",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Ensemble bogolan turquoise", desc: "Veste et pantalon assortis en bogolan teint turquoise, motifs géométriques peints à la main." },
+    en: { name: "Turquoise bogolan set", desc: "Matching jacket and trousers in turquoise-dyed bogolan, hand-painted geometric patterns." }
+  },
+  {
+    id: "tx-coiffe-cauri", cat: "textile", sub: "mode", img: "coiffe-cauri",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Coiffe de cauris", desc: "Calotte entièrement brodée de cauris, franges tombantes. Pièce de cérémonie, plusieurs longueurs." },
+    en: { name: "Cowrie headpiece", desc: "Cap fully embroidered with cowries and falling fringes. A ceremonial piece, several lengths." }
+  },
+  {
+    id: "tx-coiffe-perlee", cat: "textile", sub: "mode", img: "coiffe-cauri-perlee",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Coiffe cauris & perles", desc: "Variante mêlant cauris, perles de verre et fils dorés, montée sur résille." },
+    en: { name: "Cowrie & bead headpiece", desc: "Variant mixing cowries, glass beads and gold thread on a net base." }
   },
 
   /* ============ DÉCOR · PIÈCES SPÉCIALES ============ */
@@ -583,6 +624,20 @@ const PRODUCTS = [
     price: 6.5, unit: "piece",
     fr: { name: "Porte-clés cuir XL", desc: "Grand pompon de cuir à manchon perlé, motifs chevrons." },
     en: { name: "XL leather keyring", desc: "Large leather tassel with a beaded collar, chevron patterns." }
+  },
+
+  /* ============ DÉCOR · CHEMINS DE TABLE ============ */
+  {
+    id: "dc-chemin-bogolan", cat: "decor", sub: "chemins", img: "echarpe-bogolan",
+    price: null, unit: "piece",
+    fr: { name: "Chemin de table bogolan", desc: "Bande de bogolan ourlée, longueur et largeur au choix. Dimensions et prix sur demande." },
+    en: { name: "Bogolan table runner", desc: "Hemmed bogolan strip, length and width to order. Dimensions and price on request." }
+  },
+  {
+    id: "dc-chemin-indigo", cat: "decor", sub: "chemins", img: "tissu-indigo-motif",
+    price: null, unit: "piece",
+    fr: { name: "Chemin de table indigo", desc: "Indigo noué-ligaturé monté en chemin de table. Dimensions sur demande." },
+    en: { name: "Indigo table runner", desc: "Tie-dyed indigo made up as a table runner. Dimensions on request." }
   }
 ];
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — bilingue FR / EN
+   Farafinatignɛ — bilingue FR / EN
    Tout texte d'interface passe par data-i18n="clé".
    data-i18n-attr="placeholder|aria-label|content|title" pour traduire un attribut.
    ========================================================= */
@@ -59,6 +59,19 @@ const I18N = {
     "cat.bijoux.d": "Cauris, laiton et argent recyclés, plastique de Mopti, cuir de chèvre, pâte de verre.",
     "cat.textile.d": "Bogolan peint à la boue, indigo noué-ligaturé, coussins, boubous et étoles.",
     "cat.decor.d": "Objets d'art en métal recyclé, bronzes coulés à la cire perdue, pièces de collection.",
+
+    /* --- lookbook --- */
+    "look.eyebrow": "Nouvel arrivage",
+    "look.title1": "Les pièces de la",
+    "look.title2": "saison",
+    "look.lead": "Coiffes de cauris, bogolan porté, plastrons de cérémonie : les dernières pièces sorties de l'atelier de Sévaré.",
+    "look.1": "Coiffes de cauris",
+    "look.2": "Boubou bogolan à capuche",
+    "look.3": "Plastron de cauris",
+    "look.4": "Ensemble bogolan turquoise",
+    "look.5": "Ras-de-cou de cauris",
+    "look.6": "Torques en laiton",
+    "look.hint": "Faites défiler pour parcourir l'arrivage.",
 
     /* --- produits phares --- */
     "feat.eyebrow": "Sélection",
@@ -151,7 +164,7 @@ const I18N = {
     "about.eyebrow": "Notre maison",
     "about.h1a": "L'Afrique de l'Ouest,",
     "about.h1b": "de la main à la main",
-    "about.intro": "L'entreprise artisanale Farafina Tignè fabrique et commercialise les objets traditionnels, les habits et les parures culturelles de nombreuses ethnies d'Afrique. Bijoux de cauris, de plastique recyclé, de métaux récupérés, de cuir et de pierres, bogolanfini : nous vous faisons découvrir le joyau de l'Afrique occidentale à travers l'art, l'histoire et la tradition.",
+    "about.intro": "L'entreprise artisanale Farafinatignɛ fabrique et commercialise les objets traditionnels, les habits et les parures culturelles de nombreuses ethnies d'Afrique. Bijoux de cauris, de plastique recyclé, de métaux récupérés, de cuir et de pierres, bogolanfini : nous vous faisons découvrir le joyau de l'Afrique occidentale à travers l'art, l'histoire et la tradition.",
     "about.s1.t": "L'atelier de Sévaré",
     "about.s1.p": "Notre atelier se tient à Mopti-Sévaré, sur la route nationale 6, au carrefour des routes qui montent vers le pays dogon et Tombouctou. C'est là que se rassemblent les pièces venues des forgerons, des teinturières et des tisserands de toute la région.",
     "about.s2.t": "Les matières",
@@ -167,7 +180,7 @@ const I18N = {
     "contact.h1b": "répondons",
     "contact.lead": "Une question sur une référence, un devis, un conteneur à préparer : WhatsApp reste le plus rapide, l'e-mail le plus complet.",
     "contact.addr": "Adresse",
-    "contact.addrv": "Mopti — Sévaré, Rue RN6<br>Imm. Farafina Tignè, BP 65<br>Mali",
+    "contact.addrv": "Mopti — Sévaré, Rue RN6<br>Imm. Farafinatignɛ, BP 65<br>Mali",
     "contact.phone": "Téléphone & WhatsApp",
     "contact.mail": "E-mail",
     "contact.hours": "Horaires",
@@ -249,6 +262,18 @@ const I18N = {
     "cat.bijoux.d": "Cowries, recycled brass and silver, Mopti plastic, goat leather, glass paste.",
     "cat.textile.d": "Mud-painted bogolan, tie-dyed indigo, pillows, boubous and stoles.",
     "cat.decor.d": "Recycled-metal art objects, lost-wax bronzes, collector's pieces.",
+
+    "look.eyebrow": "New arrivals",
+    "look.title1": "This season's",
+    "look.title2": "pieces",
+    "look.lead": "Cowrie headpieces, bogolan worn, ceremonial breastplates: the latest pieces out of the Sévaré workshop.",
+    "look.1": "Cowrie headpieces",
+    "look.2": "Hooded bogolan boubou",
+    "look.3": "Cowrie breastplate",
+    "look.4": "Turquoise bogolan set",
+    "look.5": "Cowrie choker",
+    "look.6": "Brass torques",
+    "look.hint": "Scroll to browse the new arrivals.",
 
     "feat.eyebrow": "Selection",
     "feat.title1": "Our most requested",
@@ -333,7 +358,7 @@ const I18N = {
     "about.eyebrow": "Our house",
     "about.h1a": "West Africa,",
     "about.h1b": "hand to hand",
-    "about.intro": "Farafina Tignè is a craft company that makes and sells the traditional objects, garments and cultural adornments of many African peoples. Jewellery of cowries, recycled plastic, reclaimed metals, leather and stones, bogolanfini: we let you discover the jewel of West Africa through art, history and tradition.",
+    "about.intro": "Farafinatignɛ is a craft company that makes and sells the traditional objects, garments and cultural adornments of many African peoples. Jewellery of cowries, recycled plastic, reclaimed metals, leather and stones, bogolanfini: we let you discover the jewel of West Africa through art, history and tradition.",
     "about.s1.t": "The Sévaré workshop",
     "about.s1.p": "Our workshop stands in Mopti-Sévaré, on national road 6, where the roads to Dogon country and Timbuktu meet. This is where the pieces from smiths, dyers and weavers of the whole region come together.",
     "about.s2.t": "The materials",
@@ -348,7 +373,7 @@ const I18N = {
     "contact.h1b": "answer",
     "contact.lead": "A question on a reference, a quote, a container to prepare: WhatsApp is fastest, e-mail is most complete.",
     "contact.addr": "Address",
-    "contact.addrv": "Mopti — Sévaré, Rue RN6<br>Imm. Farafina Tignè, BP 65<br>Mali",
+    "contact.addrv": "Mopti — Sévaré, Rue RN6<br>Imm. Farafinatignɛ, BP 65<br>Mali",
     "contact.phone": "Phone & WhatsApp",
     "contact.mail": "E-mail",
     "contact.hours": "Opening hours",

@@ -1,5 +1,5 @@
 /* =========================================================
-   Farafina Tignè — page d'accueil
+   Farafinatignɛ — page d'accueil
    ========================================================= */
 
 const MARQUEE_WORDS = {
@@ -11,8 +11,8 @@ const MARQUEE_WORDS = {
 
 /* visuel éditorial par gamme */
 const RANGE_IMG = {
-  bijoux: "portrait-cauri-mariee",
-  textile: "atelier-bogolan-duo",
+  bijoux: "look-plastron-cauri",
+  textile: "look-hoodie-bogolan",
   decor: "atelier-decor"
 };
 
@@ -37,9 +37,9 @@ function renderHeroIndex() {
 function renderFeatured() {
   const grid = $("#featured-grid");
   if (!grid) return;
-  const picks = ["bo-fulani-creole", "co-cauri-massaye", "br-flipflop-couleur",
-                 "tx-echarpe-bogolan", "ec-cauri", "co-cuir-degrade",
-                 "tx-coussin-noir", "dc-bougeoir"];
+  const picks = ["bo-fulani-creole", "co-cauri-massaye", "tx-coiffe-cauri",
+                 "br-flipflop-couleur", "tx-boubou-capuche", "ec-cauri",
+                 "tx-echarpe-bogolan", "dc-bougeoir"];
   grid.innerHTML = picks.map(productById).filter(Boolean).map(cardHTML).join("");
   initReveal(grid);
 }
@@ -101,6 +101,8 @@ function initCounters() {
 }
 
 function renderHome() {
+  const count = $("#hero-count");
+  if (count) count.textContent = PRODUCTS.length;   // suit le catalogue
   renderMarquee();
   renderHeroIndex();
   renderFeatured();

@@ -1,12 +1,12 @@
-# Farafina Tignè — contexte du site
+# Farafinatignɛ — contexte du site
 
 Ce fichier résume le projet et **l'historique des décisions** pour qu'on puisse
 reprendre le travail sans relire tout le code.
 
 ## Le projet
 
-Site vitrine + **catalogue B2B (vente en gros uniquement)** pour **Farafina Tignè**,
-entreprise artisanale de **Mopti-Sévaré, Mali** (Rue RN6, Imm. Farafina Tignè, BP 65).
+Site vitrine + **catalogue B2B (vente en gros uniquement)** pour **Farafinatignɛ**,
+entreprise artisanale de **Mopti-Sévaré, Mali** (Rue RN6, Imm. Farafinatignɛ, BP 65).
 
 Elle fabrique et commercialise les objets traditionnels, habits et parures
 culturelles de nombreuses ethnies d'Afrique : bijoux en cauris, en plastique
@@ -15,9 +15,10 @@ recyclé, en métaux récupérés, en cuir et en pierres, bogolanfini, indigo.
 - Signature FR : *« La réalité de l'Afrique »*
 - Signature EN : *« From Mali to the world »*
 - Domaine cible : **farafinatigne.com**
-- WhatsApp principal : **+223 76 11 06 32** (`22376110632`)
-- Second numéro : +223 76 87 06 95 (celui imprimé sur la brochure et les photos)
-- E-mail : **farafinatigne@hotmail.com**
+- Téléphone **et** WhatsApp : **+223 65 45 02 02** (`22365450202`) — **numéro unique**,
+  décision client d'août 2026. Les deux numéros de la brochure (76 87 06 95 et
+  76 11 06 32) ne doivent plus apparaître nulle part.
+- E-mail : **farafinatigne@gmail.com**
 - Réseaux : [Facebook](https://www.facebook.com/farafina.tigne/) ·
   [Instagram](https://www.instagram.com/farafinatigne/) · TikTok (identifiant **non
   communiqué** — la couverture de la brochure affiche l'icône, le lien reste à ajouter)
@@ -26,6 +27,28 @@ recyclé, en métaux récupérés, en cuir et en pierres, bogolanfini, indigo.
 **commande minimum 500 €**, frais de port calculés à la confirmation, **expédition
 depuis l'atelier du Mali**. Aucun paiement en ligne : la sélection produit un
 récapitulatif envoyé par WhatsApp ou e-mail, puis facture proforma et virement.
+
+## Identité — logo et nom
+
+Le client a fourni le **logo officiel** (`assets/arrivage/IMG_5944`, version or
+`IMG_5945`) : ovale à motif bogolan, wordmark condensé, baseline
+« From Mali to the World », numéro de téléphone.
+
+- **Le nom s'écrit `FARAFINATIGNƐ`** — en un seul mot, avec un **Ɛ** (U+0190, E ouvert
+  du bambara). En texte courant on écrit **`Farafinatignɛ`** (ɛ minuscule, U+025B).
+  Ni « Farafina Tignè » ni « Farafina Tigne » ne doivent réapparaître.
+- **Piège technique** : Ɛ et ɛ sont **absents des sous-ensembles Google Fonts** de
+  Fraunces et Manrope — le glyphe tombe alors sur une police système et jure.
+  Deux parades en place :
+  1. le **wordmark** utilise **Anton**, chargée avec `&text=FARAFINATIGNƐ` (l'API v2
+     ne sert alors que les glyphes demandés) — c'est la seule condensée grasse de
+     Google Fonts qui possède le Ɛ ;
+  2. le **texte courant** ajoute `"Noto Serif"` et `"Noto Sans"` en repli dans
+     `--font-display` / `--font-sans`, chargées avec `&text=Ɛɛ` (deux fichiers de
+     quelques octets). Le navigateur ne bascule que sur ces deux caractères.
+  Avant de changer une police, revérifier la couverture du Ɛ.
+- Le **sceau** est redessiné en SVG inline d'après le logo : ovale, deux zigzags,
+  rangée de points au centre, losanges en haut, points en bas. `viewBox="0 0 120 70"`.
 
 ## Direction artistique
 
@@ -132,7 +155,7 @@ pas coder « en dur » une classe `is-current`.
   Changer de langue déclenche l'événement `langchange`, écouté par les pages pour
   re-render les grilles.
 - **`js/products.js`** — **source unique de vérité**. `CATEGORIES` (3 gammes,
-  12 sous-catégories) et `PRODUCTS` (87 références bilingues). Chaque produit :
+  12 sous-catégories) et `PRODUCTS` (96 références bilingues). Chaque produit :
   `id, cat, sub, img, price, unit, tag, fr:{name,desc}, en:{name,desc}`.
   Les **références `FT-BJ-001`… sont générées automatiquement** en fin de fichier
   dans l'ordre du tableau : **insérer un produit au milieu décale toutes les
@@ -192,7 +215,7 @@ Le téléchargement du catalogue est **conditionné à un formulaire nom + e-mai
 1. dans `localStorage` sous `ft-leads` (secours, récupérable depuis la console) ;
 2. via `LEAD_ENDPOINT` dans `common.js` s'il est renseigné (Formspree, Getform,
    Basin, Google Apps Script…) ;
-3. sinon, ouverture d'un e-mail pré-rempli vers `farafinatigne@hotmail.com`.
+3. sinon, ouverture d'un e-mail pré-rempli vers `farafinatigne@gmail.com`.
 
 **À faire avant la mise en production** : créer un formulaire chez un de ces
 services et coller l'URL dans `LEAD_ENDPOINT` — sans ça, les prospects ne
@@ -224,11 +247,11 @@ et les visuels bruts (`../assets/`) restent hors dépôt.
 
 - **Identifiant TikTok** à récupérer (icône présente sur la brochure, lien absent).
 - **`LEAD_ENDPOINT`** à configurer (voir ci-dessus).
-- **Prix manquants** : chercher `price: null` dans `js/products.js`.
-- Adresse e-mail : la page 1 de la brochure imprime `farafinatigna@hotmail.com`
-  (avec un « a ») alors que le logo et les photos portent `farafinatigne@hotmail.com`.
-  C'est cette dernière qui est utilisée sur le site — **à confirmer**.
-- Sous-catégories **Couvertures & Plaids** et **Chemins de table** : demandées au
-  cahier des charges mais absentes de la brochure. Elles sont servies avec les
-  pièces textiles existantes (pagne bogolan, indigo) et deux entrées « prix sur
-  demande » — à compléter dès que le client fournit photos et tarifs.
+- **Prix manquants** : 16 références en `price: null` — dont les 9 nouveautés d'août
+  2026 (coiffes de cauris, boubou à capuche, poncho, tunique, ensemble bogolan,
+  coffret et assortiments de colliers). Chercher `price: null` dans `js/products.js`.
+- Adresse e-mail : `farafinatigne@gmail.com`, confirmée par le client en août 2026
+  (remplace l'ancienne adresse hotmail de la brochure).
+- **Chemins de table** ont été déplacés de Textile & Mode vers **Décor & Art**
+  (demande client, août 2026). Ils restent en « prix sur demande », comme
+  **Couvertures & Plaids** : ces deux gammes n'ont ni photo dédiée ni tarif.
