@@ -532,9 +532,9 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 }
 .price--quote { font-family: var(--font-display); font-style: italic; font-size: 1.02rem; color: var(--brown-3); }
 .card__ref { font-size: .56rem; letter-spacing: .14em; color: var(--tx-3); }
-.card__actions { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+.card__actions { margin-top: 12px; }
 .card__add {
-  flex: 1; min-height: 44px; padding: 11px 14px;
+  width: 100%; min-height: 46px; padding: 12px 14px;
   border: 1px solid var(--line); background: transparent; color: var(--ink);
   font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
   transition: background-color .3s, color .3s, border-color .3s;
@@ -719,10 +719,17 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .contact__item h3 { font-size: .61rem; letter-spacing: .24em; text-transform: uppercase; color: var(--tx-3); font-weight: 800; margin-bottom: 5px; }
 .contact__item p, .contact__item a { color: var(--ink); }
 .contact__item a:hover { color: var(--gold-deep); }
-.socials { display: flex; gap: 10px; }
-.socials a { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line); color: var(--tx-2); transition: .3s; }
-.socials a:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-.socials svg { width: 17px; height: 17px; }
+/* pastilles rondes à filet fin — seule entorse assumée aux angles droits,
+   avec les deux bulles flottantes. */
+.socials { display: flex; gap: 12px; }
+.socials a {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--line); background: none; color: var(--tx-2);
+  transition: border-color .3s, color .3s, transform .3s;
+}
+.socials a:hover { border-color: var(--gold-deep); color: var(--gold-deep); transform: translateY(-2px); }
+.socials svg { width: 18px; height: 18px; }
 
 .form { background: var(--sand); padding: clamp(24px, 4vw, 44px); }
 .form h2 { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; margin-bottom: 22px; letter-spacing: -.02em; }
@@ -772,7 +779,7 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .footer ul li:not(:has(a)) { padding: 10px 0; }
 .footer ul a:hover { color: var(--gold-light); }
 .footer .socials { margin-top: 20px; }
-.footer .socials a { border-color: rgba(248, 247, 238, .22); color: rgba(248, 247, 238, .8); }
+.footer .socials a { border-color: rgba(248, 247, 238, .24); color: rgba(248, 247, 238, .78); }
 .footer .socials a:hover { border-color: var(--gold-light); color: var(--gold-light); }
 .footer__bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 20px; }
 .footer__bottom p { font-size: .72rem; color: rgba(248, 247, 238, .4); }
@@ -856,8 +863,8 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
    FLOTTANTS
    ========================================================= */
 .whatsapp-float {
-  position: fixed; right: 18px; bottom: 18px; z-index: 65;
-  width: 56px; height: 56px; display: grid; place-items: center;
+  position: fixed; left: 18px; bottom: 18px; z-index: 65;
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
   background: var(--wa-solid); color: #06210F;
   box-shadow: 0 12px 30px rgba(37, 211, 102, .32);
   opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .35s, transform .35s;
@@ -865,8 +872,8 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .whatsapp-float.show { opacity: 1; transform: none; pointer-events: auto; }
 .whatsapp-float svg { width: 27px; height: 27px; fill: currentColor; }
 .to-top {
-  position: fixed; right: 18px; bottom: 84px; z-index: 65;
-  width: 44px; height: 44px; display: grid; place-items: center;
+  position: fixed; right: 18px; bottom: 18px; z-index: 65;
+  width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
   border: 1px solid var(--line); background: var(--ivory); color: var(--ink);
   opacity: 0; transform: translateY(16px); pointer-events: none; transition: .35s;
 }
@@ -968,8 +975,8 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   .hero__actions { flex-direction: column; align-items: stretch; gap: 14px; }
   .hero__index { gap: 18px; }
   .footer__top { grid-template-columns: 1fr; }
-  .whatsapp-float { width: 52px; height: 52px; right: 14px; bottom: 14px; }
-  .to-top { right: 14px; bottom: 76px; }
+  .whatsapp-float { width: 52px; height: 52px; left: 14px; bottom: 14px; }
+  .to-top { right: 14px; bottom: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

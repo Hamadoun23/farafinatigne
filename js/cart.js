@@ -112,12 +112,15 @@ function renderCart() {
 /* ---------- récapitulatif ---------- */
 function cartSummary() {
   const fr = LANG === "fr";
+  /* Chaque ligne porte l'URL absolue de la photo : WhatsApp et les messageries
+     affichent alors un aperçu, le vendeur voit tout de suite l'article demandé. */
   const lines = CART.map(l => {
     const p = productById(l.id);
     const price = p.price != null ? euro(p.price) : (fr ? "prix sur demande" : "price on request");
     const sub = p.price != null ? " = " + euro(p.price * l.qty) : "";
-    return "• " + l.qty + " × " + p[LANG].name + " (" + p.ref + ") — " + price + sub;
-  }).join("\n");
+    return "• " + l.qty + " × " + p[LANG].name + " (" + p.ref + ") — " + price + sub +
+           "\n  " + productImageUrl(p);
+  }).join("\n\n");
 
   const head = fr
     ? "Bonjour Farafinatignɛ,\nVoici ma demande de devis de gros :\n\n"

@@ -110,9 +110,13 @@ fabrication, retenue plutôt qu'animation.
    → ivoire → blanc → footer espresso. Trois ancres sombres, pas plus.
 4. **Angles droits partout**, sauf les arches (`border-radius: 999px 999px 3px 3px`).
 5. Les **cartes produits sont sobres** : photo 4/5 plein cadre, pastille de tag
-   collée au coin, nom, prix, référence, puis une ligne d'actions (Ajouter + deux
-   icônes WhatsApp/e-mail). Pas de cadre, pas d'ombre, pas de rappel MOQ par carte —
-   il est déjà dans le bandeau haut et en pied de boutique.
+   collée au coin, nom, prix, référence, puis **un seul bouton « Ajouter à ma
+   sélection »**. Les boutons WhatsApp et e-mail par produit ont été retirés à la
+   demande du client (août 2026) : le cahier des charges les prévoyait, mais le
+   parcours passe désormais entièrement par la sélection. Pas de cadre, pas d'ombre,
+   pas de rappel MOQ par carte — il est déjà dans le bandeau haut et en pied de boutique.
+6. La **bulle WhatsApp est en bas à gauche**, le bouton de remontée en bas à droite :
+   ils ne doivent jamais se toucher.
 6. Le **sceau ovale à chevrons** (repris du logo tampon « Farafina tigné ») est
    dessiné en SVG inline dans la nav et le footer, et dans `assets/favicon.svg`.
 7. Le **mot fantôme** en filigrane (`-webkit-text-stroke`) reste dans les en-têtes de
@@ -166,7 +170,10 @@ pas coder « en dur » une classe `is-current`.
   `LEAD_ENDPOINT`), helpers, `cardHTML()`, nav, reveal, spotlight, lightbox, toast,
   modale du catalogue PDF, délégation globale des clics.
 - **`js/cart.js`** — sélection / demande de devis : quantités, total, contrôle du
-  MOQ, récapitulatif texte envoyé vers WhatsApp ou mailto.
+  MOQ, récapitulatif texte envoyé vers WhatsApp ou mailto. Chaque ligne du
+  récapitulatif porte l'**URL absolue de la photo** (`productImageUrl()` dans
+  `common.js`, basée sur `SITE_URL`) : WhatsApp affiche alors un aperçu de chaque
+  article. Si le domaine change, mettre `SITE_URL` à jour, sinon les aperçus cassent.
 - **`js/home.js`** — marquee, index des gammes du hero, blocs `.range` numérotés,
   sélection de la home (liste `picks` codée en dur), compteurs animés.
 - **`js/boutique.js`** — filtres, lecture/écriture de `?cat=` et `?sub=`.

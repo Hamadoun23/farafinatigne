@@ -131,10 +131,7 @@ const I18N = {
 
     /* --- fiche produit --- */
     "p.add": "Ajouter à ma sélection",
-    "p.addShort": "Ajouter",
     "p.added": "Ajouté à votre sélection",
-    "p.wa": "WhatsApp",
-    "p.mail": "Devis e-mail",
     "p.quote": "Prix sur demande",
     "p.from": "à partir de",
     "p.unit.piece": "la pièce",
@@ -327,10 +324,7 @@ const I18N = {
     "shop.pdf": "PDF catalogue",
 
     "p.add": "Add to my selection",
-    "p.addShort": "Add",
     "p.added": "Added to your selection",
-    "p.wa": "WhatsApp",
-    "p.mail": "E-mail quote",
     "p.quote": "Price on request",
     "p.from": "from",
     "p.unit.piece": "each",

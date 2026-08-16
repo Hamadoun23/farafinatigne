@@ -8,6 +8,12 @@ const WHATSAPP_NUMBER = "22365450202";          // +223 65 45 02 02 — numéro 
 const EMAIL = "farafinatigne@gmail.com";
 const CATALOGUE_PDF = "assets/catalogue-farafinatigne.pdf";
 
+/* Adresse publique du site. Sert à construire les URL d'images envoyées dans
+   les demandes de devis : WhatsApp et les messageries n'affichent un aperçu
+   que sur une URL absolue. À changer si le nom de domaine change. */
+const SITE_URL = "https://farafinatigne.com/";
+const productImageUrl = p => SITE_URL + "assets/images/" + p.img + ".jpg";
+
 /* Endpoint de collecte des prospects (Formspree, Getform, Basin…).
    Laisser vide : le formulaire bascule alors sur un envoi par e-mail. */
 const LEAD_ENDPOINT = "";
@@ -46,21 +52,9 @@ function priceLabel(p) {
     '<i class="price__unit">' + unit + "</i></span>";
 }
 
-/* message pré-rempli pour une référence */
-function productMessage(p) {
-  return LANG === "fr"
-    ? "Bonjour Farafinatignɛ,\nJe souhaite un devis de gros pour : " + p[LANG].name +
-      " (réf. " + p.ref + ")" + (p.price != null ? " — " + euro(p.price) : "") +
-      ".\nQuantité souhaitée : \nPays de livraison : "
-    : "Hello Farafinatignɛ,\nI would like a wholesale quote for: " + p[LANG].name +
-      " (ref. " + p.ref + ")" + (p.price != null ? " — " + euro(p.price) : "") +
-      ".\nQuantity needed: \nDelivery country: ";
-}
-
 /* ---------- carte produit ---------- */
 function cardHTML(p) {
   const cat = catById(p.cat), sub = subById(p.cat, p.sub);
-  const msg = productMessage(p);
   const tag = p.tag
     ? '<span class="card__tag card__tag--' + p.tag + '">' +
       ({
@@ -89,13 +83,7 @@ function cardHTML(p) {
         <span class="card__ref">${t("p.ref")} ${p.ref}</span>
       </div>
       <div class="card__actions">
-        <button class="card__add" data-add="${p.id}" title="${t("p.add")}">${t("p.addShort")}</button>
-        <a href="${waLink(msg)}" target="_blank" rel="noopener" class="card__ico" aria-label="${t("p.wa")}" title="${t("p.wa")}">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.08-.12-.28-.2-.58-.34m-5.42 7.4c-1.77 0-3.5-.48-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.43 9.88-9.89 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41z"/></svg>
-        </a>
-        <a href="${mailLink((LANG === "fr" ? "Devis de gros — " : "Wholesale quote — ") + p.ref + " " + p[LANG].name, msg)}" class="card__ico card__ico--mail" aria-label="${t("p.mail")}" title="${t("p.mail")}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16"/><polyline points="22,6 12,13 2,6"/></svg>
-        </a>
+        <button class="card__add" data-add="${p.id}">${t("p.add")}</button>
       </div>
     </div>
   </article>`;
