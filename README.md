@@ -48,8 +48,13 @@ assets/
   editorial/                  18 visuels éditoriaux
   catalogue-farafinatigne.pdf catalogue grossiste
   favicon.svg
+tools/build-pages.py          régénère les 3 pages secondaires depuis index.html
 claudeprompt.md               contexte du projet, direction artistique, points ouverts
 ```
+
+`boutique.html`, `a-propos.html` et `contact.html` sont **générés** : la nav et le
+footer viennent d'`index.html`. Après les avoir modifiés, lancer
+`python tools/build-pages.py` plutôt que d'éditer les trois fichiers à la main.
 
 **Lire `claudeprompt.md` avant toute modification** : il contient la palette (extraite
 du bandeau de marque), les règles de composition, l'origine des prix et les pièges

@@ -102,13 +102,17 @@ fabrication, retenue plutôt qu'animation.
    largeur), et une **image en arche** posée dessus. L'arche est la signature
    formelle du site — on la retrouve sur les gammes, le savoir-faire et « à propos ».
    La hauteur de l'arche est pilotée par `100svh` pour ne jamais passer sous le
-   bandeau de preuve qui ferme le hero (`500 € / 87 références / Mali`).
+   bandeau de preuve qui ferme le hero (`500 € / n références / Mali`, le nombre
+   étant calculé depuis `PRODUCTS.length`).
 2. **Motif bogolan** : classe `.bogolan`, un SVG en data-URI (chevrons + points)
    posé via `.pattern-layer` à 7 % d'opacité sur toutes les surfaces sombres.
    C'est le seul ornement du site.
 3. **Rythme** : ivoire → sable (`.section--sand`) → blanc → espresso (savoir-faire)
    → ivoire → blanc → footer espresso. Trois ancres sombres, pas plus.
-4. **Angles droits partout**, sauf les arches (`border-radius: 999px 999px 3px 3px`).
+4. **Angles droits partout**, sauf trois exceptions assumées : les arches
+   (`border-radius: 999px 999px 3px 3px`), les **pastilles rondes des réseaux
+   sociaux** et les **deux bulles flottantes** — ces dernières reprennent le
+   traitement de vpofficiel.com à la demande du client.
 5. Les **cartes produits sont sobres** : photo 4/5 plein cadre, pastille de tag
    collée au coin, nom, prix, référence, puis **un seul bouton « Ajouter à ma
    sélection »**. Les boutons WhatsApp et e-mail par produit ont été retirés à la
@@ -117,16 +121,17 @@ fabrication, retenue plutôt qu'animation.
    pas de rappel MOQ par carte — il est déjà dans le bandeau haut et en pied de boutique.
 6. La **bulle WhatsApp est en bas à gauche**, le bouton de remontée en bas à droite :
    ils ne doivent jamais se toucher.
-6. Le **sceau ovale à chevrons** (repris du logo tampon « Farafina tigné ») est
+7. Le **sceau ovale à chevrons** (repris du logo tampon « Farafina tigné ») est
    dessiné en SVG inline dans la nav et le footer, et dans `assets/favicon.svg`.
-7. Le **mot fantôme** en filigrane (`-webkit-text-stroke`) reste dans les en-têtes de
+8. Le **mot fantôme** en filigrane (`-webkit-text-stroke`) reste dans les en-têtes de
    page et le footer.
 
 ## Stack
 
 - **100 % statique** : HTML / CSS / JS vanilla, aucun framework, aucun build, aucune
   dépendance npm. Se dépose tel quel sur n'importe quel hébergement.
-- Polices Google Fonts : `Fraunces` (variable) + `Manrope` (variable).
+- Polices Google Fonts : `Fraunces` + `Manrope` (variables), `Anton` (wordmark) et
+  `Noto Serif` / `Noto Sans` réduites aux deux glyphes Ɛ et ɛ.
 - Persistance `localStorage` : `ft-cart` (sélection), `ft-lang` (langue),
   `ft-leads` (prospects du catalogue PDF, secours local).
 - Dev local : `python -m http.server 5510 --bind 127.0.0.1` depuis ce dossier.
@@ -143,8 +148,17 @@ fabrication, retenue plutôt qu'animation.
 | `a-propos.html` | histoire, atelier, matières, engagements, savoir-faire, galerie |
 | `contact.html` | coordonnées, réseaux, formulaire (mailto), CTA WhatsApp |
 
-Le **bloc nav + le bloc footer/overlays sont identiques sur les 4 pages**. Si on les
-modifie, les répercuter partout (ils ont été générés une fois depuis `index.html`).
+Le **bloc nav + le bloc footer/overlays sont identiques sur les 4 pages**.
+`index.html` en est la **source unique** : après toute modification de la nav ou du
+footer, lancer
+
+```bash
+python tools/build-pages.py
+```
+
+qui régénère `boutique.html`, `a-propos.html` et `contact.html`. **Ne jamais éditer
+ces trois fichiers à la main** : le contenu propre à chaque page vit dans les blocs
+`BOUTIQUE` / `APROPOS` / `CONTACT` du script, tout le reste serait écrasé.
 Le lien actif est marqué dynamiquement par `markCurrentNav()` dans `common.js` — ne
 pas coder « en dur » une classe `is-current`.
 
