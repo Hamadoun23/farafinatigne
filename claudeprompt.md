@@ -199,10 +199,21 @@ services et coller l'URL dans `LEAD_ENDPOINT` — sans ça, les prospects ne
 remontent que si le visiteur laisse partir l'e-mail. `contact.js` utilise le même
 endpoint.
 
+## Dépôt Git
+
+Ce dossier **est** le dépôt : `git init` a été fait **dans `site/`** et non dans
+`FaraFinaTigne/`, parce que tout le dossier personnel de la machine est couvert par
+un dépôt `.git` parasite — ne jamais lancer `git add` / `git commit` depuis un parent.
+
+Dépôt public : **`Hamadoun23/farafinatigne`** —
+<https://github.com/Hamadoun23/farafinatigne>, branche `main`.
+Le PDF du catalogue (5,8 Mo) est versionné ; la brochure source de 59 Mo (`../docs/`)
+et les visuels bruts (`../assets/`) restent hors dépôt.
+
 ## Mise en ligne
 
-1. Déposer le contenu de ce dossier à la racine de l'hébergement (Netlify, Vercel,
-   GitHub Pages, ou un simple FTP — aucun build).
+1. Brancher le dépôt sur Netlify ou Vercel (aucun build, dossier racine), ou activer
+   GitHub Pages sur `main` / racine.
 2. Faire pointer **farafinatigne.com** dessus et forcer le HTTPS.
 3. Remplacer `https://farafinatigne.com/` dans les balises `canonical`, `og:url`,
    `sitemap.xml` et `robots.txt` si le domaine final diffère.
