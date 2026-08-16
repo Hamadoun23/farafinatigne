@@ -30,8 +30,9 @@ récapitulatif envoyé par WhatsApp ou e-mail, puis facture proforma et virement
 
 ## Identité — logo et nom
 
-Le client a fourni le **logo officiel** (`assets/arrivage/IMG_5944`, version or
-`IMG_5945`) : ovale à motif bogolan, wordmark condensé, baseline
+Le client a fourni le **logo officiel** (`../assets/arrivage/IMG_5944`, version or `IMG_5945` —
+ce dossier n'est qu'un dépôt de photos reçues, le mot « arrivage » ne doit pas
+apparaître sur le site) : ovale à motif bogolan, wordmark condensé, baseline
 « From Mali to the World », numéro de téléphone.
 
 - **Le nom s'écrit `FARAFINATIGNƐ`** — en un seul mot, avec un **Ɛ** (U+0190, E ouvert

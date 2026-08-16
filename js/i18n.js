@@ -61,7 +61,7 @@ const I18N = {
     "cat.decor.d": "Objets d'art en métal recyclé, bronzes coulés à la cire perdue, pièces de collection.",
 
     /* --- lookbook --- */
-    "look.eyebrow": "Nouvel arrivage",
+    "look.eyebrow": "Nouveautés",
     "look.title1": "Les pièces de la",
     "look.title2": "saison",
     "look.lead": "Coiffes de cauris, bogolan porté, plastrons de cérémonie : les dernières pièces sorties de l'atelier de Sévaré.",
@@ -71,7 +71,7 @@ const I18N = {
     "look.4": "Ensemble bogolan turquoise",
     "look.5": "Ras-de-cou de cauris",
     "look.6": "Torques en laiton",
-    "look.hint": "Faites défiler pour parcourir l'arrivage.",
+    "look.hint": "Faites défiler pour parcourir la sélection.",
 
     /* --- produits phares --- */
     "feat.eyebrow": "Sélection",
@@ -263,7 +263,7 @@ const I18N = {
     "cat.textile.d": "Mud-painted bogolan, tie-dyed indigo, pillows, boubous and stoles.",
     "cat.decor.d": "Recycled-metal art objects, lost-wax bronzes, collector's pieces.",
 
-    "look.eyebrow": "New arrivals",
+    "look.eyebrow": "New in",
     "look.title1": "This season's",
     "look.title2": "pieces",
     "look.lead": "Cowrie headpieces, bogolan worn, ceremonial breastplates: the latest pieces out of the Sévaré workshop.",
@@ -273,7 +273,7 @@ const I18N = {
     "look.4": "Turquoise bogolan set",
     "look.5": "Cowrie choker",
     "look.6": "Brass torques",
-    "look.hint": "Scroll to browse the new arrivals.",
+    "look.hint": "Scroll to browse the selection.",
 
     "feat.eyebrow": "Selection",
     "feat.title1": "Our most requested",
