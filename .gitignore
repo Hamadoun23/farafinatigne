@@ -1,0 +1,17 @@
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs / outillage local
+.vscode/
+.idea/
+.claude/
+
+# Dépendances éventuelles (le site n'en a aucune en production)
+node_modules/
+
+# Travaux temporaires
+*.log
+*.tmp
+/tmp/
