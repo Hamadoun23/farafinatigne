@@ -447,6 +447,41 @@ function initPdfGate() {
   });
 }
 
+/* ---------- theme clair / sombre ----------
+   Le theme est deja pose sur <html> par le script du <head>, avant
+   le premier rendu. Ici on ne fait que l'inverser et le retenir.
+   Tant que l'internaute n'a pas choisi, on suit son systeme. */
+const THEME_KEY = "ft-theme";
+
+function themeCourant() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+function poserTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  /* la barre du navigateur suit, sur Android comme sur iOS */
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", t === "dark" ? "#1C0D0B" : "#F8F7EE");
+  try { localStorage.setItem(THEME_KEY, t); } catch (_) {}
+  document.dispatchEvent(new CustomEvent("themechange", { detail: t }));
+}
+
+function initTheme() {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", themeCourant() === "dark" ? "#1C0D0B" : "#F8F7EE");
+
+  /* Choix systeme suivi tant que l'internaute n'a rien decide lui-meme. */
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const suivre = e => {
+    let choisi = null;
+    try { choisi = localStorage.getItem(THEME_KEY); } catch (_) {}
+    if (choisi !== "dark" && choisi !== "light") {
+      document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+    }
+  };
+  if (mq.addEventListener) mq.addEventListener("change", suivre);
+}
+
 /* ---------- sélecteur de langue ---------- */
 function initLangSwitch() {
   $$("[data-lang-btn]").forEach(b => {
@@ -505,6 +540,9 @@ document.addEventListener("touchend", function (e) {
 
 /* ---------- délégation globale ---------- */
 document.addEventListener("click", e => {
+  const theme = e.target.closest("[data-theme-btn]");
+  if (theme) { poserTheme(themeCourant() === "dark" ? "light" : "dark"); return; }
+
   const fleche = e.target.closest("[data-slide]");
   if (fleche) {
     const c = fleche.closest("[data-carousel]");
@@ -555,6 +593,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMagnetic();
   initPdfGate();
   initLangSwitch();
+  initTheme();
   const y = $("#year");
   if (y) y.textContent = new Date().getFullYear();
 });

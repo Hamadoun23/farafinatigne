@@ -50,6 +50,19 @@ def page(fname, title, desc, canonical, body, extra_script, ogimg):
 <meta name="description" content="{desc}">
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#1C0D0B">
+<script>
+  /* Le theme est pose AVANT le premier rendu : applique plus tard, la page
+     s'afficherait en clair puis basculerait, ce qui saute aux yeux. */
+  (function () {{
+    try {{
+      var t = localStorage.getItem("ft-theme");
+      if (t !== "dark" && t !== "light") {{
+        t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }}
+      document.documentElement.setAttribute("data-theme", t);
+    }} catch (e) {{ /* navigation privee : on reste en clair */ }}
+  }})();
+</script>
 <link rel="canonical" href="https://farafinatigne.com/{canonical}">
 <link rel="alternate" hreflang="fr" href="https://farafinatigne.com/{canonical}?lang=fr">
 <link rel="alternate" hreflang="en" href="https://farafinatigne.com/{canonical}?lang=en">

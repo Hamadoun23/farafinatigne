@@ -65,6 +65,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+/* Sur un ecran de 320 px, la barre fixe depassait de 2 px : le document
+   lui-meme ne doit jamais defiler lateralement. */
+html { overflow-x: hidden; }
+
 body {
   font-family: var(--font-sans);
   font-size: 16px;
@@ -641,6 +645,31 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   background: #A33A1E; color: var(--ivory); padding: 3px 7px; border-radius: 999px;
   align-self: center;
 }
+/* =========================================================
+   CADRAGE DES PHOTOS
+   Les cadres editoriaux sont en portrait (0,87 a 0,91) alors que
+   les photos de personnes montent jusqu'a 0,47 : centrer le
+   recadrage coupait les tetes, qui se trouvent dans le haut de
+   l'image. On remonte donc la fenetre de recadrage.
+   Sur une photo en paysage il n'y a pas de debordement vertical :
+   la valeur est alors sans effet, rien ne bouge.
+   ========================================================= */
+.about__media img,
+.craft__media img,
+.range__arch img,
+.gallery img,
+.lookbook__strip img,
+.pdf__cover img {
+  object-position: var(--cadrage, 50% 22%);
+}
+/* Les fiches produit : le sujet (crochet d'une boucle, col d'un
+   vetement) est lui aussi vers le haut, mais moins haut qu'un visage. */
+.card__media img,
+.card__track img {
+  object-position: var(--cadrage, 50% 38%);
+}
+.cart-line img { object-position: var(--cadrage, 50% 30%); }
+
 /* --- carrousel d'assortiment ---
    La fenetre garde le format 4/5 des autres cartes : la carte d'un lot
    ne doit jamais etre plus haute ni plus large que ses voisines. */
@@ -843,7 +872,21 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); padding: 11px 0;
 }
-.filters__row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+/* La rangee de filtres defile lateralement sur telephone : sans repere
+   visuel, on ne devine pas qu'il reste des gammes a droite. Le masque
+   estompe la derniere pastille, ce qui suffit a le faire comprendre. */
+.filters__row {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  padding-bottom: 2px; scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.filters__row > * { scroll-snap-align: start; }
+@media (max-width: 900px) {
+  .filters__row {
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 34px), transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 34px), transparent 100%);
+  }
+}
 .filters__row::-webkit-scrollbar { display: none; }
 .filters__row + .filters__row { margin-top: 8px; display: none; }
 .filters__row + .filters__row.is-visible { display: flex; }
@@ -1195,13 +1238,219 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 
 @media (max-width: 480px) {
   body { font-size: 15px; }
-  .products { grid-template-columns: minmax(0, 1fr); }
-  .card__media { aspect-ratio: 4 / 4; }
+  /* Deux colonnes tenues jusqu'en bas : a une seule, la boutique
+     faisait 43 000 px de haut, illisible a parcourir pour un
+     acheteur en gros. */
+  .card__media { aspect-ratio: 4 / 4.4; }
   .hero__actions { flex-direction: column; align-items: stretch; gap: 14px; }
   .hero__index { gap: 18px; }
   .footer__top { grid-template-columns: 1fr; }
   .whatsapp-float { width: 46px; height: 46px; left: 14px; bottom: 14px; }
   .to-top { right: 14px; bottom: 14px; }
+}
+
+/* =========================================================
+   MODE SOMBRE
+   Pas de noir plat : le fond reprend le degrade du bandeau de
+   marque — brun chaud qui descend vers l'espresso, avec le halo
+   d'or en haut a gauche. C'est la meme matiere que les sections
+   sombres du site, etendue a toute la page.
+
+   Les jetons de surface (--paper, --sand) et d'encre (--ink,
+   --tx-*) basculent ; les couleurs de marque (ivoire, espresso,
+   or) ne bougent pas : elles servent aux pastilles claires
+   posees sur les photos, qui restent claires dans les deux
+   themes. Seul --gold-deep change : sa version foncee, choisie
+   pour rester lisible sur ivoire, devient illisible sur brun.
+   ========================================================= */
+:root[data-theme="dark"] {
+  --paper: #251614;
+  --ivory-fixe: #F8F7EE;
+  --sand:  #2E1C18;
+
+  --tx-1: #F4EEE3;
+  --tx-2: #CDB9AA;
+  --tx-3: #A08C7D;
+  --ink:  #F4EEE3;
+
+  --line:   rgba(248, 247, 238, .16);
+  --line-2: rgba(248, 247, 238, .09);
+
+  /* l'or profond n'est lisible que sur fond clair : sur brun on
+     remonte a l'or clair, qui tient 7:1 sur l'espresso */
+  --gold-deep: #DBA54E;
+
+  color-scheme: dark;
+}
+
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(1200px 760px at 6% -10%, rgba(204, 141, 61, .22) 0%, transparent 58%),
+    radial-gradient(1000px 700px at 104% 6%, rgba(109, 65, 44, .34) 0%, transparent 60%),
+    linear-gradient(168deg, #3B231C 0%, #2A1614 46%, #1C0D0B 100%);
+  background-attachment: fixed;
+  color: var(--tx-1);
+}
+
+/* ---- surfaces qui etaient explicitement ivoire ---- */
+:root[data-theme="dark"] .section--ivory { background: rgba(255, 255, 255, .028); }
+:root[data-theme="dark"] .section--sand  { background: rgba(255, 255, 255, .05); }
+:root[data-theme="dark"] .nav__menu,
+:root[data-theme="dark"] .cart,
+:root[data-theme="dark"] .modal__box,
+:root[data-theme="dark"] .pdf-gate__box,
+:root[data-theme="dark"] .lightbox img { background: #2A1917; }
+:root[data-theme="dark"] .filters { background: rgba(28, 13, 11, .72); backdrop-filter: blur(8px); }
+:root[data-theme="dark"] .marquee { background: rgba(255, 255, 255, .04); }
+:root[data-theme="dark"] .page-head { background: rgba(255, 255, 255, .03); }
+
+/* Le bandeau defilant et la citation etaient ecrits en brun moyen :
+   lisibles sur ivoire, ils tombent a 2,2:1 sur le fond sombre. */
+:root[data-theme="dark"] .marquee__track span { color: #E8D9C4; }
+:root[data-theme="dark"] .manifesto__quote { color: var(--tx-1); }
+:root[data-theme="dark"] .page-head__ghost { -webkit-text-stroke-color: rgba(248, 247, 238, .12); }
+:root[data-theme="dark"] .form { background: rgba(255, 255, 255, .045); }
+:root[data-theme="dark"] .field input,
+:root[data-theme="dark"] .field textarea,
+:root[data-theme="dark"] .field select { background: rgba(28, 13, 11, .5); color: var(--tx-1); }
+
+/* ---- la nav et le bandeau ---- */
+:root[data-theme="dark"] .nav { background: rgba(28, 13, 11, .82); backdrop-filter: blur(10px); }
+:root[data-theme="dark"] .nav__logo .seal { filter: invert(1) brightness(1.6) sepia(.35) saturate(2.2) hue-rotate(-8deg); }
+
+/* ---- les sections deja sombres ----
+   Elles portaient le degrade de marque sur un fond clair : dans le
+   theme sombre elles s'y fondraient. On les detache d'un filet et
+   d'un fond legerement plus dense. */
+:root[data-theme="dark"] .craft,
+:root[data-theme="dark"] .signature,
+:root[data-theme="dark"] .footer,
+:root[data-theme="dark"] .hero__band {
+  background-color: rgba(12, 6, 5, .55);
+  background-image: none;
+  border-top: 1px solid rgba(248, 247, 238, .1);
+}
+
+/* ---- cartes produit ---- */
+:root[data-theme="dark"] .card__media,
+:root[data-theme="dark"] .gallery img,
+:root[data-theme="dark"] .cart-line img { background: rgba(255, 255, 255, .05); }
+:root[data-theme="dark"] .card__add { border-color: var(--line); color: var(--tx-1); }
+:root[data-theme="dark"] .card__add:hover { background: var(--gold); color: var(--espresso); border-color: var(--gold); }
+:root[data-theme="dark"] .filter { border-color: var(--line-2); color: var(--tx-2); }
+:root[data-theme="dark"] .filter.is-active { background: var(--gold); color: var(--espresso); border-color: var(--gold); }
+:root[data-theme="dark"] .price--quote { color: var(--gold-light); }
+
+/* ---- boutons ---- */
+:root[data-theme="dark"] .btn--ghost,
+:root[data-theme="dark"] .btn--line { color: var(--tx-1); border-color: var(--line); }
+:root[data-theme="dark"] .btn--solid { background: var(--gold); color: var(--espresso); border-color: var(--gold); }
+
+/* ---- le filigrane et les motifs, trop appuyes sur fond sombre ---- */
+:root[data-theme="dark"] .ghost, :root[data-theme="dark"] .section__ghost { opacity: .05; }
+:root[data-theme="dark"] .pattern-layer { opacity: .5; }
+
+/* ---- l'interrupteur lui-meme ---- */
+.nav__theme {
+  width: 42px; height: 42px; flex: none; display: grid; place-items: center;
+  border: 1px solid var(--line-2); border-radius: 999px; background: transparent;
+  color: var(--tx-1); cursor: pointer; transition: background .2s, border-color .2s, color .2s;
+}
+.nav__theme:hover { border-color: var(--gold); color: var(--gold-deep); }
+.nav__theme svg { width: 18px; height: 18px; }
+.nav__theme-moon { display: none; }
+:root[data-theme="dark"] .nav__theme-sun { display: none; }
+:root[data-theme="dark"] .nav__theme-moon { display: block; }
+.nav__theme--mobile {
+  width: auto; height: 44px; padding: 0 18px; border-radius: 999px;
+  border-color: rgba(248, 247, 238, .22); color: var(--ivory);
+}
+@media (max-width: 1000px) {
+  /* sur telephone il reste dans la barre, entre le panier et le menu */
+  .nav__theme:not(.nav__theme--mobile) { width: 38px; height: 38px; }
+}
+
+/* Le passage d'un theme a l'autre : assez lent pour etre lisible,
+   assez court pour ne pas retarder la lecture. */
+:root[data-theme] body,
+:root[data-theme] .nav,
+:root[data-theme] .card__media { transition: background-color .35s ease, color .35s ease; }
+
+/* =========================================================
+   PETITS ECRANS
+   Les micro-libelles du site sont dessines a 0,54-0,61rem, soit
+   8 a 10 px : lisible sur un ecran de bureau, trop juste sur un
+   telephone tenu a bout de bras. On leur donne un plancher et on
+   resserre le crenage pour qu'ils ne passent pas a la ligne.
+   ========================================================= */
+@media (max-width: 600px) {
+  .card__cat, .card__ref, .card__sizes span, .card__motifs-t,
+  .price__from, .price__unit, .price__off,
+  .field label, .contact__item h3, .footer h4,
+  .cart-line__ref, .cart__total span, .cart__head-eyebrow, .cart__clear,
+  .filter i, .card__count,
+  .eyebrow, .rule-label, .hero__stamp, .signature__sub,
+  .hero__index span, .stat span, .footer__col a, .footer__legal,
+  .step__num, .fact__label, .hero__band-item span, .topbar span {
+    font-size: .72rem;
+    letter-spacing: .09em;
+  }
+  .card__tag { font-size: .7rem; letter-spacing: .1em; padding: 6px 10px; }
+
+  /* En deux colonnes la ligne de prix ne tient plus : « a partir de »
+     et l'unite passent au-dessus et au-dessous du montant plutot que
+     de se disloquer en morceaux. */
+  .price { flex-wrap: wrap; gap: 2px 6px; line-height: 1.25; }
+  .price__from, .price__unit { flex: 1 0 100%; }
+  .price--promo .price__was, .price--promo .price__now, .price--promo .price__off { flex: 0 0 auto; }
+  .card__foot { gap: 6px; }
+  .card__ref { flex: 1 0 100%; }
+  .card__add, .filter { font-size: .72rem; letter-spacing: .1em; }
+  .topbar { font-size: .66rem; letter-spacing: .08em; }
+  .section__eyebrow, .hero__eyebrow { letter-spacing: .18em; }
+}
+
+/* La barre de navigation sur telephone.
+   Logo + theme + panier + menu ne tiennent pas dans 360 px : le bouton
+   « menu » sortait de l'ecran et devenait inatteignable. On retire de la
+   barre ce qui existe ailleurs — l'interrupteur de theme est repris dans
+   le menu — et on resserre le logo. */
+/* Un numero de telephone et une adresse e-mail se tapotent du pouce :
+   21 px de haut, c'est sous le confort admis (~44 px). */
+@media (max-width: 760px), (pointer: coarse) {
+  .contact__item a, .footer__col a, .nav-mobile__subs a {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav__theme:not(.nav__theme--mobile) { display: none; }
+  .nav__inner { gap: 10px; }
+  .nav__logo { gap: 9px; }
+  .nav__logo .seal { width: 44px; }
+  .nav__logo-text b { font-size: 1.1rem; }
+  .nav__logo-text i { font-size: .42rem; letter-spacing: .2em; }
+}
+
+@media (max-width: 380px) {
+  .nav__logo-text i { display: none; }
+  .nav__logo .seal { width: 38px; }
+  .nav__logo-text b { font-size: 1rem; }
+}
+
+@media (max-width: 359px) {
+  /* Les tres petits telephones (iPhone SE 1re generation, Galaxy A0x) :
+     deux colonnes deviennent illisibles, on repasse a une. */
+  .products { grid-template-columns: minmax(0, 1fr); }
+  .card__media { aspect-ratio: 4 / 4; }
+  :root { --pad: 16px; }
+}
+
+/* Telephone couche : la hauteur devient la ressource rare. */
+@media (max-height: 460px) and (orientation: landscape) {
+  .hero__grid { padding-top: calc(var(--bar-h) + var(--nav-h) + 12px); padding-bottom: 20px; }
+  .hero__art { display: none; }
+  .nav-mobile__links { gap: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

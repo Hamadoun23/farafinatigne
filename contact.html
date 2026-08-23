@@ -7,6 +7,19 @@
 <meta name="description" content="Contactez Farafinatignɛ à Mopti-Sévaré (Mali) : WhatsApp +223 65 45 02 02, farafinatigne@gmail.com. Devis de gros, facture proforma, expédition internationale.">
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#1C0D0B">
+<script>
+  /* Le theme est pose AVANT le premier rendu : applique plus tard, la page
+     s'afficherait en clair puis basculerait, ce qui saute aux yeux. */
+  (function () {
+    try {
+      var t = localStorage.getItem("ft-theme");
+      if (t !== "dark" && t !== "light") {
+        t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { /* navigation privee : on reste en clair */ }
+  })();
+</script>
 <link rel="canonical" href="https://farafinatigne.com/contact.html">
 <link rel="alternate" hreflang="fr" href="https://farafinatigne.com/contact.html?lang=fr">
 <link rel="alternate" hreflang="en" href="https://farafinatigne.com/contact.html?lang=en">
@@ -102,6 +115,11 @@
         <button data-lang-btn="fr">FR</button>
         <button data-lang-btn="en">EN</button>
       </div>
+      <button class="nav__theme" data-theme-btn aria-label="Basculer le thème sombre"
+              data-i18n="nav.theme" data-i18n-attr="aria-label" title="Thème clair / sombre">
+        <svg class="nav__theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M22 12h-2.4M4.4 12H2M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7M19.1 19.1l-1.7-1.7M6.6 6.6 4.9 4.9"/></svg>
+        <svg class="nav__theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>
+      </button>
       <button class="nav__cart" id="cart-open" aria-label="Ma sélection" data-i18n="nav.cart" data-i18n-attr="aria-label">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M1 2h3.6l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21.5 6H5.6"/></svg>
         <span class="nav__cart-count" id="cart-count">0</span>
@@ -127,6 +145,11 @@
     <a href="#" data-pdf data-i18n="shop.pdf">Catalogue PDF</a>
   </div>
   <div class="nav-mobile__foot">
+    <button class="nav__theme nav__theme--mobile" data-theme-btn aria-label="Basculer le thème sombre"
+            data-i18n="nav.theme" data-i18n-attr="aria-label">
+      <svg class="nav__theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M22 12h-2.4M4.4 12H2M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7M19.1 19.1l-1.7-1.7M6.6 6.6 4.9 4.9"/></svg>
+      <svg class="nav__theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>
+    </button>
     <div class="lang" role="group" aria-label="Langue">
       <button data-lang-btn="fr">FR</button>
       <button data-lang-btn="en">EN</button>
