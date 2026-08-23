@@ -1312,6 +1312,24 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
    sombre il tombe a 3,8:1. On prend le vert vif de la marque. */
 :root[data-theme="dark"] { --wa: #25D366; }
 
+/* Pastilles et boutons restes CLAIRS en mode sombre.
+   Leur texte etait ecrit en var(--ink), qui bascule au clair : on
+   obtenait du blanc sur blanc — la fleche du bouton « haut de page »
+   disparaissait purement et simplement. Ces surfaces-la gardent une
+   encre sombre fixe. */
+:root[data-theme="dark"] .card__zoom,
+:root[data-theme="dark"] .card__tag { color: #2B1416; }
+
+/* Le bouton de remontee devient franchement dore : sur un fond sombre
+   une pastille ivoire flottante passait pour un artefact. */
+:root[data-theme="dark"] .to-top {
+  background: linear-gradient(135deg, #DBA54E 0%, #C07F39 100%);
+  border-color: transparent;
+  color: #1C0D0B;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .8);
+}
+:root[data-theme="dark"] .to-top:hover { background: linear-gradient(135deg, #E7B665 0%, #CC8D3D 100%); }
+
 /* Les italiques d'accent des titres sont ecrites en brun moyen : justes
    sur ivoire, elles s'eteignent sur le fond sombre. On remonte au tan
    clair, qui garde le contraste chaud sans crier. */
