@@ -88,7 +88,7 @@ const I18N = {
     "know.p2": "Cette pâte est enroulée autour de tiges de fer, les deux bouts sont soudés à la main : le bracelet est né. Le même geste, répété depuis deux générations, fait vivre des dizaines de familles à Mopti et Djenné.",
     "know.stat1": "douzaines de bracelets expédiées vers un seul client américain l'an passé",
     "know.stat2": "familles d'artisans et d'artisanes partenaires à Mopti et Djenné",
-    "know.stat3": "années d'atelier à Sévaré, sur la route nationale 6",
+    "know.stat3": "ans et plus d'expérience, à Sévaré sur la route nationale 6",
     "know.more": "Notre histoire",
 
     /* --- catalogue PDF --- */
@@ -342,7 +342,7 @@ const I18N = {
     "know.p2": "That paste is wound around iron rods and the two ends are welded by hand: the bracelet is born. The same gesture, repeated for two generations, supports dozens of families in Mopti and Djenné.",
     "know.stat1": "dozen bracelets shipped to a single American client last year",
     "know.stat2": "partner artisan families in Mopti and Djenné",
-    "know.stat3": "years of workshop in Sévaré, on national road 6",
+    "know.stat3": "years and more of experience, in Sévaré on national road 6",
     "know.more": "Our story",
 
     "pdf.eyebrow": "Wholesale catalogue",

@@ -1092,6 +1092,39 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 /* =========================================================
    MODALE CATALOGUE
    ========================================================= */
+/* =========================================================
+   FLOTTANTS
+   Retires par erreur avec la modale du catalogue : sans eux la
+   notification s'affichait en plein ecran.
+   ========================================================= */
+.whatsapp-float {
+  position: fixed; left: 18px; bottom: 18px; z-index: 65;
+  /* memes proportions que vpofficiel : glyphe blanc, aucun halo */
+  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--wa-solid); color: #fff;
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.whatsapp-float.show:hover { transform: translateY(-3px); }
+.whatsapp-float.show { opacity: 1; transform: none; pointer-events: auto; }
+.whatsapp-float svg { width: 23px; height: 23px; fill: currentColor; }
+.to-top {
+  position: fixed; right: 18px; bottom: 18px; z-index: 65;
+  width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line); background: var(--ivory); color: var(--ink);
+  opacity: 0; transform: translateY(16px); pointer-events: none; transition: .35s;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top svg { width: 17px; height: 17px; }
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 24px); z-index: 95;
+  display: flex; align-items: center; gap: 11px; padding: 14px 22px;
+  background: var(--dark-gradient); color: var(--ivory); font-size: .8rem;
+  opacity: 0; pointer-events: none; transition: .35s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast svg { width: 15px; height: 15px; color: var(--gold-light); }
+
 .lightbox {
   position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 4vw;
   background: rgba(28, 13, 11, .94);
