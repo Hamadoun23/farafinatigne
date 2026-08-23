@@ -291,38 +291,6 @@
   </div>
 </aside>
 
-<!-- ===== MODALE CATALOGUE ===== -->
-<div class="modal" id="pdf-modal" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title">
-  <div class="modal__box">
-    <button class="modal__close" data-pdf-close aria-label="Fermer">&times;</button>
-    <span class="eyebrow" data-i18n="pdf.eyebrow">Catalogue grossiste</span>
-    <h3 id="pdf-modal-title" data-i18n="pdf.form.title">Accès au catalogue grossiste</h3>
-    <p data-i18n="pdf.form.lead">Merci de vous présenter — nous réservons le catalogue et nos tarifs aux acheteurs professionnels.</p>
-    <form id="pdf-form" novalidate>
-      <div class="field">
-        <label for="pdf-name" data-i18n="pdf.form.name">Nom et prénom</label>
-        <input id="pdf-name" name="name" type="text" required autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="pdf-email" data-i18n="pdf.form.email">Adresse e-mail</label>
-        <input id="pdf-email" name="email" type="email" required autocomplete="email">
-      </div>
-      <div class="form__row">
-        <div class="field">
-          <label for="pdf-company" data-i18n="pdf.form.company">Société (facultatif)</label>
-          <input id="pdf-company" name="company" type="text" autocomplete="organization">
-        </div>
-        <div class="field">
-          <label for="pdf-country" data-i18n="pdf.form.country">Pays</label>
-          <input id="pdf-country" name="country" type="text" autocomplete="country-name">
-        </div>
-      </div>
-      <button type="submit" class="btn btn--solid btn--full" data-i18n="pdf.form.submit">Recevoir le catalogue</button>
-      <p class="form__msg" id="pdf-msg"></p>
-    </form>
-  </div>
-</div>
-
 <!-- ===== UTILITAIRES ===== -->
 <div class="lightbox" id="lightbox"><button class="lightbox__close" id="lightbox-close" aria-label="Fermer">&times;</button><img src="" alt="" id="lightbox-img"></div>
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg"></span></div>

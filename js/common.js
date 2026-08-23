@@ -27,10 +27,6 @@ const productImageUrl = p => (p.img && p.img.indexOf("://") !== -1)
   ? p.img
   : SITE_URL + "assets/" + cheminProduit(p);
 
-/* Endpoint de collecte des prospects (Formspree, Getform, Basin…).
-   Laisser vide : le formulaire bascule alors sur un envoi par e-mail. */
-const LEAD_ENDPOINT = "";
-
 /* ---------- helpers ---------- */
 const $ = (s, c) => (c || document).querySelector(s);
 const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
@@ -371,75 +367,23 @@ function initMagnetic() {
   });
 }
 
-/* ---------- accès au catalogue PDF (capture de prospect) ---------- */
-const LEADS_KEY = "ft-leads";
-
-function openPdfGate() {
-  const m = $("#pdf-modal");
-  if (!m) { window.open(CATALOGUE_PDF, "_blank"); return; }
-  m.classList.add("open");
-  document.body.style.overflow = "hidden";
-  setTimeout(() => { const f = $("#pdf-name"); if (f) f.focus(); }, 260);
-}
-function closePdfGate() {
-  const m = $("#pdf-modal");
-  if (!m) return;
-  m.classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-function initPdfGate() {
-  const form = $("#pdf-form");
-  $$("[data-pdf]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); openPdfGate(); }));
-  if (!form) return;
-  $$("[data-pdf-close]").forEach(b => b.addEventListener("click", closePdfGate));
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const name = $("#pdf-name").value.trim();
-    const email = $("#pdf-email").value.trim();
-    const company = $("#pdf-company").value.trim();
-    const country = $("#pdf-country").value.trim();
-    const msg = $("#pdf-msg");
-    if (name.length < 2 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      msg.textContent = t("pdf.form.err");
-      msg.className = "form__msg form__msg--err";
-      return;
-    }
-    const lead = { name, email, company, country, date: new Date().toISOString(), lang: LANG };
-
-    /* 1. conservation locale (récupérable par l'exploitant) */
-    try {
-      const all = JSON.parse(localStorage.getItem(LEADS_KEY) || "[]");
-      all.push(lead);
-      localStorage.setItem(LEADS_KEY, JSON.stringify(all));
-    } catch (_) { /* stockage indisponible */ }
-
-    /* 2. transmission : endpoint si configuré, sinon e-mail */
-    if (LEAD_ENDPOINT) {
-      fetch(LEAD_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(lead)
-      }).catch(() => {});
+/* ---------- catalogue PDF ----------
+   Plus de formulaire : le catalogue et les tarifs de gros sont publics,
+   on ne fait plus payer un e-mail pour y acceder. Les liens marques
+   data-pdf pointent directement sur le fichier. */
+function initPdf() {
+  $$("[data-pdf]").forEach(el => {
+    if (el.tagName === "A") {
+      el.setAttribute("href", CATALOGUE_PDF);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener");
+      el.setAttribute("download", "catalogue-farafinatigne.pdf");
     } else {
-      const body = "Nouveau téléchargement du catalogue grossiste\n\n" +
-        "Nom : " + name + "\nSociété : " + (company || "—") +
-        "\nE-mail : " + email + "\nPays : " + (country || "—") +
-        "\nLangue : " + LANG + "\nDate : " + new Date().toLocaleString();
-      window.open(mailLink("Catalogue grossiste — " + name, body), "_blank");
+      el.addEventListener("click", e => {
+        e.preventDefault();
+        window.open(CATALOGUE_PDF, "_blank", "noopener");
+      });
     }
-
-    msg.textContent = t("pdf.form.ok");
-    msg.className = "form__msg form__msg--ok";
-    const a = document.createElement("a");
-    a.href = CATALOGUE_PDF;
-    a.download = "catalogue-farafinatigne.pdf";
-    a.target = "_blank";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(closePdfGate, 1600);
   });
 }
 
@@ -564,7 +508,6 @@ document.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   closeLightbox();
-  closePdfGate();
   if (typeof closeCart === "function") closeCart();
   const mobile = $("#nav-mobile");
   if (mobile && mobile.classList.contains("open")) {
@@ -581,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   initSpotlight();
   initMagnetic();
-  initPdfGate();
+  initPdf();
   initLangSwitch();
   initTheme();
   const y = $("#year");

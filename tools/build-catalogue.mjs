@@ -25,6 +25,62 @@ const CHROME = Number(process.env.FT_CHROME || 9222);
 const SORTIE = join(SITE, "assets", "catalogue", "catalogue-farafinatigne.pdf");
 const ANNEE = new Date().getFullYear();
 
+/**
+ * Bande bogolan a bord dechire, en SVG.
+ *
+ * En CSS (clip-path + motif repete), Chrome rasterise la page entiere
+ * pour l'imprimer : le PDF gagnait plusieurs mega-octets par page. En
+ * SVG tout reste vectoriel — plus leger, et net a n'importe quel zoom.
+ */
+function bandeBogolan(id, hauteur = 66) {
+  let graine = 20260823;
+  const hasard = () => ((graine = (graine * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+  const pics = 54;
+  let d = `M0 0 H210 V${(hauteur - 4).toFixed(2)} `;
+  for (let i = pics; i >= 0; i--) {
+    const x = (i / pics) * 210;
+    const y = hauteur - (hasard() * 3.2 + (i % 2 ? 0.3 : 1.9));
+    d += `L${x.toFixed(2)} ${y.toFixed(2)} `;
+  }
+  d += "Z";
+
+  /* Les chevrons du bandeau, traces un par un dans une teinte deja
+     assombrie. Toute transparence — opacity, pattern — pousse Chrome a
+     rasteriser la bande entiere : 250 Ko de bitmap par page. En aplat
+     opaque, la bande reste vectorielle et pese quelques octets. */
+  const pas = 10.5, larg = 5.3;
+  let chevrons = "";
+  for (let y = 0; y < hauteur + pas; y += pas) {
+    let haut = `M0 ${(y + 3.2).toFixed(2)}`, bas = `M0 ${(y + 7.3).toFixed(2)}`;
+    for (let x = 0; x < 210; x += larg) {
+      const demi = (x + larg / 2).toFixed(2), plein = (x + larg).toFixed(2);
+      haut += ` L${demi} ${(y + 0.75).toFixed(2)} L${plein} ${(y + 3.2).toFixed(2)}`;
+      bas += ` L${demi} ${(y + 9.75).toFixed(2)} L${plein} ${(y + 7.3).toFixed(2)}`;
+    }
+    chevrons += `<path d="${haut}"/><path d="${bas}"/>`;
+  }
+  let points = "";
+  for (let y = 0; y < hauteur + pas; y += pas) {
+    for (let x = 2.65; x < 210; x += larg * 2) {
+      points += `<circle cx="${x.toFixed(2)}" cy="${(y + 5.25).toFixed(2)}" r=".42"/>`;
+    }
+  }
+
+  return `<svg class="bande" viewBox="0 0 210 ${hauteur}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="or-${id}" x1="0" y1="0" x2=".3" y2="1">
+        <stop offset="0" stop-color="#D9A24A"/><stop offset=".52" stop-color="#C6873A"/><stop offset="1" stop-color="#A9682F"/>
+      </linearGradient>
+      <clipPath id="cl-${id}"><path d="${d}"/></clipPath>
+    </defs>
+    <path d="${d}" fill="url(#or-${id})"/>
+    <g clip-path="url(#cl-${id})">
+      <g fill="none" stroke="#A0672B" stroke-width=".38" stroke-linecap="square">${chevrons}</g>
+      <g fill="#A0672B">${points}</g>
+    </g>
+  </svg>`;
+}
+
 /* =========================================================
    1. Les données
    ========================================================= */
@@ -154,7 +210,7 @@ function fiche(p) {
     : "";
   const etiquette = p.tag === "gros" ? '<span class="lot">Lot export</span>' : "";
   return `<article class="fiche">
-    <div class="vue"><img src="${p.image}" data-max="460" alt="">${etiquette}</div>
+    <div class="vue"><img src="${p.image}" data-max="430" alt="">${etiquette}</div>
     <h3>${echapper(p.fr.name)}</h3>
     <p class="en">${echapper(p.en.name)}</p>
     ${p.sizes ? `<p class="tailles">${echapper(p.sizes)}</p>` : ""}
@@ -171,6 +227,7 @@ function pagesDeGamme(cat, produits, numero) {
   for (let i = 0; i < dedans.length; i += lot) tranches.push(dedans.slice(i, i + lot));
 
   const ouverture = `<section class="page page--gamme">
+    ${bandeBogolan("g" + numero, 42)}
     <div class="gamme">
       <span class="gamme__num">${String(numero).padStart(2, "0")}</span>
       <h2>${echapper(cat.fr)}</h2>
@@ -227,27 +284,41 @@ img{display:block;max-width:100%}
 
 /* ---------- couverture ---------- */
 .couv{
-  padding:0;color:var(--ivory);
+  padding:0;color:var(--ivory);position:relative;overflow:hidden;
   background:
-    radial-gradient(900px 620px at 12% -6%,rgba(219,165,78,.42) 0%,transparent 60%),
-    radial-gradient(760px 620px at 108% 20%,rgba(96,42,58,.46) 0%,transparent 66%),
-    linear-gradient(155deg,#4A2A1D 0%,#3A2019 26%,#2C1720 60%,#1A0D11 100%);
+    radial-gradient(820px 560px at 12% 26%,rgba(219,165,78,.30) 0%,transparent 62%),
+    radial-gradient(760px 640px at 106% 74%,rgba(96,42,58,.44) 0%,transparent 68%),
+    linear-gradient(158deg,#3E2318 0%,#2C1720 46%,#1A0D11 100%);
 }
-.couv__inner{padding:22mm 18mm;display:flex;flex-direction:column;height:100%}
-.couv__mark{font-family:var(--mark);font-size:15mm;letter-spacing:.01em;line-height:1}
-.couv__base{font-size:2.6mm;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-light);margin-top:2.5mm}
-.couv__arch{
-  margin:14mm 0 auto;width:100%;height:118mm;overflow:hidden;
-  border-radius:60mm 60mm 3mm 3mm;border:.5mm solid rgba(219,165,78,.5);
+.bande{position:absolute;top:0;left:0;width:100%;display:block}
+.couv .bande{height:66mm}
+.page--gamme .bande{height:42mm;opacity:.92}
+.couv__inner{position:relative;z-index:2;padding:16mm 16mm 12mm;display:flex;flex-direction:column;height:100%}
+.couv__mark{
+  font-family:var(--mark);font-size:16.5mm;letter-spacing:.005em;line-height:.92;
+  color:var(--ivory);text-shadow:0 1.2mm 0 rgba(28,13,11,.28)
 }
-.couv__arch img{width:100%;height:100%;object-fit:cover;object-position:50% 28%}
-.couv__t{font-family:var(--serif);font-size:13mm;font-weight:600;line-height:1.02;letter-spacing:-.02em;margin-top:10mm}
+.couv__base{
+  font-family:var(--serif);font-style:italic;font-size:5.6mm;margin-top:2.5mm;
+  color:#2C1720;letter-spacing:.01em
+}
+/* l'Afrique, detouree de son fond blanc puis posee sur le degrade */
+.couv__afrique{
+  margin:2mm auto auto;width:126mm;position:relative;
+  filter:drop-shadow(0 3mm 6mm rgba(0,0,0,.5))
+}
+.couv__afrique img{width:100%;height:auto}
+.couv__t{font-family:var(--serif);font-size:12mm;font-weight:600;line-height:.98;letter-spacing:-.025em;margin-top:5mm}
 .couv__t em{font-style:italic;font-weight:500;color:var(--gold-light);display:block}
-.couv__sub{margin-top:5mm;font-size:3.4mm;color:rgba(248,247,238,.82);max-width:110mm;line-height:1.6}
+.couv__bloc{
+  margin-top:6mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm
+}
+.couv__adr{font-size:3.1mm;line-height:1.65;color:rgba(248,247,238,.86)}
+.couv__adr b{display:block;font-family:var(--serif);font-size:3.9mm;font-weight:600;color:var(--gold-light);margin-bottom:1mm}
 .couv__bar{
-  margin-top:8mm;padding-top:5mm;border-top:.3mm solid rgba(248,247,238,.24);
+  margin-top:6mm;padding-top:4.5mm;border-top:.3mm solid rgba(248,247,238,.26);
   display:flex;justify-content:space-between;font-size:2.7mm;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold-light)
+  text-transform:uppercase;color:var(--gold-light);font-weight:800
 }
 
 /* ---------- la maison ---------- */
@@ -270,11 +341,12 @@ img{display:block;max-width:100%}
 
 /* ---------- ouverture de gamme ---------- */
 .page--gamme{
-  color:var(--ivory);justify-content:center;
+  color:var(--ivory);justify-content:center;position:relative;overflow:hidden;
   background:
     radial-gradient(760px 520px at 90% 4%,rgba(219,165,78,.34) 0%,transparent 62%),
     linear-gradient(158deg,#6D412C 0%,#34171A 48%,#1C0D0B 100%);
 }
+.page--gamme .gamme{position:relative;z-index:2}
 .gamme__num{font-family:var(--serif);font-size:34mm;font-weight:700;color:rgba(219,165,78,.34);line-height:.8;display:block}
 .gamme h2{font-family:var(--serif);font-size:17mm;font-weight:600;letter-spacing:-.02em;margin-top:4mm}
 .gamme__en{font-family:var(--serif);font-style:italic;font-size:6mm;color:var(--gold-light);margin-top:1mm}
@@ -316,7 +388,7 @@ img{display:block;max-width:100%}
   text-align:center;font-weight:700}
 
 /* ---------- quatrième de couverture ---------- */
-.fin{color:var(--ivory);justify-content:space-between;
+.fin{color:var(--ivory);justify-content:space-between;position:relative;overflow:hidden;
   background:linear-gradient(155deg,#3A2019 0%,#2C1720 50%,#160A0E 100%)}
 .fin__mark{font-family:var(--mark);font-size:11mm;line-height:1}
 .fin h2{font-family:var(--serif);font-size:11mm;font-weight:600;line-height:1.08;max-width:140mm}
@@ -329,14 +401,20 @@ img{display:block;max-width:100%}
 </style></head><body>
 
 <section class="page couv">
+  ${bandeBogolan("couv", 66)}
   <div class="couv__inner">
     <div>
       <div class="couv__mark">FARAFINATIGNƐ</div>
       <div class="couv__base">From Mali to the World</div>
     </div>
-    <div class="couv__arch"><img src="assets/portraits/portrait-maison-3.webp" data-max="1100" alt=""></div>
+    <div class="couv__afrique">
+      <img src="assets/catalogue/catalogue-cover.webp" data-max="620" data-detour="1" data-crop="0.05,0.255,0.95,0.762" alt="">
+    </div>
     <h1 class="couv__t">Catalogue de gros<em>${ANNEE}</em></h1>
-    <p class="couv__sub">Bijoux, bogolan et objets d'art produits par nos artisans de Mopti et Djenné, exportés en gros dans le monde entier.</p>
+    <div class="couv__bloc">
+      <p class="couv__adr"><b>Farafinatignɛ</b>La réalité de l'Afrique<br>Mopti — Sévaré, Rue RN6<br>Imm. Farafinatignɛ, BP 65 — Mali</p>
+      <p class="couv__adr" style="text-align:right"><b>Nous joindre</b>+223 65 45 02 02<br>farafinatigne@gmail.com<br>farafinatigne.com</p>
+    </div>
     <div class="couv__bar"><span>${total} références</span><span>Prix grossiste en euros</span></div>
   </div>
 </section>
@@ -378,6 +456,96 @@ ${gammes}
 /* Chrome integre les photos telles quelles : un catalogue de 117 fiches
    pesait 78 Mo. On les redessine ici a la taille reellement imprimee et
    on les repasse en JPEG — meme rendu a l'oeil, quinze fois plus leger. */
+/* Detoure une image de son fond blanc : on part des quatre bords et on
+   efface le blanc de proche en proche. Un remplissage depuis les bords,
+   et non un simple seuil, pour ne pas trouer le sujet — l'enseigne
+   blanche au milieu de la photo doit rester. */
+function detourerBlanc(img) {
+  /* data-crop="x0,y0,x1,y1" en fractions : le fichier fourni par le
+     client est la photo de son ancienne couverture entiere, on n'en
+     garde que le panneau blanc ou figure l'Afrique. */
+  var co = (img.getAttribute("data-crop") || "0,0,1,1").split(",").map(Number);
+  var sx = Math.round(img.naturalWidth * co[0]), sy = Math.round(img.naturalHeight * co[1]);
+  var sw = Math.round(img.naturalWidth * (co[2] - co[0]));
+  var sh = Math.round(img.naturalHeight * (co[3] - co[1]));
+  var c = document.createElement("canvas");
+  c.width = sw; c.height = sh;
+  var x = c.getContext("2d", { willReadFrequently: true });
+  x.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+  var d = x.getImageData(0, 0, c.width, c.height), px = d.data;
+  var W = c.width, H = c.height, vu = new Uint8Array(W * H), pile = [];
+  var clair = function (i) { return px[i * 4] > 228 && px[i * 4 + 1] > 224 && px[i * 4 + 2] > 216; };
+  for (var i = 0; i < W; i++) { pile.push(i); pile.push((H - 1) * W + i); }
+  for (var j = 0; j < H; j++) { pile.push(j * W); pile.push(j * W + W - 1); }
+  while (pile.length) {
+    var k = pile.pop();
+    if (vu[k] || !clair(k)) continue;
+    vu[k] = 1; px[k * 4 + 3] = 0;
+    var xx = k % W, yy = (k / W) | 0;
+    if (xx > 0) pile.push(k - 1);
+    if (xx < W - 1) pile.push(k + 1);
+    if (yy > 0) pile.push(k - W);
+    if (yy < H - 1) pile.push(k + W);
+  }
+  /* un pixel de fondu sur le contour, sinon le bord est en escalier */
+  for (var n = 0; n < W * H; n++) {
+    if (vu[n] || px[n * 4 + 3] === 0) continue;
+    var voisins = 0;
+    if (n % W > 0 && vu[n - 1]) voisins++;
+    if (n % W < W - 1 && vu[n + 1]) voisins++;
+    if (n >= W && vu[n - W]) voisins++;
+    if (n < W * (H - 1) && vu[n + W]) voisins++;
+    if (voisins) px[n * 4 + 3] = 120;
+  }
+  /* Ne garder que les taches assez grandes : le continent et Madagascar
+     restent, les logos des reseaux sociaux et le « € » de l'ancienne
+     couverture disparaissent. */
+  var lab = new Int32Array(W * H).fill(-1), tailles = [], nb = 0;
+  for (var p0 = 0; p0 < W * H; p0++) {
+    if (px[p0 * 4 + 3] < 30 || lab[p0] !== -1) continue;
+    var file = [p0], aire = 0;
+    lab[p0] = nb;
+    while (file.length) {
+      var q = file.pop(); aire++;
+      var qx = q % W, qy = (q / W) | 0;
+      var vois = [];
+      if (qx > 0) vois.push(q - 1);
+      if (qx < W - 1) vois.push(q + 1);
+      if (qy > 0) vois.push(q - W);
+      if (qy < H - 1) vois.push(q + W);
+      for (var v = 0; v < vois.length; v++) {
+        var u = vois[v];
+        if (lab[u] === -1 && px[u * 4 + 3] >= 30) { lab[u] = nb; file.push(u); }
+      }
+    }
+    tailles.push(aire); nb++;
+  }
+  var plusGrande = Math.max.apply(null, tailles.length ? tailles : [0]);
+  var seuil = plusGrande * 0.02;
+  for (var r0 = 0; r0 < W * H; r0++) {
+    if (lab[r0] >= 0 && tailles[lab[r0]] < seuil) px[r0 * 4 + 3] = 0;
+  }
+
+  x.putImageData(d, 0, 0);
+
+  /* recadrage au plus juste sur ce qui reste opaque : on obtient le
+     contour du continent, sans marge blanche autour */
+  var x0 = W, y0 = H, x1 = 0, y1 = 0;
+  for (var m = 0; m < W * H; m++) {
+    if (px[m * 4 + 3] < 30) continue;
+    var mx = m % W, my = (m / W) | 0;
+    if (mx < x0) x0 = mx;
+    if (mx > x1) x1 = mx;
+    if (my < y0) y0 = my;
+    if (my > y1) y1 = my;
+  }
+  if (x1 <= x0 || y1 <= y0) return c;
+  var t = document.createElement("canvas");
+  t.width = x1 - x0 + 1; t.height = y1 - y0 + 1;
+  t.getContext("2d").drawImage(c, x0, y0, t.width, t.height, 0, 0, t.width, t.height);
+  return t;
+}
+
 window.alleger = function () {
   var faits = 0, total = 0;
   [].forEach.call(document.images, function (img) {
@@ -385,15 +553,18 @@ window.alleger = function () {
     if (!max || !img.naturalWidth) return;
     total++;
     try {
-      var ech = Math.min(1, max / img.naturalWidth);
+      var detour = img.getAttribute("data-detour");
+      var source = detour ? detourerBlanc(img) : img;
+      var large = detour ? source.width : img.naturalWidth;
+      var haut = detour ? source.height : img.naturalHeight;
+      var ech = Math.min(1, max / large);
       var c = document.createElement("canvas");
-      c.width = Math.round(img.naturalWidth * ech);
-      c.height = Math.round(img.naturalHeight * ech);
+      c.width = Math.round(large * ech);
+      c.height = Math.round(haut * ech);
       var x = c.getContext("2d");
-      x.fillStyle = "#F1EADC";
-      x.fillRect(0, 0, c.width, c.height);
-      x.drawImage(img, 0, 0, c.width, c.height);
-      img.src = c.toDataURL("image/jpeg", 0.76);
+      if (!detour) { x.fillStyle = "#F1EADC"; x.fillRect(0, 0, c.width, c.height); }
+      x.drawImage(source, 0, 0, c.width, c.height);
+      img.src = c.toDataURL(detour ? "image/png" : "image/jpeg", 0.72);
       faits++;
     } catch (e) { /* image d'une autre origine : on la garde telle quelle */ }
   });
