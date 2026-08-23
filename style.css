@@ -1273,10 +1273,18 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 }
 
 :root[data-theme="dark"] body {
+  /* Le degrade doit se LIRE, pas seulement teinter : halo d'or franc en
+     haut a gauche, prune profonde a droite, brun-noir en bas. C'est la
+     matiere du pied de page, etendue a la page entiere. Fixe, pour que
+     chaque ecran en montre la course complete plutot qu'une tranche. */
   background:
-    radial-gradient(1200px 760px at 6% -10%, rgba(204, 141, 61, .22) 0%, transparent 58%),
-    radial-gradient(1000px 700px at 104% 6%, rgba(109, 65, 44, .34) 0%, transparent 60%),
-    linear-gradient(168deg, #3B231C 0%, #2A1614 46%, #1C0D0B 100%);
+    radial-gradient(1500px 1000px at -6% -14%,
+      rgba(219, 165, 78, .42) 0%, rgba(186, 122, 52, .20) 28%, transparent 62%),
+    radial-gradient(1200px 950px at 108% 18%,
+      rgba(96, 42, 58, .42) 0%, rgba(66, 30, 42, .22) 40%, transparent 68%),
+    radial-gradient(900px 700px at 50% 118%,
+      rgba(12, 6, 8, .55) 0%, transparent 60%),
+    linear-gradient(152deg, #4A2A1D 0%, #3A2019 26%, #2C1720 58%, #1E1015 82%, #150A0E 100%);
   background-attachment: fixed;
   color: var(--tx-1);
 }
@@ -1297,6 +1305,20 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
    lisibles sur ivoire, ils tombent a 2,2:1 sur le fond sombre. */
 :root[data-theme="dark"] .marquee__track span { color: #E8D9C4; }
 :root[data-theme="dark"] .manifesto__quote { color: var(--tx-1); }
+/* La traduction sous la signature passait juste sous le seuil de lisibilite. */
+:root[data-theme="dark"] .signature__sub { color: rgba(244, 238, 227, .78); }
+
+/* Le vert WhatsApp foncé est calibré pour un fond clair : sur le tiroir
+   sombre il tombe a 3,8:1. On prend le vert vif de la marque. */
+:root[data-theme="dark"] { --wa: #25D366; }
+
+/* Les italiques d'accent des titres sont ecrites en brun moyen : justes
+   sur ivoire, elles s'eteignent sur le fond sombre. On remonte au tan
+   clair, qui garde le contraste chaud sans crier. */
+:root[data-theme="dark"] .section-title em,
+:root[data-theme="dark"] .manifesto__lead em,
+:root[data-theme="dark"] .page-head h1 em,
+:root[data-theme="dark"] .about__text h2 em { color: #DFA878; }
 :root[data-theme="dark"] .page-head__ghost { -webkit-text-stroke-color: rgba(248, 247, 238, .12); }
 :root[data-theme="dark"] .form { background: rgba(255, 255, 255, .045); }
 :root[data-theme="dark"] .field input,
@@ -1315,7 +1337,7 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 :root[data-theme="dark"] .signature,
 :root[data-theme="dark"] .footer,
 :root[data-theme="dark"] .hero__band {
-  background-color: rgba(12, 6, 5, .55);
+  background-color: rgba(10, 5, 7, .42);
   background-image: none;
   border-top: 1px solid rgba(248, 247, 238, .1);
 }
@@ -1337,7 +1359,9 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 
 /* ---- le filigrane et les motifs, trop appuyes sur fond sombre ---- */
 :root[data-theme="dark"] .ghost, :root[data-theme="dark"] .section__ghost { opacity: .05; }
-:root[data-theme="dark"] .pattern-layer { opacity: .5; }
+/* Sur fond sombre le bogolan ressortait au point de gener la lecture :
+   il redevient une texture, pas un motif. */
+:root[data-theme="dark"] .pattern-layer { opacity: .18; }
 
 /* ---- l'interrupteur lui-meme ---- */
 .nav__theme {
