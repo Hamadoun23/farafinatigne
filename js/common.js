@@ -96,21 +96,49 @@ function priceLabel(p) {
     '<i class="price__unit">' + unit + "</i></span>";
 }
 
-/* ---------- planche de motifs ----------
-   Certaines references se vendent en assortiment : le client ne choisit
-   pas le motif, mais il doit voir dans quoi l'atelier puise. */
-function motifsHTML(p) {
-  const urls = p.gallery.map(function (nom) {
+/* ---------- assortiment : carrousel de motifs ----------
+   Une reference vendue en lot n'a pas un modele mais une collection.
+   La carte garde exactement la taille des autres : c'est la meme fenetre
+   4/5, on y fait defiler les motifs au lieu d'en figer un seul. */
+function galerieUrls(p) {
+  return p.gallery.map(function (nom) {
     return String(nom).indexOf("://") !== -1
       ? nom
       : "assets/" + cheminProduit({ img: nom, cat: p.cat, sub: p.sub });
   });
+}
+
+function carouselHTML(p, coiffe) {
+  const urls = galerieUrls(p);
+  return '<div class="card__media card__media--carousel" data-carousel>' +
+    '<div class="card__track">' +
+      urls.map(function (u, i) {
+        return '<img src="' + u + '" alt="' + p[LANG].name + ' — ' + (i + 1) +
+          '" loading="' + (i ? "lazy" : "eager") + '" width="800" height="1000">';
+      }).join("") +
+    "</div>" +
+    coiffe +
+    '<button class="card__nav card__nav--prev" data-slide="-1" aria-label="' +
+      t("p.prev") + '">&#8249;</button>' +
+    '<button class="card__nav card__nav--next" data-slide="1" aria-label="' +
+      t("p.next") + '">&#8250;</button>' +
+    '<span class="card__count"><b>1</b>/' + urls.length + "</span>" +
+    '<button class="card__zoom" data-zoom="' + urls[0] + '" aria-label="' + t("p.zoom") + '">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
+    "</button>" +
+    "</div>";
+}
+
+/* La bande de vignettes sert de navigation : un clic ouvre le motif
+   dans le carrousel au-dessus, il ne quitte pas la carte. */
+function motifsHTML(p) {
+  const urls = galerieUrls(p);
   return '<div class="card__motifs">' +
-    '<span class="card__motifs-t">' + t("p.motifs") + "</span>" +
+    '<span class="card__motifs-t">' + t("p.motifs") + " · " + urls.length + "</span>" +
     '<div class="card__motifs-strip">' +
       urls.map(function (u, i) {
-        return '<button class="card__motif" data-zoom="' + u + '" aria-label="' +
-          t("p.zoom") + ' ' + (i + 1) + '"><img src="' + u +
+        return '<button class="card__motif' + (i ? "" : " is-on") + '" data-goto="' + i +
+          '" aria-label="' + (i + 1) + '"><img src="' + u +
           '" alt="" loading="lazy" width="120" height="150"></button>';
       }).join("") +
     "</div></div>";
@@ -132,15 +160,21 @@ function cardHTML(p) {
         nouveau: LANG === "fr" ? "Nouveauté" : "New"
       }[p.tag] || "") + "</span>"
     : "";
-  return `
-  <article class="card reveal" data-id="${p.id}">
-    <div class="card__media">
+
+  const coiffe = promo + tag;
+  const mediaHTML = p.gallery && p.gallery.length
+    ? carouselHTML(p, coiffe)
+    : `<div class="card__media">
       <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
-      ${promo}${tag}
+      ${coiffe}
       <button class="card__zoom" data-zoom="${imgUrl(p)}" aria-label="${t("p.zoom")}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
       </button>
-    </div>
+    </div>`;
+
+  return `
+  <article class="card reveal" data-id="${p.id}">
+    ${mediaHTML}
     <div class="card__body">
       <span class="card__cat">${label(sub) || label(cat)}</span>
       <h3 class="card__name">${p[LANG].name}</h3>
@@ -420,8 +454,71 @@ function initLangSwitch() {
   });
 }
 
+/* ---------- carrousel d'assortiment ----------
+   Aucune bibliotheque : une piste que l'on decale, un compteur, et la
+   vignette active. Le bouton de zoom suit le motif affiche. */
+function allerAuMotif(carousel, index) {
+  const piste = carousel.querySelector(".card__track");
+  if (!piste) return;
+  const vues = piste.children.length;
+  const i = (index % vues + vues) % vues;
+  piste.style.transform = "translateX(" + (-i * 100) + "%)";
+  carousel.setAttribute("data-index", i);
+
+  const compteur = carousel.querySelector(".card__count b");
+  if (compteur) compteur.textContent = i + 1;
+
+  const zoom = carousel.querySelector(".card__zoom");
+  const img = piste.children[i];
+  if (zoom && img) zoom.setAttribute("data-zoom", img.getAttribute("src"));
+
+  const carte = carousel.closest(".card");
+  if (carte) {
+    carte.querySelectorAll(".card__motif").forEach(function (b, j) {
+      b.classList.toggle("is-on", j === i);
+    });
+    const bande = carte.querySelector(".card__motifs-strip");
+    const actif = carte.querySelectorAll(".card__motif")[i];
+    if (bande && actif) {
+      const dx = actif.offsetLeft - bande.clientWidth / 2 + actif.clientWidth / 2;
+      bande.scrollTo({ left: dx, behavior: "smooth" });
+    }
+  }
+}
+
+function motifCourant(carousel) {
+  return Number(carousel.getAttribute("data-index") || 0);
+}
+
+/* glisser du doigt, sur mobile */
+document.addEventListener("touchstart", function (e) {
+  const c = e.target.closest("[data-carousel]");
+  if (c) c._x0 = e.touches[0].clientX;
+}, { passive: true });
+document.addEventListener("touchend", function (e) {
+  const c = e.target.closest("[data-carousel]");
+  if (!c || c._x0 == null) return;
+  const dx = e.changedTouches[0].clientX - c._x0;
+  c._x0 = null;
+  if (Math.abs(dx) > 40) allerAuMotif(c, motifCourant(c) + (dx < 0 ? 1 : -1));
+}, { passive: true });
+
 /* ---------- délégation globale ---------- */
 document.addEventListener("click", e => {
+  const fleche = e.target.closest("[data-slide]");
+  if (fleche) {
+    const c = fleche.closest("[data-carousel]");
+    if (c) allerAuMotif(c, motifCourant(c) + Number(fleche.getAttribute("data-slide")));
+    return;
+  }
+  const vignette = e.target.closest("[data-goto]");
+  if (vignette) {
+    const carte = vignette.closest(".card");
+    const c = carte && carte.querySelector("[data-carousel]");
+    if (c) allerAuMotif(c, Number(vignette.getAttribute("data-goto")));
+    return;
+  }
+
   const zoom = e.target.closest("[data-zoom]");
   if (zoom) { openLightbox(zoom.getAttribute("data-zoom")); return; }
   if (e.target.closest("#lightbox-close") || e.target.id === "lightbox") { closeLightbox(); return; }

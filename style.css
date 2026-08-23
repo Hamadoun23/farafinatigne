@@ -533,7 +533,7 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
    ========================================================= */
 .ranges { display: grid; gap: clamp(30px, 5vw, 64px); }
 .range {
-  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 70px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 70px);
   align-items: center; padding-bottom: clamp(30px, 5vw, 64px); border-bottom: 1px solid var(--line-2);
 }
 .range:last-child { border-bottom: none; padding-bottom: 0; }
@@ -567,12 +567,17 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 /* =========================================================
    CARTES PRODUITS — sobres, la photo d'abord
    ========================================================= */
-.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2.2vw, 30px); }
-.card { display: flex; flex-direction: column; position: relative; }
+/* « 1fr » vaut « minmax(auto, 1fr) » : le minimum automatique d'une case
+   est la taille intrinseque de son image, si bien qu'une photo de 900 px
+   elargit sa colonne et ecrase les trois autres. « minmax(0, 1fr) » et le
+   min-width sur la carte suppriment ce plancher. */
+.products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.2vw, 30px); }
+.products > * { min-width: 0; }
+.card { display: flex; flex-direction: column; position: relative; min-width: 0; }
 .card__media {
   position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand);
 }
-.card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.16, 1, .3, 1); }
+.card__media img { width: 100%; height: 100%; max-width: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.16, 1, .3, 1); }
 .card:hover .card__media img { transform: scale(1.04); }
 .card__tag {
   position: absolute; top: 0; left: 0;
@@ -636,6 +641,39 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   background: #A33A1E; color: var(--ivory); padding: 3px 7px; border-radius: 999px;
   align-self: center;
 }
+/* --- carrousel d'assortiment ---
+   La fenetre garde le format 4/5 des autres cartes : la carte d'un lot
+   ne doit jamais etre plus haute ni plus large que ses voisines. */
+.card__media--carousel { display: block; }
+.card__track {
+  display: flex; width: 100%; height: 100%;
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+.card__track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; }
+.card:hover .card__media--carousel img { transform: none; }
+
+.card__nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px; display: grid; place-items: center;
+  background: rgba(248, 247, 238, .92); color: var(--ink);
+  font-size: 1.25rem; line-height: 1; padding-bottom: 3px;
+  opacity: 0; transition: opacity .25s, background .2s;
+  border: none; cursor: pointer; z-index: 2;
+}
+.card__nav--prev { left: 8px; }
+.card__nav--next { right: 8px; }
+.card:hover .card__nav, .card__media--carousel:focus-within .card__nav { opacity: 1; }
+.card__nav:hover { background: var(--ivory); }
+.card__count {
+  position: absolute; bottom: 10px; left: 10px; z-index: 2;
+  background: rgba(28, 13, 11, .78); color: var(--ivory);
+  font-size: .58rem; font-weight: 800; letter-spacing: .12em;
+  padding: 5px 9px; border-radius: 999px;
+}
+@media (hover: none) {
+  .card__nav { opacity: 1; }
+}
+
 /* --- planche de motifs d'un assortiment --- */
 .card__motifs { margin-top: 12px; }
 .card__motifs-t {
@@ -653,6 +691,10 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 }
 .card__motif img { width: 100%; height: 100%; object-fit: cover; }
 .card__motif:hover { transform: translateY(-2px); border-color: var(--gold); }
+.card__motif.is-on { border-color: var(--ink); }
+.card__motif.is-on img { opacity: 1; }
+.card__motif:not(.is-on) img { opacity: .62; transition: opacity .2s; }
+.card__motif:hover img { opacity: 1; }
 
 .cart-line__was {
   color: var(--tx-3); text-decoration: line-through; font-weight: 400; margin-right: 5px;
@@ -835,13 +877,13 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   font-family: var(--font-display); font-size: clamp(1.3rem, 3.2vw, 2.1rem);
   line-height: 1.3; color: var(--ink); max-width: 950px; font-weight: 500; letter-spacing: -.015em;
 }
-.about__block { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(26px, 5vw, 76px); align-items: center; margin-top: clamp(48px, 8vw, 96px); }
+.about__block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(26px, 5vw, 76px); align-items: center; margin-top: clamp(48px, 8vw, 96px); }
 .about__block:nth-child(even) .about__media { order: 2; }
 .about__media img { width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; border-radius: 999px 999px 3px 3px; }
 .about__text h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 600; letter-spacing: -.02em; }
 .about__text h2 em { font-style: italic; font-weight: 500; color: var(--brown-3); }
 .about__text p { margin-top: 16px; color: var(--tx-2); }
-.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 34px; }
+.gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 34px; }
 .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; cursor: zoom-in; background: var(--sand); transition: opacity .3s; }
 .gallery img:hover { opacity: .85; }
 
@@ -1089,7 +1131,7 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
    RESPONSIVE
    ========================================================= */
 @media (max-width: 1180px) {
-  .products { grid-template-columns: repeat(3, 1fr); }
+  .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .footer__top { grid-template-columns: 1.4fr 1fr 1fr; }
   .footer__col--last { grid-column: 1 / -1; }
 }
@@ -1134,8 +1176,8 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   :root { --nav-h: 64px; --bar-h: 34px; }
   .topbar { font-size: .54rem; letter-spacing: .1em; gap: 0; }
   .topbar span:nth-child(2) { display: none; }
-  .products { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pillars, .factlist { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr; }
   .stat { border-left: none; padding-left: 0; border-top: 1px solid rgba(248, 247, 238, .16); }
@@ -1153,7 +1195,7 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 
 @media (max-width: 480px) {
   body { font-size: 15px; }
-  .products { grid-template-columns: 1fr; }
+  .products { grid-template-columns: minmax(0, 1fr); }
   .card__media { aspect-ratio: 4 / 4; }
   .hero__actions { flex-direction: column; align-items: stretch; gap: 14px; }
   .hero__index { gap: 18px; }
