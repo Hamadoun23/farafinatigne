@@ -681,28 +681,14 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .card__track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; }
 .card:hover .card__media--carousel img { transform: none; }
 
-.card__nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 34px; height: 34px; display: grid; place-items: center;
-  background: rgba(248, 247, 238, .92); color: var(--ink);
-  font-size: 1.25rem; line-height: 1; padding-bottom: 3px;
-  opacity: 0; transition: opacity .25s, background .2s;
-  border: none; cursor: pointer; z-index: 2;
-}
-.card__nav--prev { left: 8px; }
-.card__nav--next { right: 8px; }
-.card:hover .card__nav, .card__media--carousel:focus-within .card__nav { opacity: 1; }
-.card__nav:hover { background: var(--ivory); }
+/* Les fleches blanches masquaient la photo : la navigation passe par
+   la bande de vignettes et le glisser du doigt. */
 .card__count {
   position: absolute; bottom: 10px; left: 10px; z-index: 2;
   background: rgba(28, 13, 11, .78); color: var(--ivory);
   font-size: .58rem; font-weight: 800; letter-spacing: .12em;
   padding: 5px 9px; border-radius: 999px;
 }
-@media (hover: none) {
-  .card__nav { opacity: 1; }
-}
-
 /* --- planche de motifs d'un assortiment --- */
 .card__motifs { margin-top: 12px; }
 .card__motifs-t {
@@ -710,9 +696,12 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
   color: var(--gold-deep); font-weight: 800; display: block; margin-bottom: 7px;
 }
 .card__motifs-strip {
-  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
-  scrollbar-width: thin;
+  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px;
+  scrollbar-width: none; scroll-behavior: smooth;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 26px), transparent 100%);
+          mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 26px), transparent 100%);
 }
+.card__motifs-strip::-webkit-scrollbar { display: none; }
 .card__motif {
   flex: none; width: 46px; height: 58px; padding: 0; border: 1px solid var(--line-2);
   background: var(--sand); cursor: zoom-in; overflow: hidden;
@@ -1358,9 +1347,13 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 }
 .nav__theme:hover { border-color: var(--gold); color: var(--gold-deep); }
 .nav__theme svg { width: 18px; height: 18px; }
-.nav__theme-moon { display: none; }
-:root[data-theme="dark"] .nav__theme-sun { display: none; }
-:root[data-theme="dark"] .nav__theme-moon { display: block; }
+/* On montre l'icone du theme vers lequel on bascule, pas celle du theme
+   courant : la lune en clair veut dire « passer en sombre ». C'est aussi
+   ce que fait le back-office. */
+.nav__theme-sun { display: none; }
+.nav__theme-moon { display: block; }
+:root[data-theme="dark"] .nav__theme-moon { display: none; }
+:root[data-theme="dark"] .nav__theme-sun { display: block; }
 .nav__theme--mobile {
   width: auto; height: 44px; padding: 0 18px; border-radius: 999px;
   border-color: rgba(248, 247, 238, .22); color: var(--ivory);

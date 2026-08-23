@@ -118,10 +118,6 @@ function carouselHTML(p, coiffe) {
       }).join("") +
     "</div>" +
     coiffe +
-    '<button class="card__nav card__nav--prev" data-slide="-1" aria-label="' +
-      t("p.prev") + '">&#8249;</button>' +
-    '<button class="card__nav card__nav--next" data-slide="1" aria-label="' +
-      t("p.next") + '">&#8250;</button>' +
     '<span class="card__count"><b>1</b>/' + urls.length + "</span>" +
     '<button class="card__zoom" data-zoom="' + urls[0] + '" aria-label="' + t("p.zoom") + '">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
@@ -543,12 +539,6 @@ document.addEventListener("click", e => {
   const theme = e.target.closest("[data-theme-btn]");
   if (theme) { poserTheme(themeCourant() === "dark" ? "light" : "dark"); return; }
 
-  const fleche = e.target.closest("[data-slide]");
-  if (fleche) {
-    const c = fleche.closest("[data-carousel]");
-    if (c) allerAuMotif(c, motifCourant(c) + Number(fleche.getAttribute("data-slide")));
-    return;
-  }
   const vignette = e.target.closest("[data-goto]");
   if (vignette) {
     const carte = vignette.closest(".card");

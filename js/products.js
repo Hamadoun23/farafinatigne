@@ -46,6 +46,33 @@ const CATEGORIES = [
 
 const PRODUCTS = [
   /* ============ BIJOUX · BOUCLES D'OREILLES ============ */
+  /* Le lot export : les modèles gardent chacun leur prix ci-dessous,
+     cette carte s'ajoute pour l'acheteur qui prend un panachage sans
+     choisir modèle par modèle. */
+  {
+    id: "bo-assortiment", ref: "FT-BJ-LOT", cat: "bijoux", sub: "boucles", img: "boucle-fulani-creole",
+    price: null, unit: "lot", setQty: 10, tag: "gros",
+    gallery: [
+      "boucle-fulani-creole",
+      "boucle-fulani-twist",
+      "boucle-fulani-boule",
+      "boucle-ankh",
+      "boucle-ankh-laiton",
+      "boucle-tombouctou",
+      "boucle-gao",
+      "boucle-gye-nyame",
+      "boucle-gye-nyame-laiton",
+      "boucle-sankofa",
+      "boucle-fulani-laiton",
+      "boucle-cauri-fama",
+      "boucle-cauri-sakolo",
+      "boucle-touareg-pierre",
+      "boucle-medaille-touareg"
+    ],
+    fr: { name: "Assortiment de 10 paires, modèles panachés", desc: "Dix paires choisies à l'atelier dans toute la collection ci-dessous : Fulani, Ankh, cauris, Touareg. Pour commander un modèle précis, prenez sa fiche. Prix du lot sur demande." },
+    en: { name: "Assortment of 10 pairs, mixed designs", desc: "Ten pairs picked at the workshop from the whole collection below: Fulani, Ankh, cowrie, Tuareg. To order one specific design, use its own listing. Lot price on request." }
+  },
+
   {
     id: "bo-fulani-creole", cat: "bijoux", sub: "boucles", img: "boucle-fulani-creole",
     price: 2.99, from: true, unit: "pair", tag: "signature", sizes: "XXS → XXL",
@@ -681,132 +708,49 @@ const PRODUCTS = [
     en: { name: "Assortment of 10 bogolan T-shirts", desc: "Ten hand-painted T-shirts on ecru cotton, an assorted mix picked at the workshop. Each piece is unique, so individual designs cannot be ordered separately. Mixed sizes from S to 4XL on request." }
   },
 
-  /* ============ TEXTILE · TUNIQUES & PONCHOS ============ */
+  /* ============ TEXTILE · TUNIQUES & PONCHOS ============
+     Même règle que les t-shirts : chaque piece est peinte a la main,
+     le motif ne se reproduit pas à l'identique et l'atelier ne peut
+     pas garantir un modèle précis en gros. On vend donc un
+     assortiment, dont la carte montre la collection où l'atelier
+     puise. Tuniques et ponchos restent deux lots distincts : ce ne
+     sont pas les mêmes vêtements. */
   {
-    id: "tu-case-ocre", cat: "textile", sub: "tuniques", img: "tunique-case-ocre",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Case, ocre", desc: "Bogolan ocre peint à la main, encolure festonnée et bords frangés." },
-    en: { name: "Granary tunic, ochre", desc: "Hand-painted ochre bogolan, scalloped neckline and fringed edges." }
+    id: "tu-assortiment", ref: "FT-TX-LOT-TUN", cat: "textile", sub: "tuniques", img: "tunique-case-ocre",
+    price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "S → 4XL",
+    gallery: [
+      "tunique-case-ocre",
+      "tunique-ecru-fine",
+      "tunique-plastron-ocre",
+      "tunique-case-safran",
+      "tunique-case-brune",
+      "tunique-indigo-spirales",
+      "tunique-symboles",
+      "tunique-chevrons",
+      "tunique-animaux",
+      "tunique-croix-noire",
+      "tunique-damier-noir",
+      "tunique-dashiki-ocre"
+    ],
+    fr: { name: "Assortiment de 10 tuniques bogolan", desc: "Dix tuniques peintes à la main sur coton filé main, motifs assortis choisis à l'atelier. Chaque pièce étant unique, les modèles ne se commandent pas séparément. Tailles panachées sur demande." },
+    en: { name: "Assortment of 10 bogolan tunics", desc: "Ten hand-painted tunics on hand-spun cotton, an assorted mix picked at the workshop. Each piece is unique, so individual designs cannot be ordered separately. Mixed sizes on request." }
   },
   {
-    id: "tu-ecru-fine", cat: "textile", sub: "tuniques", img: "tunique-ecru-fine",
-    price: null, unit: "piece",
-    fr: { name: "Tunique écrue à motifs fins", desc: "Coton file main, motifs serrés en colonnes, deux poches plaquées." },
-    en: { name: "Fine-pattern ecru tunic", desc: "Hand-spun cotton, tight motif columns and two patch pockets." }
-  },
-  {
-    id: "tu-plastron-ocre", cat: "textile", sub: "tuniques", img: "tunique-plastron-ocre",
-    price: null, unit: "piece",
-    fr: { name: "Tunique plastron ocre", desc: "Grand plastron festonné sur bogolan patiné, motif de case." },
-    en: { name: "Ochre bib tunic", desc: "A large scalloped bib on weathered bogolan, granary motif." }
-  },
-  {
-    id: "tu-case-safran", cat: "textile", sub: "tuniques", img: "tunique-case-safran",
-    price: null, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Tunique Case, safran", desc: "Encolure brodée de symboles et grande case peinte, teinte safran." },
-    en: { name: "Granary tunic, saffron", desc: "Symbol-worked neckline and a large painted granary, saffron ground." }
-  },
-  {
-    id: "tu-case-brune", cat: "textile", sub: "tuniques", img: "tunique-case-brune",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Case, brune", desc: "Même dessin en brun profond, croix ankh de part et d'autre." },
-    en: { name: "Granary tunic, brown", desc: "The same drawing in deep brown, an ankh cross on each side." }
-  },
-  {
-    id: "tu-indigo-spirales", cat: "textile", sub: "tuniques", img: "tunique-indigo-spirales",
-    price: null, unit: "piece",
-    fr: { name: "Tunique indigo à spirales", desc: "Indigo foncé, spirales et chevrons peints à la réserve." },
-    en: { name: "Spiral indigo tunic", desc: "Deep indigo with resist-painted spirals and chevrons." }
-  },
-  {
-    id: "tu-symboles", cat: "textile", sub: "tuniques", img: "tunique-symboles",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Symboles", desc: "Signes bogolan espacés sur coton écru, coupe droite à poches." },
-    en: { name: "Symbol tunic", desc: "Spaced bogolan signs on ecru cotton, straight cut with pockets." }
-  },
-  {
-    id: "tu-chevrons", cat: "textile", sub: "tuniques", img: "tunique-chevrons",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Chevrons", desc: "Colonnes de chevrons et médaillons adinkra, bords laissés bruts." },
-    en: { name: "Chevron tunic", desc: "Chevron columns and adinkra medallions, raw edges." }
-  },
-  {
-    id: "tu-animaux", cat: "textile", sub: "tuniques", img: "tunique-animaux",
-    price: null, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Tunique Animaux", desc: "Fréquentation animale peinte à la boue, pièce d'atelier." },
-    en: { name: "Animal tunic", desc: "A bestiary painted in mud, a workshop piece." }
-  },
-  {
-    id: "tu-croix-noire", cat: "textile", sub: "tuniques", img: "tunique-croix-noire",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Croix, noire", desc: "Semis de croix blanches sur bogolan noir, bords frangés." },
-    en: { name: "Cross tunic, black", desc: "White crosses scattered on black bogolan, fringed edges." }
-  },
-  {
-    id: "tu-damier-noir", cat: "textile", sub: "tuniques", img: "tunique-damier-noir",
-    price: null, unit: "piece",
-    fr: { name: "Tunique Damier, noire", desc: "Panneaux de damiers et de croix, assemblage de bandes tissées." },
-    en: { name: "Checker tunic, black", desc: "Checker and cross panels, assembled from woven strips." }
-  },
-  {
-    id: "tu-dashiki-ocre", cat: "textile", sub: "tuniques", img: "tunique-dashiki-ocre",
-    price: null, unit: "piece", tag: "signature",
-    fr: { name: "Tunique dashiki ocre", desc: "Large encolure dashiki brodée, case et symboles sur bogolan ocre." },
-    en: { name: "Ochre dashiki tunic", desc: "A wide worked dashiki neckline, granary and symbols on ochre bogolan." }
-  },
-  {
-    id: "po-capuche-terre", cat: "textile", sub: "tuniques", img: "poncho-capuche-terre",
-    price: null, unit: "piece",
-    fr: { name: "Poncho à capuche, terre", desc: "Capuche écrue et panneaux terre de Sienne, bords frangés." },
-    en: { name: "Hooded poncho, earth", desc: "Ecru hood and sienna panels, fringed edges." }
-  },
-  {
-    id: "po-bordeaux-safran", cat: "textile", sub: "tuniques", img: "poncho-bordeaux-safran",
-    price: null, unit: "piece",
-    fr: { name: "Poncho bordeaux & safran", desc: "Semis de croix sur bordeaux, plastron safran, capuche assortie." },
-    en: { name: "Burgundy & saffron poncho", desc: "Crosses on burgundy with a saffron bib and matching hood." }
-  },
-  {
-    id: "po-capuche-noire", cat: "textile", sub: "tuniques", img: "poncho-capuche-noire",
-    price: null, unit: "piece",
-    fr: { name: "Poncho à capuche, noir", desc: "Capuche noire, panneaux terre et écru, plastron à losanges." },
-    en: { name: "Hooded poncho, black", desc: "Black hood, earth and ecru panels, diamond bib." }
-  },
-  {
-    id: "po-safran-bordeaux", cat: "textile", sub: "tuniques", img: "poncho-safran-bordeaux",
-    price: null, unit: "piece",
-    fr: { name: "Poncho safran & bordeaux", desc: "Bandes safran rayées de blanc, plastron bordeaux, capuche." },
-    en: { name: "Saffron & burgundy poncho", desc: "White-striped saffron bands, burgundy bib and hood." }
-  },
-  {
-    id: "po-brun-plastron", cat: "textile", sub: "tuniques", img: "poncho-brun-plastron",
-    price: null, unit: "piece",
-    fr: { name: "Poncho brun à plastron", desc: "Fond brun à frises, grand plastron écru cousu au centre." },
-    en: { name: "Brown bib poncho", desc: "Frieze-worked brown ground with a large ecru bib sewn at the centre." }
-  },
-  {
-    id: "po-patchwork-jaune", cat: "textile", sub: "tuniques", img: "poncho-patchwork-jaune",
-    price: null, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Poncho patchwork jaune", desc: "Assemblage de bogolans jaune, bordeaux et noir, capuche imprimée." },
-    en: { name: "Yellow patchwork poncho", desc: "Yellow, burgundy and black bogolans assembled, printed hood." }
-  },
-  {
-    id: "po-ecru-terre", cat: "textile", sub: "tuniques", img: "poncho-ecru-terre",
-    price: null, unit: "piece",
-    fr: { name: "Poncho écru & terre", desc: "Chevrons écrus, bande terre au centre, capuche à motif." },
-    en: { name: "Ecru & earth poncho", desc: "Ecru chevrons, an earth band at the centre, patterned hood." }
-  },
-  {
-    id: "po-noir-terre", cat: "textile", sub: "tuniques", img: "poncho-noir-terre",
-    price: null, unit: "piece",
-    fr: { name: "Poncho noir & terre", desc: "Bogolan noir à symboles, plastron terre, capuche assortie." },
-    en: { name: "Black & earth poncho", desc: "Symbol-worked black bogolan, earth bib, matching hood." }
-  },
-  {
-    id: "po-patchwork-indigo", cat: "textile", sub: "tuniques", img: "poncho-patchwork-indigo",
-    price: null, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Poncho patchwork indigo", desc: "Grands aplats indigo, ocre et bordeaux, ankh peint sur le devant." },
-    en: { name: "Indigo patchwork poncho", desc: "Broad indigo, ochre and burgundy fields with a painted ankh." }
+    id: "po-assortiment", ref: "FT-TX-LOT-PON", cat: "textile", sub: "tuniques", img: "poncho-capuche-terre",
+    price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "Taille unique",
+    gallery: [
+      "poncho-capuche-terre",
+      "poncho-bordeaux-safran",
+      "poncho-capuche-noire",
+      "poncho-safran-bordeaux",
+      "poncho-brun-plastron",
+      "poncho-patchwork-jaune",
+      "poncho-ecru-terre",
+      "poncho-noir-terre",
+      "poncho-patchwork-indigo"
+    ],
+    fr: { name: "Assortiment de 10 ponchos bogolan", desc: "Dix ponchos peints à la main, avec ou sans capuche, motifs assortis choisis à l'atelier. Chaque pièce étant unique, les modèles ne se commandent pas séparément." },
+    en: { name: "Assortment of 10 bogolan ponchos", desc: "Ten hand-painted ponchos, hooded or open, an assorted mix picked at the workshop. Each piece is unique, so individual designs cannot be ordered separately." }
   },
 
   /* ============ TEXTILE · SACS & BAGAGERIE ============ */
