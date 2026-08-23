@@ -19,8 +19,6 @@ const I18N = {
 
     /* --- hero --- */
     "hero.eyebrow": "Artisanat malien · Vente en gros",
-    "hero.title1": "La réalité de",
-    "hero.title2": "l'Afrique",
     "hero.sub": "Bijoux, bogolan et objets d'art produits par nos artisans de Mopti et Djenné, exportés en gros dans le monde entier.",
     "hero.cta": "Voir la boutique",
     "hero.wa": "Demander un devis sur WhatsApp",
@@ -37,7 +35,7 @@ const I18N = {
     "mani.lead": "Depuis Mopti-Sévaré, nous fabriquons et exportons les objets, les parures et les étoffes de <em>nombreuses ethnies d'Afrique de l'Ouest</em>.",
     "mani.p1": "Cauris du fleuve, laiton et bronze refondus à la cire perdue, tongs de plastique ramassées dans les rues, cuir de chèvre tanné au village, coton filé main et peint à la boue fermentée : rien n'arrive neuf, tout renaît entre les mains de nos artisanes et artisans.",
     "mani.p2": "Nous ne vendons qu'en gros, à des boutiques, des créateurs et des importateurs. C'est ce qui permet de payer le travail à son juste prix et de faire vivre les gestes, saison après saison.",
-    "mani.quote": "« La réalité de l'Afrique » — de Mopti au monde entier.",
+    "mani.quote": "De Mopti et Djenné au reste du monde, depuis mars 2000.",
 
     "hero.scroll": "Découvrir",
 
@@ -71,6 +69,7 @@ const I18N = {
     "look.4": "Ensemble bogolan turquoise",
     "look.5": "Ras-de-cou de cauris",
     "look.6": "Torques en laiton",
+    "look.7": "Bagues de bronze recyclé",
     "look.hint": "Faites défiler pour parcourir la sélection.",
 
     /* --- produits phares --- */
@@ -140,6 +139,8 @@ const I18N = {
     "p.unit.set": "le lot",
     "p.moq": "Prix grossiste — Commande minimum 500 €",
     "p.zoom": "Agrandir l'image",
+    "p.sizes": "Tailles ",
+    "p.motifs": "Motifs de la collection — assortiment composé à l'atelier",
     "p.ref": "Réf.",
 
     /* --- panier / devis --- */
@@ -170,6 +171,70 @@ const I18N = {
     "about.s3.p": "Un travail payé à son juste prix aux artisanes et artisans, des matières recyclées chaque fois que c'est possible, et des gestes transmis tels quels, sans machine intermédiaire. Vendre en gros, c'est faire durer ces gestes.",
     "about.gal": "L'atelier en images",
 
+    /* --- signature de marque --- */
+    "sign.eyebrow": "Notre promesse",
+    "sign.line": "If you can not come to Timbuctou and Djené then we can bring to you",
+    "sign.sub": "Si vous ne pouvez pas venir jusqu'à Tombouctou et Djenné, alors nous vous les apportons.",
+
+    /* --- à propos : profil d'entreprise --- */
+    "about.tagline": "L'excellence de l'artisanat malien, du cœur du Delta au reste du monde.",
+    "about.story.eyebrow": "Notre histoire",
+    "about.story.t": "Fondée en mars 2000",
+    "about.story.p1": "Farafinatignɛ a été fondée en mars 2000 par <b>Oumar Cissé</b>. Vingt-six ans plus tard, la maison est devenue une institution de l'artisanat malien, installée à Mopti-Sévaré, au carrefour des routes qui montent vers le pays dogon et Tombouctou.",
+    "about.story.p2": "Nous sommes aujourd'hui une équipe de <b>trente collaborateurs</b>. Nous ne sommes pas seulement des créateurs : nous sommes aussi des formateurs. Plusieurs générations d'artisanes et d'artisans maliens sont passées par nos ateliers, et c'est ainsi que les métiers d'art continuent de vivre dans le pays.",
+    "about.story.dirlabel": "Direction",
+    "about.story.teamlabel": "Équipe",
+    "about.story.dir": "Direction générale : Issouf Cissé",
+    "about.story.team": "collaborateurs à Mopti-Sévaré",
+    "about.story.since": "depuis mars 2000, sans interruption",
+    "about.story.fairs": "ans de présence continue sur les salons internationaux",
+
+    "about.savoir.eyebrow": "Savoir-faire",
+    "about.savoir.t1": "Entre tradition et modernité",
+    "about.savoir.lead": "Nous maîtrisons des techniques ancestrales tout en restant tournés vers l'avenir.",
+    "about.savoir.a.t": "Bijoux ethniques & créations",
+    "about.savoir.a.p": "Colliers, bracelets, bagues et boucles d'oreilles. Nous créons constamment des nouveautés adaptées aux nouvelles générations, en fusionnant les tendances actuelles avec l'originalité de la culture malienne.",
+    "about.savoir.b.t": "Éco-responsabilité & recyclage ♻️",
+    "about.savoir.b.p": "Nous intégrons une forte dimension écologique dans notre production en recyclant de nombreux matériaux — laiton, bronze, cuivre, plastique, boîtes de conserve — pour les transformer en accessoires de mode uniques.",
+    "about.savoir.c.t": "Bogolan & perlerie",
+    "about.savoir.c.p": "Une expertise reconnue dans la teinture naturelle (bogolan) et une connaissance encyclopédique des perles africaines, transmise de Mopti à Djenné.",
+
+    "about.world.eyebrow": "Présence internationale",
+    "about.world.t1": "Sur les grands salons",
+    "about.world.t2": "depuis 2001",
+    "about.world.lead": "Une marque de confiance présente sur les plus grands salons mondiaux depuis plus de vingt-cinq ans.",
+    "about.world.c1": "Foire de Paris",
+    "about.world.c2": "Salon Maison &amp; Objet",
+    "about.world.c3": "New York",
+    "about.world.c4": "Le stand",
+    "about.world.c5": "L'équipe",
+    "about.world.c6": "Le mur de colliers",
+    "about.world.c7": "SIAO &amp; SIAMA",
+    "about.world.1.t": "France",
+    "about.world.1.d": "Foire de Paris et Salon Maison &amp; Objet, en janvier et en septembre, en continu depuis 2001.",
+    "about.world.2.t": "Allemagne",
+    "about.world.2.d": "Foire Bazaar Berlin.",
+    "about.world.3.t": "États-Unis",
+    "about.world.3.d": "International African Art Festival, New York.",
+    "about.world.4.t": "Afrique",
+    "about.world.4.d": "SIAO à Ouagadougou et SIAMA à Bamako.",
+
+    "about.musee.t": "Le Musée des Perles",
+    "about.musee.p": "À Mopti, Farafinatignɛ a ouvert un Musée des Perles, où sont rassemblées les perles anciennes d'Afrique de l'Ouest et la mémoire des routes commerciales du Delta intérieur. Le musée est <em>actuellement fermé pour raisons de sécurité</em> ; les collections, elles, continuent d'alimenter nos créations.",
+
+    "about.gros.t": "Vente en gros et exportation",
+    "about.gros.p": "Farafinatignɛ est spécialisée dans la production de masse et la vente en gros internationale. Nous offrons aux boutiques, aux distributeurs et aux institutions culturelles des produits authentiques, durables et adaptés au goût du marché contemporain, avec une logistique d'exportation maîtrisée.",
+
+    "about.adr.eyebrow": "Nos adresses",
+    "about.adr.1.t": "Ateliers & boutique",
+    "about.adr.1.d": "Mopti — Sévaré, Rue RN6, Imm. Farafinatignɛ, BP 65, Mali.",
+    "about.adr.2.t": "Point de vente",
+    "about.adr.2.d": "Boutique Farafinatignɛ, Bamako, Mali.",
+    "about.adr.3.t": "Patrimoine",
+    "about.adr.3.d": "Musée des Perles, Mopti — actuellement fermé pour raisons de sécurité.",
+    "about.adr.4.t": "Contact",
+    "about.adr.4.d": "farafinatigne@gmail.com<br>+223 76 87 06 95 · +223 65 45 02 02",
+
     /* --- contact --- */
     "contact.title": "Contact",
     "contact.eyebrow": "Parlons commande",
@@ -197,7 +262,7 @@ const I18N = {
     "contact.wa": "Ouvrir WhatsApp",
 
     /* --- footer --- */
-    "foot.tag": "« La réalité de l'Afrique » — de Mopti au monde entier.",
+    "foot.tag": "L'excellence de l'artisanat malien, du cœur du Delta au reste du monde.",
     "foot.nav": "Navigation",
     "foot.cats": "Nos gammes",
     "foot.contact": "Contact",
@@ -222,8 +287,6 @@ const I18N = {
     "nav.lang": "Language",
 
     "hero.eyebrow": "Malian craft · Wholesale only",
-    "hero.title1": "The reality of",
-    "hero.title2": "Africa",
     "hero.sub": "Jewellery, bogolan and art objects made by our artisans in Mopti and Djenné, exported wholesale worldwide.",
     "hero.cta": "Enter the shop",
     "hero.wa": "Request a quote on WhatsApp",
@@ -239,7 +302,7 @@ const I18N = {
     "mani.lead": "From Mopti-Sévaré, we make and export the objects, adornments and cloths of <em>many West African peoples</em>.",
     "mani.p1": "Cowries from the river, brass and bronze recast by lost wax, plastic flip-flops picked up in the streets, village-tanned goat leather, hand-spun cotton painted with fermented mud: nothing arrives new, everything is reborn in the hands of our artisans.",
     "mani.p2": "We sell wholesale only, to shops, designers and importers. That is what lets us pay the work its fair price and keep these gestures alive, season after season.",
-    "mani.quote": "\"The reality of Africa\" — from Mopti to the whole world.",
+    "mani.quote": "From Mopti and Djenné to the rest of the world, since March 2000.",
 
     "hero.scroll": "Discover",
 
@@ -270,6 +333,7 @@ const I18N = {
     "look.4": "Turquoise bogolan set",
     "look.5": "Cowrie choker",
     "look.6": "Brass torques",
+    "look.7": "Recycled bronze rings",
     "look.hint": "Scroll to browse the selection.",
 
     "feat.eyebrow": "Selection",
@@ -333,6 +397,8 @@ const I18N = {
     "p.unit.set": "per set",
     "p.moq": "Wholesale price — Minimum order €500",
     "p.zoom": "Enlarge image",
+    "p.sizes": "Sizes ",
+    "p.motifs": "Designs in the collection — assortment made up at the workshop",
     "p.ref": "Ref.",
 
     "cart.title": "My selection",
@@ -361,6 +427,70 @@ const I18N = {
     "about.s3.p": "Fair pay for the women and men who make the pieces, recycled materials whenever possible, and gestures passed on unchanged, with no machine in between. Selling wholesale is how those gestures survive.",
     "about.gal": "The workshop in pictures",
 
+    /* --- brand signature --- */
+    "sign.eyebrow": "Our promise",
+    "sign.line": "If you can not come to Timbuctou and Djené then we can bring to you",
+    "sign.sub": "If you cannot travel to Timbuktu and Djenné, then we bring them to you.",
+
+    /* --- about: company profile --- */
+    "about.tagline": "The excellence of Malian craft, from the heart of the Delta to the rest of the world.",
+    "about.story.eyebrow": "Our story",
+    "about.story.t": "Founded in March 2000",
+    "about.story.p1": "Farafinatignɛ was founded in March 2000 by <b>Oumar Cissé</b>. Twenty-six years on, the house has become an institution of Malian craft, based in Mopti-Sévaré, where the roads to Dogon country and Timbuktu meet.",
+    "about.story.p2": "We are now a team of <b>thirty people</b>. We are not only makers: we are trainers too. Several generations of Malian craftswomen and craftsmen have passed through our workshops, and that is how the art trades stay alive in this country.",
+    "about.story.dirlabel": "Management",
+    "about.story.teamlabel": "Team",
+    "about.story.dir": "Managing director: Issouf Cissé",
+    "about.story.team": "people at Mopti-Sévaré",
+    "about.story.since": "since March 2000, without a break",
+    "about.story.fairs": "years of continuous presence at international trade fairs",
+
+    "about.savoir.eyebrow": "Know-how",
+    "about.savoir.t1": "Between tradition and modernity",
+    "about.savoir.lead": "We master ancestral techniques while keeping our eyes on what comes next.",
+    "about.savoir.a.t": "Ethnic jewellery & creations",
+    "about.savoir.a.p": "Necklaces, bracelets, rings and earrings. We constantly design new pieces for younger generations, blending current trends with the originality of Malian culture.",
+    "about.savoir.b.t": "Eco-responsibility & recycling ♻️",
+    "about.savoir.b.p": "We build a strong ecological dimension into our production by recycling many materials — brass, bronze, copper, plastic, tin cans — and turning them into one-of-a-kind fashion accessories.",
+    "about.savoir.c.t": "Bogolan & beadwork",
+    "about.savoir.c.p": "A recognised expertise in natural dyeing (bogolan) and an encyclopaedic knowledge of African beads, carried from Mopti to Djenné.",
+
+    "about.world.eyebrow": "International presence",
+    "about.world.t1": "At the great trade fairs",
+    "about.world.t2": "since 2001",
+    "about.world.lead": "A trusted brand present at the world's largest trade fairs for more than twenty-five years.",
+    "about.world.c1": "Foire de Paris",
+    "about.world.c2": "Salon Maison &amp; Objet",
+    "about.world.c3": "New York",
+    "about.world.c4": "The stand",
+    "about.world.c5": "The team",
+    "about.world.c6": "The necklace wall",
+    "about.world.c7": "SIAO &amp; SIAMA",
+    "about.world.1.t": "France",
+    "about.world.1.d": "Foire de Paris and Salon Maison &amp; Objet, in January and September, continuously since 2001.",
+    "about.world.2.t": "Germany",
+    "about.world.2.d": "Bazaar Berlin fair.",
+    "about.world.3.t": "United States",
+    "about.world.3.d": "International African Art Festival, New York.",
+    "about.world.4.t": "Africa",
+    "about.world.4.d": "SIAO in Ouagadougou and SIAMA in Bamako.",
+
+    "about.musee.t": "The Bead Museum",
+    "about.musee.p": "In Mopti, Farafinatignɛ opened a Bead Museum, gathering the antique beads of West Africa and the memory of the trade routes of the Inner Delta. The museum is <em>currently closed for security reasons</em>; the collections keep feeding our designs.",
+
+    "about.gros.t": "Wholesale and export",
+    "about.gros.p": "Farafinatignɛ specialises in mass production and international wholesale. We supply shops, distributors and cultural institutions with authentic, durable products suited to contemporary taste, backed by a well-run export logistics chain.",
+
+    "about.adr.eyebrow": "Our addresses",
+    "about.adr.1.t": "Workshops & shop",
+    "about.adr.1.d": "Mopti — Sévaré, Rue RN6, Imm. Farafinatignɛ, BP 65, Mali.",
+    "about.adr.2.t": "Retail outlet",
+    "about.adr.2.d": "Farafinatignɛ shop, Bamako, Mali.",
+    "about.adr.3.t": "Heritage",
+    "about.adr.3.d": "Bead Museum, Mopti — currently closed for security reasons.",
+    "about.adr.4.t": "Contact",
+    "about.adr.4.d": "farafinatigne@gmail.com<br>+223 76 87 06 95 · +223 65 45 02 02",
+
     "contact.title": "Contact",
     "contact.eyebrow": "Let's talk orders",
     "contact.h1a": "Write to us, we",
@@ -386,7 +516,7 @@ const I18N = {
     "contact.form.err": "Please fill in the required fields.",
     "contact.wa": "Open WhatsApp",
 
-    "foot.tag": "\"The reality of Africa\" — from Mopti to the whole world.",
+    "foot.tag": "The excellence of Malian craft, from the heart of the Delta to the rest of the world.",
     "foot.nav": "Navigation",
     "foot.cats": "Our ranges",
     "foot.contact": "Contact",

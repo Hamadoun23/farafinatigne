@@ -6,15 +6,26 @@
 /* ---------- coordonnées (source unique) ---------- */
 const WHATSAPP_NUMBER = "22365450202";          // +223 65 45 02 02 — numéro unique
 const EMAIL = "farafinatigne@gmail.com";
-const CATALOGUE_PDF = "assets/catalogue-farafinatigne.pdf";
+const CATALOGUE_PDF = "assets/catalogue/catalogue-farafinatigne.pdf";
 
 /* Adresse publique du site. Sert à construire les URL d'images envoyées dans
    les demandes de devis : WhatsApp et les messageries n'affichent un aperçu
    que sur une URL absolue. À changer si le nom de domaine change. */
 const SITE_URL = "https://farafinatigne.com/";
+/* Les photos sont servies en WebP. On coupe l'extension eventuellement
+   enregistree en base (« ...jpg ») avant d'ajouter la bonne : une fiche
+   creee avant la bascule continue de s'afficher. */
+const baseImage = v => String(v || "").replace(/\.(jpe?g|png|webp)$/i, "");
+/* Les fiches produit sont rangees par gamme : assets/produits/<gamme>/
+   <sous-gamme>/<fichier>.webp. La base peut enregistrer soit le chemin
+   complet depuis assets/, soit le seul nom de fichier — les deux marchent. */
+const cheminProduit = p => {
+  const v = baseImage(p.img);
+  return (v.indexOf("/") !== -1 ? v : "produits/" + p.cat + "/" + p.sub + "/" + v) + ".webp";
+};
 const productImageUrl = p => (p.img && p.img.indexOf("://") !== -1)
   ? p.img
-  : SITE_URL + "assets/images/" + p.img + ".jpg";
+  : SITE_URL + "assets/" + cheminProduit(p);
 
 /* Endpoint de collecte des prospects (Formspree, Getform, Basin…).
    Laisser vide : le formulaire bascule alors sur un envoi par e-mail. */
@@ -37,7 +48,7 @@ const mailLink = (subject, body) =>
    quand l'image a été remplacée depuis le back-office. */
 const imgUrl = p => (p.img && p.img.indexOf("://") !== -1)
   ? p.img
-  : "assets/images/" + p.img + ".jpg";
+  : "assets/" + cheminProduit(p);
 
 const productById = id => PRODUCTS.find(p => p.id === id);
 const catById = id => CATEGORIES.find(c => c.id === id);
@@ -47,7 +58,24 @@ const subById = (cat, sub) => {
 };
 const label = obj => (obj ? obj[LANG] || obj.fr : "");
 
-/* prix affiché d'un produit */
+/* ---------- promotions ----------
+   Une remise en pourcentage posee par le back-office sur les references
+   choisies. Elle s'arrete d'elle-meme a la date de fin : passe ce jour,
+   le site reaffiche le prix plein sans qu'on ait rien a faire. */
+function promoActive(p) {
+  if (!p || !p.discount) return false;
+  if (p.price == null) return false;
+  if (!p.discountUntil) return true;
+  return new Date(p.discountUntil + "T23:59:59") >= new Date();
+}
+/* prix reellement paye */
+function netPrice(p) {
+  if (!p || p.price == null) return null;
+  if (!promoActive(p)) return p.price;
+  return Math.round(p.price * (1 - p.discount / 100) * 100) / 100;
+}
+
+/* prix affiche d'un produit */
 function priceLabel(p) {
   if (p.price == null) return '<span class="price price--quote">' + t("p.quote") + "</span>";
   const from = p.from ? '<i class="price__from">' + t("p.from") + "</i> " : "";
@@ -56,14 +84,45 @@ function priceLabel(p) {
   else if (p.unit === "piece") unit = t("p.unit.piece");
   else if (p.setQty) unit = (LANG === "fr" ? "le lot de " : "set of ") + p.setQty;
   else unit = t("p.unit.lot");
+
+  if (promoActive(p)) {
+    return '<span class="price price--promo">' + from +
+      '<s class="price__was">' + euro(p.price) + "</s>" +
+      '<b class="price__now">' + euro(netPrice(p)) + "</b>" +
+      '<i class="price__off">−' + p.discount + " %</i>" +
+      '<i class="price__unit">' + unit + "</i></span>";
+  }
   return '<span class="price">' + from + euro(p.price) +
     '<i class="price__unit">' + unit + "</i></span>";
+}
+
+/* ---------- planche de motifs ----------
+   Certaines references se vendent en assortiment : le client ne choisit
+   pas le motif, mais il doit voir dans quoi l'atelier puise. */
+function motifsHTML(p) {
+  const urls = p.gallery.map(function (nom) {
+    return String(nom).indexOf("://") !== -1
+      ? nom
+      : "assets/" + cheminProduit({ img: nom, cat: p.cat, sub: p.sub });
+  });
+  return '<div class="card__motifs">' +
+    '<span class="card__motifs-t">' + t("p.motifs") + "</span>" +
+    '<div class="card__motifs-strip">' +
+      urls.map(function (u, i) {
+        return '<button class="card__motif" data-zoom="' + u + '" aria-label="' +
+          t("p.zoom") + ' ' + (i + 1) + '"><img src="' + u +
+          '" alt="" loading="lazy" width="120" height="150"></button>';
+      }).join("") +
+    "</div></div>";
 }
 
 /* ---------- carte produit ---------- */
 function cardHTML(p) {
   const cat = catById(p.cat), sub = subById(p.cat, p.sub);
-  const tag = p.tag
+  const promo = promoActive(p)
+    ? '<span class="card__tag card__tag--promo">−' + p.discount + " %</span>"
+    : "";
+  const tag = promo ? "" : p.tag
     ? '<span class="card__tag card__tag--' + p.tag + '">' +
       ({
         signature: LANG === "fr" ? "Signature" : "Signature",
@@ -77,7 +136,7 @@ function cardHTML(p) {
   <article class="card reveal" data-id="${p.id}">
     <div class="card__media">
       <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
-      ${tag}
+      ${promo}${tag}
       <button class="card__zoom" data-zoom="${imgUrl(p)}" aria-label="${t("p.zoom")}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
       </button>
@@ -86,6 +145,8 @@ function cardHTML(p) {
       <span class="card__cat">${label(sub) || label(cat)}</span>
       <h3 class="card__name">${p[LANG].name}</h3>
       <p class="card__desc">${p[LANG].desc}</p>
+      ${p.sizes ? '<p class="card__sizes"><span>' + t("p.sizes") + '</span>' + p.sizes + "</p>" : ""}
+      ${p.gallery && p.gallery.length ? motifsHTML(p) : ""}
       <div class="card__foot">
         ${priceLabel(p)}
         <span class="card__ref">${t("p.ref")} ${p.ref}</span>
@@ -173,8 +234,41 @@ function initNav() {
   const burger = $("#burger");
   const mobile = $("#nav-mobile");
 
+  /* --- escamotage de la barre ---------------------------------------
+     On descend : la barre s'efface et rend la photo du hero entiere.
+     On remonte, ou on s'arrete cinq secondes : elle revient.
+     Elle reste toujours visible en haut de page, menu ouvert, ou panier
+     ouvert — sinon on masquerait une commande dont l'internaute se sert. */
+  const topbar = $(".topbar");
+  const DEPART = 220;   // hauteur en deca de laquelle on ne masque jamais
+  const SEUIL = 8;      // en pixels, pour ignorer les micro-mouvements
+  const REPOS = 5000;   // reapparition apres cinq secondes d'immobilite
+  let dernierY = window.scrollY;
+  let minuteurRepos;
+
+  const montreBarre = () => {
+    if (nav) nav.classList.remove("is-hidden");
+    if (topbar) topbar.classList.remove("is-hidden");
+  };
+  const cacheBarre = () => {
+    if (document.body.style.overflow === "hidden") return;   // menu ou panier ouvert
+    if (nav && nav.querySelector(".nav__drop.open")) return;
+    if (nav) nav.classList.add("is-hidden");
+    if (topbar) topbar.classList.add("is-hidden");
+  };
+
   const onScroll = () => {
     if (nav) nav.classList.toggle("scrolled", window.scrollY > 20);
+
+    const y = window.scrollY;
+    const ecart = y - dernierY;
+    if (y <= DEPART) montreBarre();
+    else if (ecart > SEUIL) cacheBarre();
+    else if (ecart < -SEUIL) montreBarre();
+    if (Math.abs(ecart) > SEUIL) dernierY = y;
+    clearTimeout(minuteurRepos);
+    minuteurRepos = setTimeout(montreBarre, REPOS);
+
     const toTop = $("#to-top");
     if (toTop) toTop.classList.toggle("show", window.scrollY > 700);
     const wa = $(".whatsapp-float");
@@ -185,6 +279,7 @@ function initNav() {
     }
   };
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("keydown", e => { if (e.key === "Tab") montreBarre(); });
   onScroll();
 
   if (burger && mobile) {
@@ -205,9 +300,13 @@ function initNav() {
     const btn = $(".nav__drop-btn", drop);
     if (!btn) return;
     btn.addEventListener("click", e => {
-      if (window.matchMedia("(hover: hover)").matches) return; // desktop : survol
+      if (window.matchMedia("(hover: hover)").matches) return; // desktop : le lien suit
+      // sans survol : la premiere tape deploie le sous-menu, la seconde
+      // laisse le lien mener a la boutique.
+      if (drop.classList.contains("open")) return;
       e.preventDefault();
-      drop.classList.toggle("open");
+      drop.classList.add("open");
+      montreBarre();
     });
   });
 

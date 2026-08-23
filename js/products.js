@@ -2,7 +2,7 @@
    Farafinatignɛ — source unique de vérité des produits
    Prix : tarifs GROS en euros, repris de la brochure officielle.
    price: null  ->  affiché « Prix sur demande / Price on request »
-   unit :  piece | pair | set10 | set12 | set20 | set50 | set60 | douz20 | douz100 | metre
+   unit :  piece | pair | set10 | set12 | set20 | set50 | set60 | douz10 | douz100 | metre
    ========================================================= */
 
 const CATEGORIES = [
@@ -24,6 +24,9 @@ const CATEGORIES = [
       { id: "tissus", fr: "Tissus", en: "Fabrics" },
       { id: "coussins", fr: "Coussins", en: "Pillows" },
       { id: "couvertures", fr: "Couvertures & Plaids", en: "Blankets & Throws" },
+      { id: "tshirts", fr: "T-shirts", en: "T-shirts" },
+      { id: "tuniques", fr: "Tuniques & ponchos", en: "Tunics & ponchos" },
+      { id: "sacs", fr: "Sacs & bagagerie", en: "Bags & luggage" },
       { id: "mode", fr: "Mode & accessoires", en: "Fashion & accessories" }
     ]
   },
@@ -33,6 +36,8 @@ const CATEGORIES = [
     subs: [
       { id: "pieces", fr: "Pièces spéciales", en: "Special pieces" },
       { id: "objets", fr: "Objets de décoration", en: "Decorative objects" },
+      /* sous-gamme demandée par le client (août 2026) */
+      { id: "portecles", fr: "Porte-clés", en: "Keyrings" },
       /* déplacé depuis Textile & Mode à la demande du client (août 2026) */
       { id: "chemins", fr: "Chemins de table", en: "Table runners" }
     ]
@@ -84,12 +89,6 @@ const PRODUCTS = [
     en: { name: "Gao earrings", desc: "Engraved Tuareg silhouette, polished silver on stainless hook." }
   },
   {
-    id: "bo-touareg-argent", cat: "bijoux", sub: "boucles", img: "boucle-touareg-argent",
-    price: 4, unit: "pair",
-    fr: { name: "Boucles Touareg gravées", desc: "Argent gravé à la main par les forgerons du Nord, motifs géométriques." },
-    en: { name: "Engraved Tuareg earrings", desc: "Hand-engraved silver by northern smiths, geometric patterns." }
-  },
-  {
     id: "bo-gye-nyame", cat: "bijoux", sub: "boucles", img: "boucle-gye-nyame",
     price: 4, unit: "pair",
     fr: { name: "Boucles Gye Nyame", desc: "Symbole adinkra « seul Dieu », laiton recyclé poinçonné." },
@@ -126,12 +125,6 @@ const PRODUCTS = [
     en: { name: "Cauri Sakolo earrings", desc: "Column of alternating cowries and black beads, 9 cm long." }
   },
   {
-    id: "bo-coupe-coupe", cat: "bijoux", sub: "boucles", img: "boucle-coupe-coupe",
-    price: 2, unit: "pair",
-    fr: { name: "Boucles Coupé-coupé", desc: "Franges de perles heishi taillées dans du plastique recyclé, coloris assortis." },
-    en: { name: "Coupé-coupé earrings", desc: "Fringes of heishi beads cut from recycled plastic, assorted colours." }
-  },
-  {
     id: "bo-touareg-pierre", cat: "bijoux", sub: "boucles", img: "boucle-touareg-pierre",
     price: null, unit: "pair",
     fr: { name: "Boucles Touareg pierre verte", desc: "Argent et pierre semi-précieuse sertie, pièce d'atelier." },
@@ -150,18 +143,6 @@ const PRODUCTS = [
     price: 18, unit: "piece", tag: "signature",
     fr: { name: "Collier Fulani large", desc: "Plastron de laiton martelé au feu, monté sur jonc rigide. Or 18 € · grand modèle 20 €." },
     en: { name: "Large Fulani necklace", desc: "Fire-hammered brass breastplate on a rigid collar. Gold €18 · large model €20." }
-  },
-  {
-    id: "co-fulani-twist-or", cat: "bijoux", sub: "colliers", img: "collier-fulani-twist-or",
-    price: 12, unit: "piece",
-    fr: { name: "Collier Fulani Twist, or", desc: "Torsade de laiton doré sur chaîne fine, fermoir crochet." },
-    en: { name: "Fulani Twist necklace, gold", desc: "Twisted golden brass on a fine chain with hook clasp." }
-  },
-  {
-    id: "co-fulani-twist-argent", cat: "bijoux", sub: "colliers", img: "collier-fulani-twist-argent",
-    price: 14, unit: "piece",
-    fr: { name: "Collier Fulani Twist, argent", desc: "Même torsade travaillée dans l'argent, finition polie miroir." },
-    en: { name: "Fulani Twist necklace, silver", desc: "The same twist worked in silver, mirror-polished finish." }
   },
   {
     id: "co-laiton-martele", cat: "bijoux", sub: "colliers", img: "collier-laiton-martele",
@@ -188,30 +169,6 @@ const PRODUCTS = [
     en: { name: "Cowrie necklace, 3 force", desc: "Three-point triangular breastplate, sun-bleached cowries." }
   },
   {
-    id: "co-cauri-2tour", cat: "bijoux", sub: "colliers", img: "collier-cauri-2tour",
-    price: 10, unit: "piece",
-    fr: { name: "Collier cauri 2 tours", desc: "Double rang de cauris serrés, perles de verre noires en intercalaire." },
-    en: { name: "Two-row cowrie necklace", desc: "Two tight rows of cowries with black glass bead spacers." }
-  },
-  {
-    id: "co-cauri-sakolo", cat: "bijoux", sub: "colliers", img: "collier-cauri-sakolo",
-    price: 8, unit: "piece", tag: "best",
-    fr: { name: "Collier cauri Sakolo", desc: "Ras-de-cou souple, cauris montés en épi sur fil ciré." },
-    en: { name: "Sakolo cowrie necklace", desc: "Soft choker, cowries set in a herringbone on waxed thread." }
-  },
-  {
-    id: "co-cauri-parure", cat: "bijoux", sub: "colliers", img: "collier-cauri-parure",
-    price: 22, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Parure cauri de cérémonie", desc: "Ensemble plastron et bracelets assortis, porté lors des mariages bozo." },
-    en: { name: "Ceremonial cowrie set", desc: "Matching breastplate and bracelets, worn at Bozo weddings." }
-  },
-  {
-    id: "co-coupe-coupe-bleu", cat: "bijoux", sub: "colliers", img: "collier-coupe-coupe-bleu",
-    price: 12, unit: "piece",
-    fr: { name: "Collier Coupé-coupé 20 fils", desc: "Vingt rangs de perles heishi en plastique recyclé, coloris indigo." },
-    en: { name: "Coupé-coupé necklace, 20 strands", desc: "Twenty strands of recycled-plastic heishi beads, indigo tones." }
-  },
-  {
     id: "co-coupe-coupe-nb", cat: "bijoux", sub: "colliers", img: "collier-coupe-coupe-nb",
     price: 8, unit: "piece",
     fr: { name: "Collier Coupé-coupé 10 fils", desc: "Dix rangs noir et blanc, montage souple à nouer. Sautoir 3 fils : 6 €." },
@@ -222,12 +179,6 @@ const PRODUCTS = [
     price: 25, unit: "piece", tag: "piece-speciale",
     fr: { name: "Collier Takayala 20 fils", desc: "Vingt fils chargés de perles anciennes, verre, os et graines. Pièce unique par lot." },
     en: { name: "Takayala necklace, 20 strands", desc: "Twenty strands loaded with antique beads, glass, bone and seeds. One of a kind per batch." }
-  },
-  {
-    id: "co-perles-multicolore", cat: "bijoux", sub: "colliers", img: "collier-perles-multicolore",
-    price: 25, unit: "piece",
-    fr: { name: "Collier Takayala multicolore", desc: "Version haute en couleur du Takayala, perles de verre de Djenné." },
-    en: { name: "Multicolour Takayala necklace", desc: "The colourful version of the Takayala, Djenné glass beads." }
   },
   {
     id: "co-cuir-degrade", cat: "bijoux", sub: "colliers", img: "collier-cuir-degrade",
@@ -246,12 +197,6 @@ const PRODUCTS = [
     price: 6, unit: "set10", setQty: 10, setPrice: 60,
     fr: { name: "Collier cuir tressé noir", desc: "Le même jonc en cuir noir mat, tressage huit brins. Lot de 10 : 60 €." },
     en: { name: "Black braided leather necklace", desc: "The same torque in matte black leather, eight-strand braid. Set of 10: €60." }
-  },
-  {
-    id: "co-cristal-s", cat: "bijoux", sub: "colliers", img: "collier-cristal-s",
-    price: 2, unit: "set10", setQty: 10, setPrice: 20,
-    fr: { name: "Collier cristal pâte de verre S", desc: "Perles de pâte de verre filées au feu de bois. Lot de 10 colliers : 20 €." },
-    en: { name: "Glass-paste necklace, S", desc: "Wood-fire spun glass-paste beads. Set of 10 necklaces: €20." }
   },
   {
     id: "co-cristal-m", cat: "bijoux", sub: "colliers", img: "collier-cristal-m",
@@ -346,34 +291,16 @@ const PRODUCTS = [
     en: { name: "Fine chiselled brass bracelet", desc: "Slim chisel-worked bangle with ball ends. Golden recycled brass." }
   },
   {
-    id: "br-laiton-large", cat: "bijoux", sub: "bracelets", img: "bracelet-laiton-large",
-    price: 5, unit: "piece",
-    fr: { name: "Bracelet laiton motif lune", desc: "Manchette étroite gravée de croissants et de points, laiton recyclé." },
-    en: { name: "Moon-pattern brass bracelet", desc: "Narrow cuff engraved with crescents and dots, recycled brass." }
-  },
-  {
-    id: "br-laiton-torsade", cat: "bijoux", sub: "bracelets", img: "bracelet-laiton-torsade",
-    price: 4, unit: "piece",
-    fr: { name: "Bracelet laiton torsadé", desc: "Torsade épaisse à quatre brins, finition satinée." },
-    en: { name: "Twisted brass bracelet", desc: "Thick four-strand twist, satin finish." }
-  },
-  {
     id: "br-flipflop-lot", cat: "bijoux", sub: "bracelets", img: "bracelet-flipflop-lot",
     price: 300, unit: "douz100", setQty: 1200, setPrice: 300, tag: "gros",
     fr: { name: "Bracelets flipflop, 100 douzaines", desc: "Le grand lot export : 1 200 bracelets en plastique recyclé, coloris assortis. 300 €." },
     en: { name: "Flip-flop bracelets, 100 dozen", desc: "The big export lot: 1,200 recycled-plastic bracelets, assorted colours. €300." }
   },
   {
-    id: "br-flipflop-couleur", cat: "bijoux", sub: "bracelets", img: "bracelet-flipflop-couleur",
-    price: 30, unit: "set60", setQty: 60, setPrice: 30, tag: "best",
-    fr: { name: "Bracelets flipflop, lot de 60", desc: "Soixante pièces en plastique recyclé de Mopti, mélange de couleurs. 30 €." },
-    en: { name: "Flip-flop bracelets, set of 60", desc: "Sixty recycled-plastic pieces from Mopti, mixed colours. €30." }
-  },
-  {
     id: "br-flipflop-fin", cat: "bijoux", sub: "bracelets", img: "bracelet-flipflop-fin",
-    price: 30, unit: "douz20", setQty: 240, setPrice: 30,
-    fr: { name: "Bracelets Nate Mopti, 20 douzaines", desc: "Joncs fins tressés serré, 240 pièces coloris mixtes. 30 €." },
-    en: { name: "Nate Mopti bracelets, 20 dozen", desc: "Slim tightly-woven bangles, 240 pieces in mixed colours. €30." }
+    price: 30, unit: "douz10", setQty: 120, setPrice: 30,
+    fr: { name: "Bracelets Nate Mopti, 10 douzaines", desc: "Joncs fins tressés serré, 120 pièces coloris mixtes. 30 €." },
+    en: { name: "Nate Mopti bracelets, 10 dozen", desc: "Slim tightly-woven bangles, 120 pieces in mixed colours. €30." }
   },
   {
     id: "br-nate-large", cat: "bijoux", sub: "bracelets", img: "bracelet-nate-large",
@@ -383,9 +310,9 @@ const PRODUCTS = [
   },
   {
     id: "br-nate-mopti", cat: "bijoux", sub: "bracelets", img: "bracelet-nate-mopti",
-    price: 30, unit: "douz20", setQty: 240, setPrice: 30,
-    fr: { name: "Bracelets Nate Mopti fins", desc: "Le modèle fin qui s'empile par dizaines. 20 douzaines, coloris mixtes. 30 €." },
-    en: { name: "Fine Nate Mopti bracelets", desc: "The slim model made to be stacked. 20 dozen, mixed colours. €30." }
+    price: 30, unit: "douz10", setQty: 120, setPrice: 30,
+    fr: { name: "Bracelets Nate Mopti fins", desc: "Le modèle fin qui s'empile par dizaines. 10 douzaines, coloris mixtes. 30 €." },
+    en: { name: "Fine Nate Mopti bracelets", desc: "The slim model made to be stacked. 10 dozen, mixed colours. €30." }
   },
   {
     id: "br-perles-large", cat: "bijoux", sub: "bracelets", img: "bracelet-perles-large",
@@ -412,6 +339,49 @@ const PRODUCTS = [
     en: { name: "Two-row Sakolo cowrie bracelet", desc: "Double row of cowries with black bead spacers. Two-turn model: €5." }
   },
 
+  {
+    id: "br-jonc-tombouctou", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-tombouctou",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton Tombouctou", desc: "Jonc plat gravé d'une croix du Sud entre deux frises de rayures, embouts boule." },
+    en: { name: "Timbuktu brass bangle", desc: "Flat bangle engraved with a southern cross between two striped friezes, ball ends." }
+  },
+  {
+    id: "br-jonc-ecailles", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-ecailles",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton écailles", desc: "Rangées de demi-lunes frappées au poinçon sur toute la largeur du jonc." },
+    en: { name: "Scale-pattern brass bangle", desc: "Rows of punch-struck half-moons across the whole width of the bangle." }
+  },
+  {
+    id: "br-jonc-arcades", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-arcades",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton arcades", desc: "Arcades gravées en frise continue, rappel des façades de banco de Djenné." },
+    en: { name: "Arcade brass bangle", desc: "Arcades engraved as a continuous frieze, echoing the mud façades of Djenné." }
+  },
+  {
+    id: "br-jonc-filigrane", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-filigrane",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton filigrane", desc: "Semis de losanges ciselés au burin, finition dorée polie à la main." },
+    en: { name: "Filigree brass bangle", desc: "A scatter of chisel-cut diamonds, hand-polished golden finish." }
+  },
+  {
+    id: "br-jonc-petales", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-petales",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton pétales", desc: "Frise de pétales et de perles gravés, jonc légèrement bombé." },
+    en: { name: "Petal brass bangle", desc: "Frieze of engraved petals and beads on a gently domed bangle." }
+  },
+  {
+    id: "br-jonc-dentelle", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-dentelle",
+    price: 5, unit: "piece",
+    fr: { name: "Jonc laiton dentelle", desc: "Dentelure fine courant sur toute la longueur, le modèle le plus léger de l'atelier." },
+    en: { name: "Lace brass bangle", desc: "A fine serration running the full length, the lightest model in the workshop." }
+  },
+  {
+    id: "br-jonc-lisse", cat: "bijoux", sub: "bracelets", img: "bracelet-jonc-lisse",
+    price: 4, unit: "piece",
+    fr: { name: "Jonc laiton lisse", desc: "Le jonc nu, martelé puis poli miroir. Se porte seul ou empilé par trois." },
+    en: { name: "Plain brass bangle", desc: "The bare bangle, hammered then mirror-polished. Worn alone or stacked in threes." }
+  },
+
   /* ============ BIJOUX · BAGUES ============ */
   {
     id: "ba-cauri-fama", cat: "bijoux", sub: "bagues", img: "bague-cauri-fama",
@@ -424,6 +394,97 @@ const PRODUCTS = [
     price: null, unit: "set",
     fr: { name: "Bagues plastique recyclé", desc: "Anneaux taillés dans la matière recyclée, coloris et tailles assortis. Vendues au lot." },
     en: { name: "Recycled plastic rings", desc: "Rings cut from recycled material, assorted colours and sizes. Sold by the lot." }
+  },
+
+  {
+    id: "ba-arche-sahel", cat: "bijoux", sub: "bagues", img: "bague-arche-sahel",
+    price: null, unit: "piece", tag: "signature", sizes: "Ajustable",
+    fr: { name: "Bague Arche du Sahel", desc: "Plaque bombée coulée à la cire perdue, striée à la lime en arcs concentriques. Modèle #1000, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Sahel Arch ring", desc: "Lost-wax cast domed plate, file-struck in concentric arcs. Model #1000, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-cauri-croissant", cat: "bijoux", sub: "bagues", img: "bague-cauri-croissant",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Cauri croissant", desc: "Cauri du fleuve serti au centre d'un croissant ouvert. Modèle #1001, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Crescent cowrie ring", desc: "River cowrie set inside an open crescent. Model #1001, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-masque-double", cat: "bijoux", sub: "bagues", img: "bague-masque-double",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague double masque", desc: "Masque allongé et barre ajourée, portée sur deux doigts. Modèle #1002, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Double mask ring", desc: "Elongated mask and pierced bar, worn across two fingers. Model #1002, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-masque-marka", cat: "bijoux", sub: "bagues", img: "bague-masque-marka",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague masque Marka", desc: "Visage marka coulé à la cire perdue, scarifications au front. Modèle #1003, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Marka mask ring", desc: "Lost-wax cast Marka face with brow scarifications. Model #1003, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-masque-dan", cat: "bijoux", sub: "bagues", img: "bague-masque-dan",
+    price: null, unit: "piece", tag: "piece-speciale", sizes: "Ajustable",
+    fr: { name: "Bague masque Dan", desc: "Masque cerné d'une couronne de métal filé, deux anneaux de suspension. Modèle #1004, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Dan mask ring", desc: "Mask ringed by a drawn-metal crown with two suspension loops. Model #1004, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-toguna", cat: "bijoux", sub: "bagues", img: "bague-toguna",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Toguna", desc: "Demi-lune et pilier martelés au burin, silhouette de la case à palabres dogon. Modèle #1005, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Toguna ring", desc: "Chisel-hammered half-moon and pillar, the outline of the Dogon palaver house. Model #1005, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-nefertiti-double", cat: "bijoux", sub: "bagues", img: "bague-nefertiti-double",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Néfertiti double doigt", desc: "Profil de reine et barre ajourée montés sur un même anneau. Modèle #1006, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Two-finger Nefertiti ring", desc: "Queen's profile and pierced bar on a single band. Model #1006, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-peigne-duafe", cat: "bijoux", sub: "bagues", img: "bague-peigne-duafe",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague peigne Duafe", desc: "Symbole adinkra du peigne de bois, découpé et martelé à la main. Modèle #1007, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Duafe comb ring", desc: "The adinkra wooden-comb symbol, hand-cut and hammered. Model #1007, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-nefertiti", cat: "bijoux", sub: "bagues", img: "bague-nefertiti",
+    price: null, unit: "piece", tag: "best", sizes: "Ajustable",
+    fr: { name: "Bague Néfertiti", desc: "Le profil coiffé de la reine, coulé plein puis poli au chiffon. Modèle #1008, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Nefertiti ring", desc: "The queen's crowned profile, solid cast then cloth-polished. Model #1008, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-bouclier-grave", cat: "bijoux", sub: "bagues", img: "bague-bouclier-grave",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague bouclier gravée", desc: "Large plaque ovale ajourée d'un losange, gravée de chevrons touaregs. Modèle #1009, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Engraved shield ring", desc: "Wide oval plate pierced with a diamond, engraved with Tuareg chevrons. Model #1009, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-masque-os", cat: "bijoux", sub: "bagues", img: "bague-masque-os",
+    price: null, unit: "piece", tag: "piece-speciale", sizes: "Ajustable",
+    fr: { name: "Bague masque os & ébène", desc: "Masque incrusté d'os et d'ébène dans un sertissage de bronze. Modèle #1010, taille ajustable." },
+    en: { name: "Bone & ebony mask ring", desc: "Mask inlaid with bone and ebony in a bronze bezel. Model #1010, adjustable size." }
+  },
+  {
+    id: "ba-cauri-demilune", cat: "bijoux", sub: "bagues", img: "bague-cauri-demilune",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Cauri demi-lune", desc: "Cauri serti face à une demi-lune piquetée au poinçon. Modèle #1011, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Half-moon cowrie ring", desc: "Set cowrie facing a punch-stippled half-moon. Model #1011, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-cauri-cerclee", cat: "bijoux", sub: "bagues", img: "bague-cauri-cerclee",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Cauri cerclée", desc: "Cauri suspendu au centre d'un grand cercle plein. Modèle #1012, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Circled cowrie ring", desc: "Cowrie suspended inside a large solid circle. Model #1012, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-nefertiti-cerclee", cat: "bijoux", sub: "bagues", img: "bague-nefertiti-cerclee",
+    price: null, unit: "piece", sizes: "Ajustable",
+    fr: { name: "Bague Néfertiti cerclée", desc: "Le profil de la reine inscrit dans un anneau ouvert. Modèle #1013, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Circled Nefertiti ring", desc: "The queen's profile set within an open circle. Model #1013, adjustable size. Recycled bronze or copper ♻️." }
+  },
+  {
+    id: "ba-cauri-sertie", cat: "bijoux", sub: "bagues", img: "bague-cauri-sertie",
+    price: null, unit: "piece", tag: "nouveau", sizes: "Ajustable",
+    fr: { name: "Bague Cauri sertie", desc: "Le cauri seul, serti clos sur un anneau lisse. Le modèle le plus commandé de la série. Modèle #1015, taille ajustable. Bronze ou cuivre recyclé ♻️." },
+    en: { name: "Set cowrie ring", desc: "The cowrie alone, closed-set on a plain band. The most ordered model of the series. Model #1015, adjustable size. Recycled bronze or copper ♻️." }
   },
 
   /* ============ BIJOUX · EARCUFFS ============ */
@@ -484,6 +545,19 @@ const PRODUCTS = [
     en: { name: "Indigo by the metre, assorted lot", desc: "Tie-dyed indigos, diamond and circle patterns. Yardage on request." }
   },
 
+  {
+    id: "tx-bogolan-planche", cat: "textile", sub: "tissus", img: "tissu-bogolan-planche",
+    price: null, unit: "piece",
+    fr: { name: "Bogolans assortis, la planche", desc: "Bandes de bogolan cousues, coloris terre, safran, indigo et blanc. Au mètre ou à la pièce." },
+    en: { name: "Assorted bogolans, the board", desc: "Sewn bogolan strips in earth, saffron, indigo and white. By the metre or the piece." }
+  },
+  {
+    id: "tx-indigo-planche", cat: "textile", sub: "tissus", img: "tissu-indigo-planche",
+    price: null, unit: "piece",
+    fr: { name: "Indigos assortis, la planche", desc: "Indigos noués-ligaturés de Djenné, une dizaine de dessins. Au mètre ou à la pièce." },
+    en: { name: "Assorted indigos, the board", desc: "Tie-dyed indigos from Djenné, around ten designs. By the metre or the piece." }
+  },
+
   /* ============ TEXTILE · COUSSINS ============ */
   {
     id: "tx-coussin-blanc", cat: "textile", sub: "coussins", img: "coussin-bogolan-blanc",
@@ -525,18 +599,6 @@ const PRODUCTS = [
   },
 
   /* ============ TEXTILE · MODE ============ */
-  {
-    id: "tx-boubou-noir", cat: "textile", sub: "mode", img: "boubou-bogolan-noir",
-    price: 50, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Grand boubou bogolan noir", desc: "Boubou taillé dans un bogolan noir à signes blancs, coupe ample unisexe." },
-    en: { name: "Black bogolan grand boubou", desc: "Boubou cut from black bogolan with white signs, generous unisex cut." }
-  },
-  {
-    id: "tx-boubou-or", cat: "textile", sub: "mode", img: "boubou-bogolan-or",
-    price: 50, unit: "piece", tag: "piece-speciale",
-    fr: { name: "Grand boubou bogolan ocre", desc: "Bogolan ocre et noir, encolure brodée. Pièce de cérémonie." },
-    en: { name: "Ochre bogolan grand boubou", desc: "Ochre and black bogolan with an embroidered neckline. A ceremonial piece." }
-  },
   {
     id: "tx-chapeau-fulani", cat: "textile", sub: "mode", img: "chapeau-fulani",
     price: 15, unit: "piece",
@@ -586,6 +648,205 @@ const PRODUCTS = [
     en: { name: "Cowrie & bead headpiece", desc: "Variant mixing cowries, glass beads and gold thread on a net base." }
   },
 
+
+  /* ============ TEXTILE · T-SHIRTS ============
+     Les t-shirts sont peints à la main : chaque motif est une pièce
+     unique, on ne peut pas garantir un modèle précis en gros. Ils ne
+     sont donc pas vendus à l'unité mais par assortiment de dix, les
+     motifs étant choisis à l'atelier dans la collection ci-dessous. */
+  {
+    id: "ts-assortiment", ref: "FT-TX-LOT10", cat: "textile", sub: "tshirts", img: "tshirt-cauris",
+    price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "S → 4XL",
+    gallery: [
+      "tshirt-cauris",
+      "tshirt-masque-ocre",
+      "tshirt-labyrinthe",
+      "tshirt-case-dogon",
+      "tshirt-chasseur",
+      "tshirt-diagonale-cauris",
+      "tshirt-afrique-grecque",
+      "tshirt-rosaces",
+      "tshirt-afrique-chevrons",
+      "tshirt-formes-ocre",
+      "tshirt-triangles",
+      "tshirt-chasseur-mouchete",
+      "tshirt-symboles",
+      "tshirt-damiers",
+      "tshirt-triangles-fins",
+      "tshirt-carre-grecque",
+      "tshirt-semis-bogolan",
+      "tshirt-gye-nyame"
+    ],
+    fr: { name: "Assortiment de 10 t-shirts bogolan", desc: "Dix t-shirts peints à la main sur coton écru, motifs assortis choisis à l'atelier. Chaque pièce étant unique, les modèles ne se commandent pas séparément. Tailles panachées de S à 4XL sur demande." },
+    en: { name: "Assortment of 10 bogolan T-shirts", desc: "Ten hand-painted T-shirts on ecru cotton, an assorted mix picked at the workshop. Each piece is unique, so individual designs cannot be ordered separately. Mixed sizes from S to 4XL on request." }
+  },
+
+  /* ============ TEXTILE · TUNIQUES & PONCHOS ============ */
+  {
+    id: "tu-case-ocre", cat: "textile", sub: "tuniques", img: "tunique-case-ocre",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Case, ocre", desc: "Bogolan ocre peint à la main, encolure festonnée et bords frangés." },
+    en: { name: "Granary tunic, ochre", desc: "Hand-painted ochre bogolan, scalloped neckline and fringed edges." }
+  },
+  {
+    id: "tu-ecru-fine", cat: "textile", sub: "tuniques", img: "tunique-ecru-fine",
+    price: null, unit: "piece",
+    fr: { name: "Tunique écrue à motifs fins", desc: "Coton file main, motifs serrés en colonnes, deux poches plaquées." },
+    en: { name: "Fine-pattern ecru tunic", desc: "Hand-spun cotton, tight motif columns and two patch pockets." }
+  },
+  {
+    id: "tu-plastron-ocre", cat: "textile", sub: "tuniques", img: "tunique-plastron-ocre",
+    price: null, unit: "piece",
+    fr: { name: "Tunique plastron ocre", desc: "Grand plastron festonné sur bogolan patiné, motif de case." },
+    en: { name: "Ochre bib tunic", desc: "A large scalloped bib on weathered bogolan, granary motif." }
+  },
+  {
+    id: "tu-case-safran", cat: "textile", sub: "tuniques", img: "tunique-case-safran",
+    price: null, unit: "piece", tag: "piece-speciale",
+    fr: { name: "Tunique Case, safran", desc: "Encolure brodée de symboles et grande case peinte, teinte safran." },
+    en: { name: "Granary tunic, saffron", desc: "Symbol-worked neckline and a large painted granary, saffron ground." }
+  },
+  {
+    id: "tu-case-brune", cat: "textile", sub: "tuniques", img: "tunique-case-brune",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Case, brune", desc: "Même dessin en brun profond, croix ankh de part et d'autre." },
+    en: { name: "Granary tunic, brown", desc: "The same drawing in deep brown, an ankh cross on each side." }
+  },
+  {
+    id: "tu-indigo-spirales", cat: "textile", sub: "tuniques", img: "tunique-indigo-spirales",
+    price: null, unit: "piece",
+    fr: { name: "Tunique indigo à spirales", desc: "Indigo foncé, spirales et chevrons peints à la réserve." },
+    en: { name: "Spiral indigo tunic", desc: "Deep indigo with resist-painted spirals and chevrons." }
+  },
+  {
+    id: "tu-symboles", cat: "textile", sub: "tuniques", img: "tunique-symboles",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Symboles", desc: "Signes bogolan espacés sur coton écru, coupe droite à poches." },
+    en: { name: "Symbol tunic", desc: "Spaced bogolan signs on ecru cotton, straight cut with pockets." }
+  },
+  {
+    id: "tu-chevrons", cat: "textile", sub: "tuniques", img: "tunique-chevrons",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Chevrons", desc: "Colonnes de chevrons et médaillons adinkra, bords laissés bruts." },
+    en: { name: "Chevron tunic", desc: "Chevron columns and adinkra medallions, raw edges." }
+  },
+  {
+    id: "tu-animaux", cat: "textile", sub: "tuniques", img: "tunique-animaux",
+    price: null, unit: "piece", tag: "piece-speciale",
+    fr: { name: "Tunique Animaux", desc: "Fréquentation animale peinte à la boue, pièce d'atelier." },
+    en: { name: "Animal tunic", desc: "A bestiary painted in mud, a workshop piece." }
+  },
+  {
+    id: "tu-croix-noire", cat: "textile", sub: "tuniques", img: "tunique-croix-noire",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Croix, noire", desc: "Semis de croix blanches sur bogolan noir, bords frangés." },
+    en: { name: "Cross tunic, black", desc: "White crosses scattered on black bogolan, fringed edges." }
+  },
+  {
+    id: "tu-damier-noir", cat: "textile", sub: "tuniques", img: "tunique-damier-noir",
+    price: null, unit: "piece",
+    fr: { name: "Tunique Damier, noire", desc: "Panneaux de damiers et de croix, assemblage de bandes tissées." },
+    en: { name: "Checker tunic, black", desc: "Checker and cross panels, assembled from woven strips." }
+  },
+  {
+    id: "tu-dashiki-ocre", cat: "textile", sub: "tuniques", img: "tunique-dashiki-ocre",
+    price: null, unit: "piece", tag: "signature",
+    fr: { name: "Tunique dashiki ocre", desc: "Large encolure dashiki brodée, case et symboles sur bogolan ocre." },
+    en: { name: "Ochre dashiki tunic", desc: "A wide worked dashiki neckline, granary and symbols on ochre bogolan." }
+  },
+  {
+    id: "po-capuche-terre", cat: "textile", sub: "tuniques", img: "poncho-capuche-terre",
+    price: null, unit: "piece",
+    fr: { name: "Poncho à capuche, terre", desc: "Capuche écrue et panneaux terre de Sienne, bords frangés." },
+    en: { name: "Hooded poncho, earth", desc: "Ecru hood and sienna panels, fringed edges." }
+  },
+  {
+    id: "po-bordeaux-safran", cat: "textile", sub: "tuniques", img: "poncho-bordeaux-safran",
+    price: null, unit: "piece",
+    fr: { name: "Poncho bordeaux & safran", desc: "Semis de croix sur bordeaux, plastron safran, capuche assortie." },
+    en: { name: "Burgundy & saffron poncho", desc: "Crosses on burgundy with a saffron bib and matching hood." }
+  },
+  {
+    id: "po-capuche-noire", cat: "textile", sub: "tuniques", img: "poncho-capuche-noire",
+    price: null, unit: "piece",
+    fr: { name: "Poncho à capuche, noir", desc: "Capuche noire, panneaux terre et écru, plastron à losanges." },
+    en: { name: "Hooded poncho, black", desc: "Black hood, earth and ecru panels, diamond bib." }
+  },
+  {
+    id: "po-safran-bordeaux", cat: "textile", sub: "tuniques", img: "poncho-safran-bordeaux",
+    price: null, unit: "piece",
+    fr: { name: "Poncho safran & bordeaux", desc: "Bandes safran rayées de blanc, plastron bordeaux, capuche." },
+    en: { name: "Saffron & burgundy poncho", desc: "White-striped saffron bands, burgundy bib and hood." }
+  },
+  {
+    id: "po-brun-plastron", cat: "textile", sub: "tuniques", img: "poncho-brun-plastron",
+    price: null, unit: "piece",
+    fr: { name: "Poncho brun à plastron", desc: "Fond brun à frises, grand plastron écru cousu au centre." },
+    en: { name: "Brown bib poncho", desc: "Frieze-worked brown ground with a large ecru bib sewn at the centre." }
+  },
+  {
+    id: "po-patchwork-jaune", cat: "textile", sub: "tuniques", img: "poncho-patchwork-jaune",
+    price: null, unit: "piece", tag: "piece-speciale",
+    fr: { name: "Poncho patchwork jaune", desc: "Assemblage de bogolans jaune, bordeaux et noir, capuche imprimée." },
+    en: { name: "Yellow patchwork poncho", desc: "Yellow, burgundy and black bogolans assembled, printed hood." }
+  },
+  {
+    id: "po-ecru-terre", cat: "textile", sub: "tuniques", img: "poncho-ecru-terre",
+    price: null, unit: "piece",
+    fr: { name: "Poncho écru & terre", desc: "Chevrons écrus, bande terre au centre, capuche à motif." },
+    en: { name: "Ecru & earth poncho", desc: "Ecru chevrons, an earth band at the centre, patterned hood." }
+  },
+  {
+    id: "po-noir-terre", cat: "textile", sub: "tuniques", img: "poncho-noir-terre",
+    price: null, unit: "piece",
+    fr: { name: "Poncho noir & terre", desc: "Bogolan noir à symboles, plastron terre, capuche assortie." },
+    en: { name: "Black & earth poncho", desc: "Symbol-worked black bogolan, earth bib, matching hood." }
+  },
+  {
+    id: "po-patchwork-indigo", cat: "textile", sub: "tuniques", img: "poncho-patchwork-indigo",
+    price: null, unit: "piece", tag: "piece-speciale",
+    fr: { name: "Poncho patchwork indigo", desc: "Grands aplats indigo, ocre et bordeaux, ankh peint sur le devant." },
+    en: { name: "Indigo patchwork poncho", desc: "Broad indigo, ochre and burgundy fields with a painted ankh." }
+  },
+
+  /* ============ TEXTILE · SACS & BAGAGERIE ============ */
+  {
+    id: "sc-cuir-bogolan", cat: "textile", sub: "sacs", img: "sac-cuir-bogolan-duo",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Sacs à dos cuir & bogolan", desc: "Cuir pleine fleur et panneaux de bogolan, rabat à boucle. Deux tailles." },
+    en: { name: "Leather & bogolan backpacks", desc: "Full-grain leather with bogolan panels and a buckled flap. Two sizes." }
+  },
+  {
+    id: "sc-roll-top", cat: "textile", sub: "sacs", img: "sac-roll-top-duo",
+    price: null, unit: "piece", tag: "nouveau",
+    fr: { name: "Sacs à dos roll-top", desc: "Fermeture roulee, toile enduite et bogolan ocre. Deux tailles." },
+    en: { name: "Roll-top backpacks", desc: "Rolled closure, coated canvas and ochre bogolan. Two sizes." }
+  },
+  {
+    id: "sc-marine", cat: "textile", sub: "sacs", img: "sac-marine-duo",
+    price: null, unit: "piece",
+    fr: { name: "Sacs à dos marine", desc: "Toile marine, poches avant en bogolan jaune, sangles cuir." },
+    en: { name: "Navy backpacks", desc: "Navy canvas, yellow bogolan front pockets, leather straps." }
+  },
+  {
+    id: "sc-bordeaux", cat: "textile", sub: "sacs", img: "sac-bordeaux-duo",
+    price: null, unit: "piece",
+    fr: { name: "Sacs à dos bordeaux", desc: "Cuir bordeaux et bogolan ocre, deux poches latérales." },
+    en: { name: "Burgundy backpacks", desc: "Burgundy leather and ochre bogolan with two side pockets." }
+  },
+  {
+    id: "sc-roll-top-porte", cat: "textile", sub: "sacs", img: "sac-roll-top-porte",
+    price: null, unit: "piece",
+    fr: { name: "Sac roll-top, porté", desc: "Le grand modèle sur le dos : 45 cm de haut, sangles réglables." },
+    en: { name: "Roll-top backpack, worn", desc: "The large model worn: 45 cm tall, adjustable straps." }
+  },
+  {
+    id: "sc-bordeaux-porte", cat: "textile", sub: "sacs", img: "sac-bordeaux-porte",
+    price: null, unit: "piece",
+    fr: { name: "Sac bordeaux, porté", desc: "Le modèle compact, porté haut sur le dos." },
+    en: { name: "Burgundy backpack, worn", desc: "The compact model, worn high on the back." }
+  },
+
   /* ============ DÉCOR · PIÈCES SPÉCIALES ============ */
   {
     id: "dc-velo", cat: "decor", sub: "pieces", img: "decor-velo-recycle",
@@ -613,17 +874,31 @@ const PRODUCTS = [
     fr: { name: "Étoiles en métal recyclé", desc: "Étoiles à suspendre découpées dans des boîtes imprimées, coloris assortis." },
     en: { name: "Recycled metal stars", desc: "Hanging stars cut from printed cans, assorted colours." }
   },
+
+  /* ============ DÉCOR · PORTE-CLÉS ============ */
   {
-    id: "dc-porte-cle", cat: "decor", sub: "objets", img: "porte-cle-cuir",
-    price: 3, unit: "piece",
-    fr: { name: "Porte-clés cuir à franges", desc: "Franges de cuir teint, anneau de laiton. Modèle rasta : 3 €." },
-    en: { name: "Fringed leather keyring", desc: "Dyed leather fringes with a brass ring. Rasta model: €3." }
+    id: "dc-porte-cle", cat: "decor", sub: "portecles", img: "porte-cle-cuir-piece",
+    price: 3, unit: "piece", tag: "best",
+    fr: { name: "Porte-clés cuir à franges", desc: "Franges de cuir de chèvre teint, manchon tressé et anneau de laiton. Modèle rasta : 3 €." },
+    en: { name: "Fringed leather keyring", desc: "Dyed goat-leather fringes, braided collar and brass ring. Rasta model: €3." }
   },
   {
-    id: "dc-porte-cle-xl", cat: "decor", sub: "objets", img: "porte-cle-cuir-xl",
+    id: "dc-porte-cle-lot", cat: "decor", sub: "portecles", img: "porte-cle-cuir",
+    price: null, unit: "lot",
+    fr: { name: "Porte-clés cuir, lot assorti", desc: "Le lot d'atelier : une vingtaine de pompons, toutes les teintes mélangées. Quantité et prix sur demande." },
+    en: { name: "Leather keyrings, assorted lot", desc: "The workshop lot: around twenty tassels, all colours mixed. Quantity and price on request." }
+  },
+  {
+    id: "dc-porte-cle-xl", cat: "decor", sub: "portecles", img: "porte-cle-cuir-xl-piece",
     price: 6.5, unit: "piece",
-    fr: { name: "Porte-clés cuir XL", desc: "Grand pompon de cuir à manchon perlé, motifs chevrons." },
-    en: { name: "XL leather keyring", desc: "Large leather tassel with a beaded collar, chevron patterns." }
+    fr: { name: "Porte-clés cuir XL", desc: "Grand pompon de cuir à manchon perlé, motifs chevrons et damiers." },
+    en: { name: "XL leather keyring", desc: "Large leather tassel with a beaded collar, chevron and checkerboard patterns." }
+  },
+  {
+    id: "dc-porte-cle-perle", cat: "decor", sub: "portecles", img: "porte-cle-cuir-xl",
+    price: null, unit: "lot", tag: "nouveau",
+    fr: { name: "Porte-clés perlés, les quatre modèles", desc: "Manchons brodés de perles de rocaille : chevrons blancs, indigo, terre et damier. Vendus par lot de quatre. Prix sur demande." },
+    en: { name: "Beaded keyrings, the four models", desc: "Collars embroidered with seed beads: white chevrons, indigo, earth and checkerboard. Sold in sets of four. Price on request." }
   },
 
   /* ============ DÉCOR · CHEMINS DE TABLE ============ */
@@ -646,6 +921,9 @@ const PRODUCTS = [
   const prefix = { bijoux: "BJ", textile: "TX", decor: "DC" };
   const counters = {};
   PRODUCTS.forEach(p => {
+    /* une reference ecrite a la main (un assortiment, par exemple) est
+       gardee telle quelle : elle doit correspondre a celle de la base. */
+    if (p.ref) return;
     const k = prefix[p.cat];
     counters[k] = (counters[k] || 0) + 1;
     p.ref = "FT-" + k + "-" + String(counters[k]).padStart(3, "0");

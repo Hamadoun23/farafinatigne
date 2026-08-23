@@ -10,10 +10,12 @@ const MARQUEE_WORDS = {
 };
 
 /* visuel éditorial par gamme */
+/* chemin depuis assets/ : les visuels de gamme ne vivent pas tous
+   dans le meme dossier depuis le rangement par type. */
 const RANGE_IMG = {
-  bijoux: "look-plastron-cauri",
-  textile: "look-hoodie-bogolan",
-  decor: "atelier-decor"
+  bijoux: "looks/look-plastron-cauri",
+  textile: "looks/look-hoodie-bogolan",
+  decor: "atelier/atelier-decor"
 };
 
 function renderMarquee() {
@@ -38,7 +40,7 @@ function renderFeatured() {
   const grid = $("#featured-grid");
   if (!grid) return;
   const picks = ["bo-fulani-creole", "co-cauri-massaye", "tx-coiffe-cauri",
-                 "br-flipflop-couleur", "tx-boubou-capuche", "ec-cauri",
+                 "ba-nefertiti", "tx-boubou-capuche", "dc-porte-cle",
                  "tx-echarpe-bogolan", "dc-bougeoir"];
   grid.innerHTML = picks.map(productById).filter(Boolean).map(cardHTML).join("");
   initReveal(grid);
@@ -57,7 +59,7 @@ function renderRanges() {
       <div class="range__media">
         <span class="range__num" aria-hidden="true">0${i + 1}</span>
         <div class="range__arch">
-          <img src="assets/editorial/${RANGE_IMG[c.id]}.jpg" alt="${label(c)}" loading="lazy">
+          <img src="assets/${RANGE_IMG[c.id]}.webp" alt="${label(c)}" loading="lazy">
         </div>
       </div>
       <div class="range__body">

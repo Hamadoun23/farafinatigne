@@ -16,9 +16,12 @@ function saveCart() {
 
 function cartCount() { return CART.reduce((n, l) => n + l.qty, 0); }
 function cartTotal() {
+  /* on additionne le prix remise : une promotion en cours doit se voir
+     dans le total comme dans le devis. */
   return CART.reduce((s, l) => {
     const p = productById(l.id);
-    return s + (p && p.price != null ? p.price * l.qty : 0);
+    const net = p ? netPrice(p) : null;
+    return s + (net != null ? net * l.qty : 0);
   }, 0);
 }
 
@@ -74,8 +77,11 @@ function renderCart() {
     body.innerHTML = CART.map(l => {
       const p = productById(l.id);
       if (!p) return "";
-      const price = p.price != null
-        ? euro(p.price * l.qty)
+      const net = netPrice(p);
+      const price = net != null
+        ? (promoActive(p)
+            ? '<s class="cart-line__was">' + euro(p.price * l.qty) + "</s> " + euro(net * l.qty)
+            : euro(net * l.qty))
         : '<span class="price--quote">' + t("p.quote") + "</span>";
       return `
       <div class="cart-line">
@@ -116,9 +122,14 @@ function cartSummary() {
      affichent alors un aperçu, le vendeur voit tout de suite l'article demandé. */
   const lines = CART.map(l => {
     const p = productById(l.id);
-    const price = p.price != null ? euro(p.price) : (fr ? "prix sur demande" : "price on request");
-    const sub = p.price != null ? " = " + euro(p.price * l.qty) : "";
-    return "• " + l.qty + " × " + p[LANG].name + " (" + p.ref + ") — " + price + sub +
+    const net = netPrice(p);
+    const promo = promoActive(p)
+      ? (fr ? " (promo −" + p.discount + " %, au lieu de " + euro(p.price) + ")"
+            : " (" + p.discount + "% off, was " + euro(p.price) + ")")
+      : "";
+    const price = net != null ? euro(net) : (fr ? "prix sur demande" : "price on request");
+    const sub = net != null ? " = " + euro(net * l.qty) : "";
+    return "• " + l.qty + " × " + p[LANG].name + " (" + p.ref + ") — " + price + promo + sub +
            "\n  " + productImageUrl(p);
   }).join("\n\n");
 

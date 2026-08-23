@@ -25,8 +25,9 @@ def between(start, end):
 NAV = between("<!-- ===== BANDEAU B2B ===== -->", "<!-- ===== HERO ===== -->")
 TAIL = idx[idx.index("<!-- ===== FOOTER ===== -->"):idx.index('<script src="js/i18n.js">')]
 
-HEAD_LINKS = """<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/favicon.svg">
+HEAD_LINKS = """<link rel="icon" href="assets/marque/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/marque/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/marque/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +58,7 @@ def page(fname, title, desc, canonical, body, extra_script, ogimg):
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="https://farafinatigne.com/{canonical}">
-<meta property="og:image" content="https://farafinatigne.com/assets/editorial/{ogimg}.jpg">
+<meta property="og:image" content="https://farafinatigne.com/assets/{ogimg}.webp">
 <meta name="twitter:card" content="summary_large_image">
 {HEAD_LINKS}
 </head>
@@ -127,19 +128,55 @@ BOUTIQUE = """<!-- ===== EN-TÊTE DE PAGE ===== -->
 # ---------------------------------------------------------------- À PROPOS
 APROPOS = """<!-- ===== EN-TÊTE DE PAGE ===== -->
 <header class="page-head">
-  <div class="page-head__ghost" aria-hidden="true">Tignè</div>
+  <div class="page-head__ghost notranslate" translate="no" aria-hidden="true">Tignè</div>
   <div class="wrap page-head__inner">
     <span class="eyebrow" data-i18n="about.eyebrow">Notre maison</span>
     <h1><span data-i18n="about.h1a">L'Afrique de l'Ouest,</span> <em data-i18n="about.h1b">de la main à la main</em></h1>
+    <p class="section-lead" style="margin-left:0" data-i18n="about.tagline">L'excellence de l'artisanat malien, du cœur du Delta au reste du monde.</p>
   </div>
 </header>
 
-<section style="padding-top:0">
+<section style="padding-top:0;padding-bottom:clamp(46px,7vw,88px)">
   <div class="wrap">
     <p class="about__intro reveal" data-i18n="about.intro">L'entreprise artisanale Farafinatignɛ fabrique et commercialise les objets traditionnels, les habits et les parures culturelles de nombreuses ethnies d'Afrique.</p>
+  </div>
+</section>
+
+<!-- ===== SIGNATURE DE MARQUE ===== -->
+<section class="signature">
+  <div class="pattern-layer bogolan" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <span class="rule-label" data-i18n="sign.eyebrow">Notre promesse</span>
+    <p class="signature__line" data-i18n="sign.line">If you can not come to Timbuctou and Djené then we can bring to you</p>
+    <p class="signature__sub" data-i18n="sign.sub">Si vous ne pouvez pas venir jusqu'à Tombouctou et Djenné, alors nous vous les apportons.</p>
+  </div>
+</section>
+
+<!-- ===== NOTRE HISTOIRE ===== -->
+<section>
+  <div class="wrap">
+    <div class="about__block reveal">
+      <div class="about__media"><img src="assets/patrimoine/heritage-archives-1.webp" alt="Farafinatignɛ dans les années 2000, sur un salon d'artisanat" loading="lazy"></div>
+      <div class="about__text">
+        <span class="rule-label" data-i18n="about.story.eyebrow">Notre histoire</span>
+        <h2 data-i18n="about.story.t">Fondée en mars 2000</h2>
+        <p data-i18n="about.story.p1"></p>
+        <p data-i18n="about.story.p2"></p>
+        <div class="factlist" style="grid-template-columns:repeat(2,1fr)">
+          <div class="fact">
+            <h3 data-i18n="about.story.dirlabel">Direction</h3>
+            <p data-i18n="about.story.dir">Direction générale : Issouf Cissé</p>
+          </div>
+          <div class="fact">
+            <h3 data-i18n="about.story.teamlabel">Équipe</h3>
+            <p><b>30</b> <span data-i18n="about.story.team">collaborateurs à Mopti-Sévaré</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="about__block reveal">
-      <div class="about__media"><img src="assets/editorial/atelier-indigo-couple.jpg" alt="Atelier Farafinatignɛ à Sévaré" loading="lazy"></div>
+      <div class="about__media"><img src="assets/atelier/atelier-artisane.webp" alt="Artisane au travail dans l'atelier de Sévaré" loading="lazy"></div>
       <div class="about__text">
         <h2 data-i18n="about.s1.t">L'atelier de Sévaré</h2>
         <p data-i18n="about.s1.p"></p>
@@ -147,29 +184,46 @@ APROPOS = """<!-- ===== EN-TÊTE DE PAGE ===== -->
     </div>
 
     <div class="about__block reveal">
-      <div class="about__media"><img src="assets/editorial/atelier-bogolan-femme.jpg" alt="Textiles bogolan et indigo" loading="lazy"></div>
+      <div class="about__media"><img src="assets/atelier/atelier-bogolan-femme.webp" alt="Textiles bogolan et indigo" loading="lazy"></div>
       <div class="about__text">
         <h2 data-i18n="about.s2.t">Les matières</h2>
         <p data-i18n="about.s2.p"></p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="about__block reveal">
-      <div class="about__media"><img src="assets/editorial/lifestyle-parure.jpg" alt="Parures en laiton recyclé" loading="lazy"></div>
-      <div class="about__text">
-        <h2 data-i18n="about.s3.t">Nos engagements</h2>
-        <p data-i18n="about.s3.p"></p>
-      </div>
+<!-- ===== SAVOIR-FAIRE : TROIS VOLETS ===== -->
+<section class="section--sand">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="about.savoir.eyebrow">Savoir-faire</span>
+      <h2 class="section-title"><span data-i18n="about.savoir.t1">Entre tradition et modernité</span></h2>
+      <p class="section-lead" style="margin-left:0" data-i18n="about.savoir.lead">Nous maîtrisons des techniques ancestrales tout en restant tournés vers l'avenir.</p>
+    </div>
+    <div class="pillars reveal">
+      <article class="pillar">
+        <h3 data-i18n="about.savoir.a.t">Bijoux ethniques &amp; créations</h3>
+        <p data-i18n="about.savoir.a.p"></p>
+      </article>
+      <article class="pillar">
+        <h3 data-i18n="about.savoir.b.t">Éco-responsabilité &amp; recyclage ♻️</h3>
+        <p data-i18n="about.savoir.b.p"></p>
+      </article>
+      <article class="pillar">
+        <h3 data-i18n="about.savoir.c.t">Bogolan &amp; perlerie</h3>
+        <p data-i18n="about.savoir.c.p"></p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ===== SAVOIR-FAIRE ===== -->
+<!-- ===== DU DÉCHET AU BIJOU ===== -->
 <section class="craft">
   <div class="pattern-layer bogolan" aria-hidden="true"></div>
   <div class="wrap craft__grid">
     <figure class="craft__media reveal">
-      <img src="assets/editorial/lifestyle-bracelets.jpg" alt="Bracelets en plastique recyclé portés" loading="lazy">
+      <img src="assets/looks/lifestyle-bracelets.webp" alt="Bracelets en plastique recyclé portés" loading="lazy">
       <figcaption>Mopti — bracelets en plastique recyclé</figcaption>
     </figure>
     <div class="reveal">
@@ -179,31 +233,97 @@ APROPOS = """<!-- ===== EN-TÊTE DE PAGE ===== -->
       <p data-i18n="know.p2"></p>
       <div class="stats">
         <div class="stat"><div class="stat__num" data-count="24000">24 000</div><p data-i18n="know.stat1"></p></div>
-        <div class="stat"><div class="stat__num" data-count="60">60</div><p data-i18n="know.stat2"></p></div>
-        <div class="stat"><div class="stat__num" data-count="20">20</div><p data-i18n="know.stat3"></p></div>
+        <div class="stat"><div class="stat__num" data-count="30">30</div><p data-i18n="about.story.team"></p></div>
+        <div class="stat"><div class="stat__num" data-count="25">25</div><p data-i18n="about.story.fairs"></p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ===== PRÉSENCE INTERNATIONALE ===== -->
+<section class="section--ivory">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" data-i18n="about.world.eyebrow">Présence internationale</span>
+      <h2 class="section-title"><span data-i18n="about.world.t1">Sur les grands salons</span> <em data-i18n="about.world.t2">depuis 2001</em></h2>
+      <p class="section-lead" style="margin-left:0" data-i18n="about.world.lead">Une marque de confiance présente sur les plus grands salons mondiaux depuis plus de vingt-cinq ans.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="step__num">01</div><h3 data-i18n="about.world.1.t">France</h3><p data-i18n="about.world.1.d"></p></div>
+      <div class="step"><div class="step__num">02</div><h3 data-i18n="about.world.2.t">Allemagne</h3><p data-i18n="about.world.2.d"></p></div>
+      <div class="step"><div class="step__num">03</div><h3 data-i18n="about.world.3.t">États-Unis</h3><p data-i18n="about.world.3.d"></p></div>
+      <div class="step"><div class="step__num">04</div><h3 data-i18n="about.world.4.t">Afrique</h3><p data-i18n="about.world.4.d"></p></div>
+    </div>
+
+    <div class="lookbook__strip reveal" style="margin-top:clamp(34px,5vw,58px)">
+      <figure><img src="assets/salons/salon-paris-1.webp" alt="Stand Farafinatignɛ, Foire de Paris" loading="lazy" data-zoom="assets/salons/salon-paris-1.webp"><figcaption data-i18n="about.world.c1">Foire de Paris</figcaption></figure>
+      <figure><img src="assets/salons/salon-paris-2.webp" alt="Le stand vu de l'allée centrale" loading="lazy" data-zoom="assets/salons/salon-paris-2.webp"><figcaption data-i18n="about.world.c2">Salon Maison &amp; Objet</figcaption></figure>
+      <figure><img src="assets/salons/salon-newyork.webp" alt="Farafinatignɛ à New York" loading="lazy" data-zoom="assets/salons/salon-newyork.webp"><figcaption data-i18n="about.world.c3">New York</figcaption></figure>
+      <figure><img src="assets/salons/salon-stand.webp" alt="Signalétique du stand Farafina Tignè" loading="lazy" data-zoom="assets/salons/salon-stand.webp"><figcaption data-i18n="about.world.c4">Le stand</figcaption></figure>
+      <figure><img src="assets/salons/salon-equipe.webp" alt="L'équipe Farafinatignɛ sur son stand" loading="lazy" data-zoom="assets/salons/salon-equipe.webp"><figcaption data-i18n="about.world.c5">L'équipe</figcaption></figure>
+      <figure><img src="assets/salons/salon-colliers.webp" alt="Mur de colliers sur le stand" loading="lazy" data-zoom="assets/salons/salon-colliers.webp"><figcaption data-i18n="about.world.c6">Le mur de colliers</figcaption></figure>
+      <figure><img src="assets/salons/salon-groupe.webp" alt="Artisans réunis sur un salon africain" loading="lazy" data-zoom="assets/salons/salon-groupe.webp"><figcaption data-i18n="about.world.c7">SIAO &amp; SIAMA</figcaption></figure>
+    </div>
+    <p class="lookbook__hint" data-i18n="look.hint">Faites défiler pour parcourir la sélection.</p>
+  </div>
+</section>
+
+<!-- ===== MUSÉE DES PERLES & VENTE EN GROS ===== -->
+<section>
+  <div class="wrap">
+    <div class="about__block reveal">
+      <div class="about__media"><img src="assets/patrimoine/musee-perles.webp" alt="L'enseigne du Musée des Perles, Mopti" loading="lazy"></div>
+      <div class="about__text">
+        <h2 data-i18n="about.musee.t">Le Musée des Perles</h2>
+        <p data-i18n="about.musee.p"></p>
+      </div>
+    </div>
+
+    <div class="about__block reveal">
+      <div class="about__media"><img src="assets/patrimoine/showroom-prive.webp" alt="Présentation privée de la collection" loading="lazy"></div>
+      <div class="about__text">
+        <h2 data-i18n="about.gros.t">Vente en gros et exportation</h2>
+        <p data-i18n="about.gros.p"></p>
+        <p data-i18n="about.s3.p"></p>
+        <p style="margin-top:26px"><a href="boutique.html" class="btn btn--gold" data-i18n="feat.all">Voir tout le catalogue</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FICHE D'IDENTITÉ ===== -->
+<section class="section--sand">
+  <div class="wrap">
+    <div class="section-head section-head--left reveal">
+      <span class="eyebrow" data-i18n="about.adr.eyebrow">Nos adresses</span>
+    </div>
+    <div class="factlist reveal">
+      <div class="fact"><h3 data-i18n="about.adr.1.t">Ateliers &amp; boutique</h3><p data-i18n="about.adr.1.d"></p></div>
+      <div class="fact"><h3 data-i18n="about.adr.2.t">Point de vente</h3><p data-i18n="about.adr.2.d"></p></div>
+      <div class="fact"><h3 data-i18n="about.adr.3.t">Patrimoine</h3><p data-i18n="about.adr.3.d"></p></div>
+      <div class="fact"><h3 data-i18n="about.adr.4.t">Contact</h3><p data-i18n="about.adr.4.d"></p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== GALERIE ===== -->
-<section style="padding-top:0">
+<section>
   <div class="wrap">
     <div class="section-head section-head--left reveal">
       <span class="eyebrow" data-i18n="about.gal">L'atelier en images</span>
     </div>
     <div class="gallery reveal">
-      <img src="assets/editorial/portrait-fulani-or.jpg" alt="Parure Fulani en laiton" loading="lazy" data-zoom="assets/editorial/portrait-fulani-or.jpg">
-      <img src="assets/editorial/portrait-cauri-sakolo.jpg" alt="Collier cauri Sakolo porté" loading="lazy" data-zoom="assets/editorial/portrait-cauri-sakolo.jpg">
-      <img src="assets/editorial/atelier-bogolan-duo.jpg" alt="Pagnes bogolan" loading="lazy" data-zoom="assets/editorial/atelier-bogolan-duo.jpg">
-      <img src="assets/editorial/hero-boubou-bogolan.jpg" alt="Grand boubou bogolan" loading="lazy" data-zoom="assets/editorial/hero-boubou-bogolan.jpg">
-      <img src="assets/editorial/portrait-laiton.jpg" alt="Collier en laiton martelé" loading="lazy" data-zoom="assets/editorial/portrait-laiton.jpg">
-      <img src="assets/editorial/portrait-argent.jpg" alt="Collier en argent martelé" loading="lazy" data-zoom="assets/editorial/portrait-argent.jpg">
-      <img src="assets/editorial/hero-cuir-degrade.jpg" alt="Collier en cuir dégradé" loading="lazy" data-zoom="assets/editorial/hero-cuir-degrade.jpg">
-      <img src="assets/editorial/galerie-atelier.jpg" alt="La collection Farafinatignɛ" loading="lazy" data-zoom="assets/editorial/galerie-atelier.jpg">
+      <img src="assets/patrimoine/groupe-farafinatigne.webp" alt="Les artisans de Farafinatignɛ réunis" loading="lazy" data-zoom="assets/patrimoine/groupe-farafinatigne.webp">
+      <img src="assets/looks/look-plastron-enfant.webp" alt="Plastron de cauris porté" loading="lazy" data-zoom="assets/looks/look-plastron-enfant.webp">
+      <img src="assets/atelier/atelier-bogolan-visite.webp" alt="Présentation d'un bogolan à une cliente" loading="lazy" data-zoom="assets/atelier/atelier-bogolan-visite.webp">
+      <img src="assets/looks/look-parures-terrain.webp" alt="Parures de cauris portées" loading="lazy" data-zoom="assets/looks/look-parures-terrain.webp">
+      <img src="assets/portraits/portrait-maison-1.webp" alt="Portrait de la maison Farafinatignɛ" loading="lazy" data-zoom="assets/portraits/portrait-maison-1.webp">
+      <img src="assets/salons/salon-rencontre.webp" alt="Rencontre avec une cliente sur un salon" loading="lazy" data-zoom="assets/salons/salon-rencontre.webp">
+      <img src="assets/looks/look-plastron-bogolan.webp" alt="Plastron de laiton devant un bogolan" loading="lazy" data-zoom="assets/looks/look-plastron-bogolan.webp">
+      <img src="assets/patrimoine/groupe-bogolan.webp" alt="Boubous bogolan et colliers de cauris" loading="lazy" data-zoom="assets/patrimoine/groupe-bogolan.webp">
     </div>
     <div class="products-more">
-      <a href="boutique.html" class="btn btn--gold" data-i18n="feat.all">Voir tout le catalogue</a>
+      <a href="boutique.html" class="btn btn--line" data-i18n="feat.all">Voir tout le catalogue</a>
     </div>
   </div>
 </section>
@@ -212,7 +332,7 @@ APROPOS = """<!-- ===== EN-TÊTE DE PAGE ===== -->
 # ---------------------------------------------------------------- CONTACT
 CONTACT = """<!-- ===== EN-TÊTE DE PAGE ===== -->
 <header class="page-head">
-  <div class="page-head__ghost" aria-hidden="true">Contact</div>
+  <div class="page-head__ghost notranslate" translate="no" aria-hidden="true">Contact</div>
   <div class="wrap page-head__inner">
     <span class="eyebrow" data-i18n="contact.eyebrow">Parlons commande</span>
     <h1><span data-i18n="contact.h1a">Écrivez-nous, nous</span> <em data-i18n="contact.h1b">répondons</em></h1>
@@ -297,14 +417,14 @@ CONTACT = """<!-- ===== EN-TÊTE DE PAGE ===== -->
 page("boutique.html",
      "Boutique — Catalogue de gros | Farafinatign\u025b",
      "Catalogue de gros Farafinatign\u025b : bijoux en cauris, laiton et plastique recycl\u00e9s, bogolan, indigo, coussins et objets d'art. Prix grossiste en euros, commande minimum 500 \u20ac.",
-     "boutique.html", BOUTIQUE, '<script src="js/boutique.js"></script>\n', "galerie-collection")
+     "boutique.html", BOUTIQUE, '<script src="js/boutique.js"></script>\n', "looks/look-plastron-cauri")
 
 page("a-propos.html",
      "\u00c0 propos — L'atelier de S\u00e9var\u00e9 | Farafinatign\u025b",
      "Farafinatign\u025b, entreprise artisanale de Mopti-S\u00e9var\u00e9 : notre atelier, nos mati\u00e8res recycl\u00e9es, le savoir-faire des artisanes de Mopti et Djenn\u00e9.",
-     "a-propos.html", APROPOS, '<script src="js/home.js"></script>\n', "atelier-bogolan-duo")
+     "a-propos.html", APROPOS, '<script src="js/home.js"></script>\n', "atelier/atelier-indigo-couple")
 
 page("contact.html",
      "Contact — Devis de gros | Farafinatign\u025b",
      "Contactez Farafinatign\u025b \u00e0 Mopti-S\u00e9var\u00e9 (Mali) : WhatsApp +223 65 45 02 02, farafinatigne@gmail.com. Devis de gros, facture proforma, expédition internationale.",
-     "contact.html", CONTACT, '<script src="js/contact.js"></script>\n', "portrait-cauri-mariee")
+     "contact.html", CONTACT, '<script src="js/contact.js"></script>\n', "looks/look-coiffe-cauri")

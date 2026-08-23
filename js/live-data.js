@@ -47,26 +47,55 @@
     var v = p.image_path || "";
     if (!v) return null;
     if (v.indexOf("://") !== -1) return v;
-    return v.replace(/\.jpg$/i, "");   // nom de base, imgUrl() fera le reste
+    // chemin depuis assets/ (produits/<gamme>/<sous-gamme>/<nom>) ou simple
+    // nom de fichier : imgUrl() sait traiter les deux.
+    return v.replace(/\.(jpe?g|png|webp)$/i, "");
   }
 
   Promise.all([
     get("contents?select=key,fr,en"),
     get("categories?select=slug,fr_name,en_name,position&order=position"),
     get("subcategories?select=slug,fr_name,en_name,position,category_id,categories(slug)&order=position"),
-    get("products?select=slug,ref,fr_name,fr_desc,en_name,en_desc,price,price_from,unit,set_qty,sizes,tag,image_path,category_id,subcategory_id,categories(slug),subcategories(slug)&is_published=eq.true&order=position")
+    get("products?select=id,slug,ref,fr_name,fr_desc,en_name,en_desc,price,price_from,unit,set_qty,sizes,tag,image_path,discount_percent,discount_until,category_id,subcategory_id,categories(slug),subcategories(slug)&is_published=eq.true&order=position"),
+    get("product_images?select=product_id,path,position&order=position")
   ])
     .then(function (res) {
       var contents = res[0], cats = res[1], subs = res[2], prods = res[3];
+      var planches = res[4] || [];
       if (!contents.length || !cats.length || !prods.length) return;   // base vide : on garde le statique
 
       /* ---------- textes ---------- */
+      /* Les cles « media.<fichier> » ne sont pas des textes : elles portent
+         l'adresse d'une image remplacee depuis l'editeur. On les met de cote. */
+      var medias = {};
       contents.forEach(function (c) {
+        if (c.key.indexOf("media.") === 0) {
+          if (c.fr) medias[c.key.slice(6)] = c.fr;
+          return;
+        }
         if (typeof I18N !== "undefined") {
           if (c.fr) I18N.fr[c.key] = c.fr;
           if (c.en) I18N.en[c.key] = c.en;
         }
       });
+
+      /* Une image du site remplacee depuis le back-office : on la substitue
+         partout ou son nom de fichier apparait, y compris apres un rendu JS. */
+      function appliquerMedias() {
+        Object.keys(medias).forEach(function (fichier) {
+          document.querySelectorAll("img").forEach(function (img) {
+            var src = img.getAttribute("src") || "";
+            if (src === medias[fichier]) return;
+            if (src.split("/").pop() === fichier) img.src = medias[fichier];
+          });
+        });
+      }
+      if (Object.keys(medias).length) {
+        appliquerMedias();
+        document.addEventListener("datachange", appliquerMedias);
+        new MutationObserver(appliquerMedias)
+          .observe(document.body, { childList: true, subtree: true });
+      }
 
       /* ---------- gammes ---------- */
       var parSlug = {};
@@ -80,6 +109,16 @@
         if (parent) parent.subs.push({ id: s.slug, fr: s.fr_name, en: s.en_name });
       });
 
+      /* ---------- planches de motifs ----------
+         Les photos secondaires d'une référence : elles servent aux
+         assortiments, où l'acheteur voit la collection sans choisir. */
+      var parProduit = {};
+      planches.forEach(function (i) {
+        (parProduit[i.product_id] = parProduit[i.product_id] || []).push(
+          String(i.path).replace(/\.(jpe?g|png|webp)$/i, "")
+        );
+      });
+
       /* ---------- références ---------- */
       var nouveauxProduits = prods.map(function (p) {
         return {
@@ -91,6 +130,9 @@
           price: p.price === null ? null : Number(p.price),
           from: !!p.price_from,
           unit: p.unit || "piece",
+          discount: p.discount_percent || 0,
+          discountUntil: p.discount_until || null,
+          gallery: parProduit[p.id] || undefined,
           setQty: p.set_qty || undefined,
           sizes: p.sizes || undefined,
           tag: p.tag || undefined,
