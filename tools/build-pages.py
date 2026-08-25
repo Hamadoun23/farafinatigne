@@ -83,6 +83,7 @@ def page(fname, title, desc, canonical, body, extra_script, ogimg):
 <script src="js/products.js"></script>
 <script src="js/common.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/commande.js"></script>
 {extra_script}<!-- Données vivantes : contenu embarqué d'abord, puis valeurs de la base -->
 <script src="js/live-data.js"></script>
 <!-- Édition en direct depuis le back-office (inerte hors du cadre autorisé) -->

@@ -34,6 +34,10 @@
 
   var headers = { apikey: ANON, Authorization: "Bearer " + ANON };
 
+  /* Le formulaire de commande a besoin des memes coordonnees : on les
+     partage plutot que de les recopier dans un second fichier. */
+  window.FT_API = { url: API, anon: ANON, headers: headers };
+
   function get(chemin) {
     return fetch(API + "/rest/v1/" + chemin, { headers: headers, cache: "no-store" })
       .then(function (r) {
@@ -52,16 +56,53 @@
     return v.replace(/\.(jpe?g|png|webp)$/i, "");
   }
 
+  /* ---------- etat du site ----------
+     L'equipe peut fermer la boutique depuis le back-office : conges,
+     inventaire, rupture. Le catalogue reste consultable — on ne cache
+     pas le travail — mais la selection et l'envoi de devis sont
+     suspendus, et un bandeau explique pourquoi. */
+  function etatDuSite(reglages) {
+    var r = {};
+    reglages.forEach(function (x) { r[x.key] = x.value; });
+    var etat = r["site.etat"] || "ouvert";
+    if (etat === "ouvert") return;
+
+    var titre = r["site.titre"] || "";
+    var texte = r["site.message"] || "";
+    var reprise = r["site.reprise"] || "";
+    var ferme = etat === "ferme";
+
+    var bandeau = document.createElement("div");
+    bandeau.className = "avis" + (ferme ? " avis--ferme" : "");
+    bandeau.setAttribute("role", "status");
+    bandeau.innerHTML =
+      '<div class="wrap avis__inner">' +
+        (titre ? "<b>" + titre + "</b>" : "") +
+        (texte ? "<span>" + texte + "</span>" : "") +
+        (reprise
+          ? '<i>' + (document.documentElement.lang === "en" ? "Back on " : "Reprise le ") +
+            new Date(reprise + "T00:00:00").toLocaleDateString(
+              document.documentElement.lang === "en" ? "en-GB" : "fr-FR",
+              { day: "numeric", month: "long", year: "numeric" }) + "</i>"
+          : "") +
+      "</div>";
+    document.body.insertBefore(bandeau, document.body.firstChild);
+    document.documentElement.classList.add("ft-avis");
+    if (ferme) document.documentElement.classList.add("ft-ferme");
+  }
+
   Promise.all([
     get("contents?select=key,fr,en"),
     get("categories?select=slug,fr_name,en_name,position&order=position"),
     get("subcategories?select=slug,fr_name,en_name,position,category_id,categories(slug)&order=position"),
     get("products?select=id,slug,ref,fr_name,fr_desc,en_name,en_desc,price,price_from,unit,set_qty,sizes,tag,image_path,discount_percent,discount_until,category_id,subcategory_id,categories(slug),subcategories(slug)&is_published=eq.true&order=position"),
-    get("product_images?select=product_id,path,position&order=position")
+    get("product_images?select=product_id,path,position&order=position"),
+    get("settings?select=key,value").catch(function () { return []; })
   ])
     .then(function (res) {
       var contents = res[0], cats = res[1], subs = res[2], prods = res[3];
       var planches = res[4] || [];
+      etatDuSite(res[5] || []);
       if (!contents.length || !cats.length || !prods.length) return;   // base vide : on garde le statique
 
       /* ---------- textes ---------- */

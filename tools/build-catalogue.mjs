@@ -205,12 +205,12 @@ function fiche(p) {
   const planche = p.galerie.length
     ? `<div class="motifs">${p.galerie
         .slice(0, 6)
-        .map((u) => `<img src="${u}" data-max="120" alt="">`)
+        .map((u) => `<img src="${u}" data-max="120" crossorigin="anonymous" alt="">`)
         .join("")}<span>+ ${p.galerie.length} modèles</span></div>`
     : "";
   const etiquette = p.tag === "gros" ? '<span class="lot">Lot export</span>' : "";
   return `<article class="fiche">
-    <div class="vue"><img src="${p.image}" data-max="430" alt="">${etiquette}</div>
+    <div class="vue"><img src="${p.image}" data-max="430" crossorigin="anonymous" alt="">${etiquette}</div>
     <h3>${echapper(p.fr.name)}</h3>
     <p class="en">${echapper(p.en.name)}</p>
     ${p.sizes ? `<p class="tailles">${echapper(p.sizes)}</p>` : ""}
@@ -408,7 +408,7 @@ img{display:block;max-width:100%}
       <div class="couv__base">From Mali to the World</div>
     </div>
     <div class="couv__afrique">
-      <img src="assets/catalogue/catalogue-cover.webp" data-max="620" data-detour="1" data-crop="0.05,0.255,0.95,0.762" alt="">
+      <img src="assets/catalogue/catalogue-cover.webp" data-max="620" data-detour="1" crossorigin="anonymous" data-crop="0.05,0.255,0.95,0.762" alt="">
     </div>
     <h1 class="couv__t">Catalogue de gros<em>${ANNEE}</em></h1>
     <div class="couv__bloc">
@@ -429,9 +429,9 @@ img{display:block;max-width:100%}
     <div class="bloc"><h3>Comment commander</h3><p>Relevez les références qui vous intéressent et envoyez-les par WhatsApp ou par e-mail. Nous répondons par une facture proforma sous 48 heures.</p></div>
   </div>
   <div class="bande">
-    <figure><img src="assets/atelier/atelier-bogolan-femme.webp" data-max="520" alt=""><figcaption>La peinture à la boue fermentée</figcaption></figure>
-    <figure><img src="assets/atelier/atelier-artisane.webp" data-max="520" alt=""><figcaption>L'atelier de Sévaré</figcaption></figure>
-    <figure><img src="assets/patrimoine/groupe-farafinatigne.webp" data-max="520" alt=""><figcaption>Trente collaborateurs</figcaption></figure>
+    <figure><img src="assets/atelier/atelier-bogolan-femme.webp" data-max="520" crossorigin="anonymous" alt=""><figcaption>La peinture à la boue fermentée</figcaption></figure>
+    <figure><img src="assets/atelier/atelier-artisane.webp" data-max="520" crossorigin="anonymous" alt=""><figcaption>L'atelier de Sévaré</figcaption></figure>
+    <figure><img src="assets/patrimoine/groupe-farafinatigne.webp" data-max="520" crossorigin="anonymous" alt=""><figcaption>Trente collaborateurs</figcaption></figure>
   </div>
   <div class="chiffres">
     <div class="chiffre"><b>${total}</b><span>Références</span></div>

@@ -50,7 +50,7 @@ const PRODUCTS = [
      cette carte s'ajoute pour l'acheteur qui prend un panachage sans
      choisir modèle par modèle. */
   {
-    id: "bo-assortiment", ref: "FT-BJ-LOT", cat: "bijoux", sub: "boucles", img: "boucle-fulani-creole",
+    id: "bo-assortiment", ref: "FT-BJ-BO-001", cat: "bijoux", sub: "boucles", img: "boucle-fulani-creole",
     price: null, unit: "lot", setQty: 10, tag: "gros",
     gallery: [
       "boucle-fulani-creole",
@@ -682,7 +682,7 @@ const PRODUCTS = [
      sont donc pas vendus à l'unité mais par assortiment de dix, les
      motifs étant choisis à l'atelier dans la collection ci-dessous. */
   {
-    id: "ts-assortiment", ref: "FT-TX-LOT10", cat: "textile", sub: "tshirts", img: "tshirt-cauris",
+    id: "ts-assortiment", ref: "FT-TX-TH-001", cat: "textile", sub: "tshirts", img: "tshirt-cauris",
     price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "S → 4XL",
     gallery: [
       "tshirt-cauris",
@@ -716,7 +716,7 @@ const PRODUCTS = [
      puise. Tuniques et ponchos restent deux lots distincts : ce ne
      sont pas les mêmes vêtements. */
   {
-    id: "tu-assortiment", ref: "FT-TX-LOT-TUN", cat: "textile", sub: "tuniques", img: "tunique-case-ocre",
+    id: "tu-assortiment", ref: "FT-TX-TU-001", cat: "textile", sub: "tuniques", img: "tunique-case-ocre",
     price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "S → 4XL",
     gallery: [
       "tunique-case-ocre",
@@ -736,7 +736,7 @@ const PRODUCTS = [
     en: { name: "Assortment of 10 bogolan tunics", desc: "Ten hand-painted tunics on hand-spun cotton, an assorted mix picked at the workshop. Each piece is unique, so individual designs cannot be ordered separately. Mixed sizes on request." }
   },
   {
-    id: "po-assortiment", ref: "FT-TX-LOT-PON", cat: "textile", sub: "tuniques", img: "poncho-capuche-terre",
+    id: "po-assortiment", ref: "FT-TX-TU-003", cat: "textile", sub: "tuniques", img: "poncho-capuche-terre",
     price: null, unit: "lot", setQty: 10, tag: "gros", sizes: "Taille unique",
     gallery: [
       "poncho-capuche-terre",
@@ -860,17 +860,36 @@ const PRODUCTS = [
   }
 ];
 
-/* Références commerciales : FT-<CAT>-<n> */
+/* Références commerciales : FT-<GAMME>-<SOUS-GAMME>-<n>.
+   Les mêmes codes que la base, sinon l'instantané embarqué et la
+   boutique en ligne afficheraient deux références différentes pour
+   la même pièce. */
+const CODES_GAMME = { bijoux: "BJ", textile: "TX", decor: "DC" };
+const CODES_SOUS = {
+  colliers: "CO", bracelets: "BR", boucles: "BO", bagues: "BA", earcuffs: "EC",
+  tissus: "TI", coussins: "CS", couvertures: "CV", tshirts: "TH",
+  tuniques: "TU", sacs: "SA", mode: "MO", echarpe: "EH",
+  pieces: "PI", objets: "OB", portecles: "PC", chemins: "CH"
+};
+
 (function assignRefs() {
-  const prefix = { bijoux: "BJ", textile: "TX", decor: "DC" };
-  const counters = {};
+  const compteurs = {};
+  /* Les références écrites à la main — celles des assortiments, reprises
+     de la base — sont réservées : le compteur doit les sauter, sinon deux
+     pièces porteraient le même numéro. */
+  const prises = new Set(PRODUCTS.filter(p => p.ref).map(p => p.ref));
   PRODUCTS.forEach(p => {
-    /* une reference ecrite a la main (un assortiment, par exemple) est
-       gardee telle quelle : elle doit correspondre a celle de la base. */
     if (p.ref) return;
-    const k = prefix[p.cat];
-    counters[k] = (counters[k] || 0) + 1;
-    p.ref = "FT-" + k + "-" + String(counters[k]).padStart(3, "0");
+    const gamme = CODES_GAMME[p.cat] || (p.cat || "XX").slice(0, 2).toUpperCase();
+    const sous = CODES_SOUS[p.sub] || (p.sub ? p.sub.slice(0, 2).toUpperCase() : "");
+    const prefixe = "FT-" + gamme + (sous ? "-" + sous : "") + "-";
+    let candidat;
+    do {
+      compteurs[prefixe] = (compteurs[prefixe] || 0) + 1;
+      candidat = prefixe + String(compteurs[prefixe]).padStart(3, "0");
+    } while (prises.has(candidat));
+    prises.add(candidat);
+    p.ref = candidat;
   });
 })();
 
