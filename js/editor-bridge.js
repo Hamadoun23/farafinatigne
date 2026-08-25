@@ -29,11 +29,40 @@
   if (params.get("edit") !== "1") return;
   if (window.parent === window) return;            // pas dans un cadre
 
-  var parentOrigin = null;
-  try {
-    parentOrigin = document.referrer ? new URL(document.referrer).origin : null;
-  } catch (e) { /* referrer illisible */ }
-  if (!parentOrigin || ALLOWED.indexOf(parentOrigin) === -1) return;
+  /* Qui nous encadre ?
+     Surtout PAS document.referrer : au premier chargement il désigne
+     bien l'office, mais après un location.reload() — celui que l'office
+     déclenche à chaque enregistrement — il désigne la page elle-même.
+     Le pont se croyait alors encadré par un inconnu et se coupait : plus
+     rien n'était cliquable tant qu'on ne rechargeait pas l'office.
+     ancestorOrigins, lui, dit toujours la vérité. */
+  function origineParente() {
+    try {
+      var a = location.ancestorOrigins;
+      if (a && a.length) return a[0];
+    } catch (e) { /* pas supporté : on retombe sur le referrer */ }
+    try {
+      return document.referrer ? new URL(document.referrer).origin : null;
+    } catch (e) { return null; }
+  }
+
+  var parentOrigin = origineParente();
+
+  if (parentOrigin && ALLOWED.indexOf(parentOrigin) !== -1) {
+    demarrer(parentOrigin);
+  } else {
+    /* Filet pour les navigateurs sans ancestorOrigins : on reste muet
+       jusqu'à ce que l'office se manifeste. L'origine d'un message reçu
+       est donnée par le navigateur, elle ne se falsifie pas. */
+    window.addEventListener("message", function armer(e) {
+      if (ALLOWED.indexOf(e.origin) === -1) return;
+      if (!e.data || e.data.source !== "farafina-office") return;
+      window.removeEventListener("message", armer);
+      demarrer(e.origin);
+    });
+  }
+
+  function demarrer(parentOrigin) {
 
   /* ---------- styles du mode édition ---------- */
   var css = document.createElement("style");
@@ -182,4 +211,6 @@
   }
   if (document.readyState === "complete") announce();
   else window.addEventListener("load", announce);
+
+  }
 })();
