@@ -1151,13 +1151,39 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .ft-avis .nav { position: sticky; top: 0; }
 .ft-avis .hero__grid { padding-top: clamp(34px, 6vw, 60px); }
 
-/* boutique fermee : on retire ce qui declenche une commande */
-.ft-ferme .card__add,
-.ft-ferme .nav__cart,
-.ft-ferme #cart-wa,
-.ft-ferme #cart-mail,
-.ft-ferme .btn--wa { display: none !important; }
-.ft-ferme .card__foot { border-bottom: none; }
+/* =========================================================
+   SITE FERMÉ
+   Rien du site ne s'affiche : ni catalogue, ni navigation.
+   Seuls le message et de quoi nous joindre restent.
+   ========================================================= */
+.ft-ferme, .ft-ferme body { overflow: hidden; height: 100%; }
+/* tout ce qui n'est pas le message est retiré du rendu */
+.ft-ferme body > *:not(#ft-etat) { display: none !important; }
+
+.ferme {
+  position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
+  padding: clamp(24px, 6vw, 64px); overflow-y: auto; text-align: center;
+  color: var(--ivory);
+  background:
+    radial-gradient(900px 620px at 12% -8%, rgba(219, 165, 78, .30) 0%, transparent 60%),
+    radial-gradient(760px 620px at 104% 22%, rgba(96, 42, 58, .42) 0%, transparent 66%),
+    linear-gradient(158deg, #4A2A1D 0%, #34171A 46%, #1C0D0B 100%);
+}
+.ferme__pattern { position: absolute; inset: 0; opacity: .06; pointer-events: none; }
+.ferme__inner { position: relative; z-index: 2; max-width: 62ch; display: grid; gap: 18px; justify-items: center; }
+.ferme__mark { width: clamp(190px, 34vw, 280px); height: auto; }
+.ferme h1 {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -.02em;
+  font-size: clamp(1.9rem, 5.2vw, 3rem); line-height: 1.08; margin: 6px 0 0;
+}
+.ferme p { color: rgba(248, 247, 238, .84); font-size: clamp(.95rem, 2.2vw, 1.06rem); line-height: 1.68; margin: 0; }
+.ferme__quand {
+  font-size: .62rem !important; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold-light) !important; font-weight: 800; margin-top: 4px !important;
+}
+.ferme__liens { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+.ferme__liens .btn--line { color: var(--ivory); border-color: rgba(248, 247, 238, .34); }
+.ferme__liens .btn--line:hover { background: rgba(248, 247, 238, .1); }
 
 /* =========================================================
    FORMULAIRE DE DEMANDE DE DEVIS

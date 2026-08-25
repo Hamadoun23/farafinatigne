@@ -57,39 +57,89 @@
   }
 
   /* ---------- etat du site ----------
-     L'equipe peut fermer la boutique depuis le back-office : conges,
-     inventaire, rupture. Le catalogue reste consultable — on ne cache
-     pas le travail — mais la selection et l'envoi de devis sont
-     suspendus, et un bandeau explique pourquoi. */
-  function etatDuSite(reglages) {
-    var r = {};
-    reglages.forEach(function (x) { r[x.key] = x.value; });
-    var etat = r["site.etat"] || "ouvert";
+     Trois états, décidés depuis le back-office :
+       ouvert  — rien ne change ;
+       annonce — un bandeau prévient, la boutique reste ouverte ;
+       ferme   — le site ne s'affiche plus du tout, seul le message reste.
+
+     L'état connu est gardé en mémoire locale et appliqué AVANT même la
+     réponse du serveur : sans cela, un visiteur verrait la boutique une
+     demi-seconde avant qu'elle ne disparaisse. La réponse corrige
+     ensuite, dans un sens comme dans l'autre. */
+  var MEMOIRE_ETAT = "ft-etat";
+
+  function appliquerEtat(r) {
+    var etat = (r && r["site.etat"]) || "ouvert";
+    var titre = (r && r["site.titre"]) || "";
+    var texte = (r && r["site.message"]) || "";
+    var reprise = (r && r["site.reprise"]) || "";
+    var en = document.documentElement.lang === "en";
+
+    /* on efface ce qui a pu être posé par la mémoire locale */
+    var ancien = document.getElementById("ft-etat");
+    if (ancien) ancien.remove();
+    document.documentElement.classList.remove("ft-avis", "ft-ferme");
+
     if (etat === "ouvert") return;
 
-    var titre = r["site.titre"] || "";
-    var texte = r["site.message"] || "";
-    var reprise = r["site.reprise"] || "";
-    var ferme = etat === "ferme";
+    var quand = reprise
+      ? (en ? "Back on " : "Réouverture le ") +
+        new Date(reprise + "T00:00:00").toLocaleDateString(en ? "en-GB" : "fr-FR",
+          { day: "numeric", month: "long", year: "numeric" })
+      : "";
 
-    var bandeau = document.createElement("div");
-    bandeau.className = "avis" + (ferme ? " avis--ferme" : "");
-    bandeau.setAttribute("role", "status");
-    bandeau.innerHTML =
+    var bloc = document.createElement("div");
+    bloc.id = "ft-etat";
+
+    if (etat === "ferme") {
+      /* Page pleine : plus rien du site ne s'affiche. On garde de quoi
+         nous joindre — le message invite à écrire, autant que ce soit
+         possible d'un clic. */
+      bloc.className = "ferme";
+      bloc.innerHTML =
+        '<div class="ferme__pattern bogolan" aria-hidden="true"></div>' +
+        '<div class="ferme__inner">' +
+          '<img class="ferme__mark" src="assets/marque/lockup-white.png" alt="Farafinatignɛ" width="300" height="120">' +
+          (titre ? "<h1>" + titre + "</h1>" : "") +
+          (texte ? "<p>" + texte + "</p>" : "") +
+          (quand ? '<p class="ferme__quand">' + quand + "</p>" : "") +
+          '<div class="ferme__liens">' +
+            '<a class="btn btn--gold" href="https://wa.me/22365450202" target="_blank" rel="noopener">WhatsApp</a>' +
+            '<a class="btn btn--line" href="mailto:farafinatigne@gmail.com">farafinatigne@gmail.com</a>' +
+          "</div>" +
+        "</div>";
+      document.documentElement.classList.add("ft-ferme");
+      document.body.appendChild(bloc);
+      return;
+    }
+
+    bloc.className = "avis";
+    bloc.setAttribute("role", "status");
+    bloc.innerHTML =
       '<div class="wrap avis__inner">' +
         (titre ? "<b>" + titre + "</b>" : "") +
         (texte ? "<span>" + texte + "</span>" : "") +
-        (reprise
-          ? '<i>' + (document.documentElement.lang === "en" ? "Back on " : "Reprise le ") +
-            new Date(reprise + "T00:00:00").toLocaleDateString(
-              document.documentElement.lang === "en" ? "en-GB" : "fr-FR",
-              { day: "numeric", month: "long", year: "numeric" }) + "</i>"
-          : "") +
+        (quand ? "<i>" + quand + "</i>" : "") +
       "</div>";
-    document.body.insertBefore(bandeau, document.body.firstChild);
     document.documentElement.classList.add("ft-avis");
-    if (ferme) document.documentElement.classList.add("ft-ferme");
+    document.body.insertBefore(bloc, document.body.firstChild);
   }
+
+  function etatDuSite(reglages) {
+    var r = {};
+    reglages.forEach(function (x) { r[x.key] = x.value; });
+    try { localStorage.setItem(MEMOIRE_ETAT, JSON.stringify(r)); } catch (_) {}
+    appliquerEtat(r);
+  }
+
+  /* l'état de la dernière visite, le temps que le serveur réponde */
+  try {
+    var memoire = JSON.parse(localStorage.getItem(MEMOIRE_ETAT) || "null");
+    if (memoire && memoire["site.etat"] && memoire["site.etat"] !== "ouvert") {
+      if (document.body) appliquerEtat(memoire);
+      else document.addEventListener("DOMContentLoaded", function () { appliquerEtat(memoire); });
+    }
+  } catch (_) {}
 
   Promise.all([
     get("contents?select=key,fr,en"),
