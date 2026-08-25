@@ -133,6 +133,10 @@ const I18N = {
     "p.zoom": "Agrandir l'image",
     "p.sizes": "Tailles ",
     "p.motifs": "Motifs de la collection — assortiment composé à l'atelier",
+    /* Sur une piece vendue a l'unite, les memes vignettes ne sont pas un
+       assortiment : ce sont les motifs disponibles, et l'acheteur choisit. */
+    "p.motifs.piece": "Motifs disponibles — précisez le vôtre à la commande",
+    "p.sizes.lot": "Tailles du lot ",
     "p.ref": "Réf.",
 
     /* --- panier / devis --- */
@@ -383,6 +387,8 @@ const I18N = {
     "p.zoom": "Enlarge image",
     "p.sizes": "Sizes ",
     "p.motifs": "Designs in the collection — assortment made up at the workshop",
+    "p.motifs.piece": "Available designs — tell us which one when ordering",
+    "p.sizes.lot": "Sizes in the set ",
     "p.ref": "Ref.",
 
     "cart.title": "My selection",

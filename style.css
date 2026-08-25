@@ -1126,32 +1126,6 @@ section { padding: clamp(76px, 11vw, 148px) 0; position: relative; }
 .toast svg { width: 15px; height: 15px; color: var(--gold-light); }
 
 /* =========================================================
-   BANDEAU D'ETAT
-   Conges, inventaire, rupture : l'equipe ferme la boutique
-   depuis le back-office. Le catalogue reste visible — on ne
-   cache pas le travail — seule la commande est suspendue.
-   ========================================================= */
-.avis {
-  position: relative; z-index: 70;
-  background: var(--dark-gradient); color: var(--ivory);
-  padding: 14px 0; text-align: center;
-}
-.avis--ferme { background: linear-gradient(158deg, #8A3A1E 0%, #5C2417 55%, #34171A 100%); }
-.avis__inner { display: flex; flex-direction: column; gap: 5px; align-items: center; }
-.avis b {
-  font-family: var(--font-display); font-size: 1.06rem; font-weight: 600; letter-spacing: -.01em;
-}
-.avis span { font-size: .87rem; color: rgba(248, 247, 238, .88); max-width: 74ch; line-height: 1.55; }
-.avis i {
-  font-style: normal; font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-light); font-weight: 800; margin-top: 3px;
-}
-/* le bandeau pousse la page : les barres fixes descendent d'autant */
-.ft-avis .topbar { position: static; }
-.ft-avis .nav { position: sticky; top: 0; }
-.ft-avis .hero__grid { padding-top: clamp(34px, 6vw, 60px); }
-
-/* =========================================================
    SITE FERMÉ
    Rien du site ne s'affiche : ni catalogue, ni navigation.
    Seuls le message et de quoi nous joindre restent.

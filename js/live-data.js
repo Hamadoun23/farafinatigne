@@ -50,17 +50,16 @@
   function imageDe(p) {
     var v = p.image_path || "";
     if (!v) return null;
-    if (v.indexOf("://") !== -1) return v;
-    // chemin depuis assets/ (produits/<gamme>/<sous-gamme>/<nom>) ou simple
-    // nom de fichier : imgUrl() sait traiter les deux.
-    return v.replace(/\.(jpe?g|png|webp)$/i, "");
+    // adresse absolue (photo importee) ou chemin depuis assets/ :
+    // imgUrl() sait traiter les deux, extension comprise.
+    return v;
   }
 
   /* ---------- etat du site ----------
-     Trois états, décidés depuis le back-office :
-       ouvert  — rien ne change ;
-       annonce — un bandeau prévient, la boutique reste ouverte ;
-       ferme   — le site ne s'affiche plus du tout, seul le message reste.
+     Deux états, décidés depuis le back-office :
+       ouvert — rien ne change ;
+       ferme  — le site ne s'affiche plus du tout, seul le message reste.
+     Pas d'entre-deux : une boutique à demi ouverte n'informe personne.
 
      L'état connu est gardé en mémoire locale et appliqué AVANT même la
      réponse du serveur : sans cela, un visiteur verrait la boutique une
@@ -78,9 +77,9 @@
     /* on efface ce qui a pu être posé par la mémoire locale */
     var ancien = document.getElementById("ft-etat");
     if (ancien) ancien.remove();
-    document.documentElement.classList.remove("ft-avis", "ft-ferme");
+    document.documentElement.classList.remove("ft-ferme");
 
-    if (etat === "ouvert") return;
+    if (etat !== "ferme") return;
 
     var quand = reprise
       ? (en ? "Back on " : "Réouverture le ") +
@@ -112,17 +111,6 @@
       document.body.appendChild(bloc);
       return;
     }
-
-    bloc.className = "avis";
-    bloc.setAttribute("role", "status");
-    bloc.innerHTML =
-      '<div class="wrap avis__inner">' +
-        (titre ? "<b>" + titre + "</b>" : "") +
-        (texte ? "<span>" + texte + "</span>" : "") +
-        (quand ? "<i>" + quand + "</i>" : "") +
-      "</div>";
-    document.documentElement.classList.add("ft-avis");
-    document.body.insertBefore(bloc, document.body.firstChild);
   }
 
   function etatDuSite(reglages) {
@@ -135,7 +123,7 @@
   /* l'état de la dernière visite, le temps que le serveur réponde */
   try {
     var memoire = JSON.parse(localStorage.getItem(MEMOIRE_ETAT) || "null");
-    if (memoire && memoire["site.etat"] && memoire["site.etat"] !== "ouvert") {
+    if (memoire && memoire["site.etat"] === "ferme") {
       if (document.body) appliquerEtat(memoire);
       else document.addEventListener("DOMContentLoaded", function () { appliquerEtat(memoire); });
     }
@@ -205,9 +193,9 @@
          assortiments, où l'acheteur voit la collection sans choisir. */
       var parProduit = {};
       planches.forEach(function (i) {
-        (parProduit[i.product_id] = parProduit[i.product_id] || []).push(
-          String(i.path).replace(/\.(jpe?g|png|webp)$/i, "")
-        );
+        /* on garde le chemin tel quel : retirer l'extension cassait
+           toute photo importee, qui n'est pas en WebP */
+        (parProduit[i.product_id] = parProduit[i.product_id] || []).push(String(i.path));
       });
 
       /* ---------- références ---------- */

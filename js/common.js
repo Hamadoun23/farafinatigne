@@ -15,13 +15,18 @@ const SITE_URL = "https://farafinatigne.com/";
 /* Les photos sont servies en WebP. On coupe l'extension eventuellement
    enregistree en base (« ...jpg ») avant d'ajouter la bonne : une fiche
    creee avant la bascule continue de s'afficher. */
-const baseImage = v => String(v || "").replace(/\.(jpe?g|png|webp)$/i, "");
+/* Les photos livrees avec le site sont en WebP et designees sans
+   extension ; celles importees depuis le back-office gardent la leur
+   (souvent .jpg). On n'ajoute donc « .webp » QUE s'il n'y a pas deja
+   une extension — sinon une photo importee pointe dans le vide. */
+const A_UNE_EXTENSION = v => /\.(jpe?g|png|webp|avif)$/i.test(String(v || ""));
 /* Les fiches produit sont rangees par gamme : assets/produits/<gamme>/
    <sous-gamme>/<fichier>.webp. La base peut enregistrer soit le chemin
    complet depuis assets/, soit le seul nom de fichier — les deux marchent. */
 const cheminProduit = p => {
-  const v = baseImage(p.img);
-  return (v.indexOf("/") !== -1 ? v : "produits/" + p.cat + "/" + p.sub + "/" + v) + ".webp";
+  const v = String(p.img || "");
+  const complet = v.indexOf("/") !== -1 ? v : "produits/" + p.cat + "/" + p.sub + "/" + v;
+  return A_UNE_EXTENSION(complet) ? complet : complet + ".webp";
 };
 const productImageUrl = p => (p.img && p.img.indexOf("://") !== -1)
   ? p.img
@@ -126,7 +131,8 @@ function carouselHTML(p, coiffe) {
 function motifsHTML(p) {
   const urls = galerieUrls(p);
   return '<div class="card__motifs">' +
-    '<span class="card__motifs-t">' + t("p.motifs") + " · " + urls.length + "</span>" +
+    '<span class="card__motifs-t">' +
+      t(p.unit === "lot" ? "p.motifs" : "p.motifs.piece") + " · " + urls.length + "</span>" +
     '<div class="card__motifs-strip">' +
       urls.map(function (u, i) {
         return '<button class="card__motif' + (i ? "" : " is-on") + '" data-goto="' + i +
@@ -154,7 +160,9 @@ function cardHTML(p) {
     : "";
 
   const coiffe = promo + tag;
-  const mediaHTML = p.gallery && p.gallery.length
+  /* Un carrousel d'une seule image n'a rien a faire defiler : la carte
+     retombe sur la photo simple, compteur « 1/1 » compris. */
+  const mediaHTML = p.gallery && p.gallery.length > 1
     ? carouselHTML(p, coiffe)
     : `<div class="card__media">
       <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
@@ -171,8 +179,9 @@ function cardHTML(p) {
       <span class="card__cat">${label(sub) || label(cat)}</span>
       <h3 class="card__name">${p[LANG].name}</h3>
       <p class="card__desc">${p[LANG].desc}</p>
-      ${p.sizes ? '<p class="card__sizes"><span>' + t("p.sizes") + '</span>' + p.sizes + "</p>" : ""}
-      ${p.gallery && p.gallery.length ? motifsHTML(p) : ""}
+      ${p.sizes ? '<p class="card__sizes"><span>' +
+          t(p.unit === "lot" ? "p.sizes.lot" : "p.sizes") + '</span>' + p.sizes + "</p>" : ""}
+      ${p.gallery && p.gallery.length > 1 ? motifsHTML(p) : ""}
       <div class="card__foot">
         ${priceLabel(p)}
         <span class="card__ref">${t("p.ref")} ${p.ref}</span>
