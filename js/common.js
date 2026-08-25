@@ -101,12 +101,22 @@ function priceLabel(p) {
    Une reference vendue en lot n'a pas un modele mais une collection.
    La carte garde exactement la taille des autres : c'est la meme fenetre
    4/5, on y fait defiler les motifs au lieu d'en figer un seul. */
+/* La photo principale ouvre le carrousel, la planche suit. Sans elle,
+   changer la photo d'un lot depuis le back-office ne se voyait nulle
+   part : la carte n'affichait que les motifs. Doublon ecarte, car la
+   planche reprend souvent la photo d'une des references du lot. */
 function galerieUrls(p) {
-  return p.gallery.map(function (nom) {
+  const absolue = function (nom) {
     return String(nom).indexOf("://") !== -1
       ? nom
       : "assets/" + cheminProduit({ img: nom, cat: p.cat, sub: p.sub });
+  };
+  const urls = p.img ? [imgUrl(p)] : [];
+  p.gallery.forEach(function (nom) {
+    const u = absolue(nom);
+    if (urls.indexOf(u) === -1) urls.push(u);
   });
+  return urls;
 }
 
 function carouselHTML(p, coiffe) {
@@ -162,7 +172,10 @@ function cardHTML(p) {
   const coiffe = promo + tag;
   /* Un carrousel d'une seule image n'a rien a faire defiler : la carte
      retombe sur la photo simple, compteur « 1/1 » compris. */
-  const mediaHTML = p.gallery && p.gallery.length > 1
+  /* On compte les vues reellement distinctes : une planche qui ne fait
+     que reprendre la photo principale n'a rien a faire defiler. */
+  const vues = p.gallery && p.gallery.length ? galerieUrls(p) : [];
+  const mediaHTML = vues.length > 1
     ? carouselHTML(p, coiffe)
     : `<div class="card__media">
       <img src="${imgUrl(p)}" alt="${p[LANG].name}" loading="lazy" width="800" height="800">
@@ -181,7 +194,7 @@ function cardHTML(p) {
       <p class="card__desc">${p[LANG].desc}</p>
       ${p.sizes ? '<p class="card__sizes"><span>' +
           t(p.unit === "lot" ? "p.sizes.lot" : "p.sizes") + '</span>' + p.sizes + "</p>" : ""}
-      ${p.gallery && p.gallery.length > 1 ? motifsHTML(p) : ""}
+      ${vues.length > 1 ? motifsHTML(p) : ""}
       <div class="card__foot">
         ${priceLabel(p)}
         <span class="card__ref">${t("p.ref")} ${p.ref}</span>
