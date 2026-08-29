@@ -389,23 +389,79 @@ function initMagnetic() {
   });
 }
 
-/* ---------- catalogue PDF ----------
-   Plus de formulaire : le catalogue et les tarifs de gros sont publics,
-   on ne fait plus payer un e-mail pour y acceder. Les liens marques
-   data-pdf pointent directement sur le fichier. */
-function initPdf() {
-  $$("[data-pdf]").forEach(el => {
-    if (el.tagName === "A") {
-      el.setAttribute("href", CATALOGUE_PDF);
-      el.setAttribute("target", "_blank");
-      el.setAttribute("rel", "noopener");
-      el.setAttribute("download", "catalogue-farafinatigne.pdf");
-    } else {
-      el.addEventListener("click", e => {
-        e.preventDefault();
-        window.open(CATALOGUE_PDF, "_blank", "noopener");
-      });
+/* ---------- accès au catalogue PDF (capture de prospect) ----------
+   Le catalogue de gros reste réservé aux acheteurs professionnels : un
+   nom et un moyen de recontact (téléphone OU e-mail) avant le
+   téléchargement. Rangé dans `leads` — l'équipe le retrouve dans
+   l'écran Clients, onglet Prospects, prêt à convertir en fiche client. */
+function openPdfGate() {
+  const m = $("#pdf-modal");
+  if (!m) { window.open(CATALOGUE_PDF, "_blank", "noopener"); return; }
+  m.classList.add("open");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => { const f = $("#pdf-prenom"); if (f) f.focus(); }, 260);
+}
+function closePdfGate() {
+  const m = $("#pdf-modal");
+  if (!m) return;
+  m.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function telechargerCatalogue() {
+  const a = document.createElement("a");
+  a.href = CATALOGUE_PDF;
+  a.download = "catalogue-farafinatigne.pdf";
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function initPdfGate() {
+  const form = $("#pdf-form");
+  $$("[data-pdf]").forEach(b => b.addEventListener("click", e => { e.preventDefault(); openPdfGate(); }));
+  if (!form) return;
+  $$("[data-pdf-close]").forEach(b => b.addEventListener("click", closePdfGate));
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const prenom = $("#pdf-prenom").value.trim();
+    const nom = $("#pdf-nom").value.trim();
+    const company = $("#pdf-company").value.trim();
+    const phone = $("#pdf-phone").value.trim();
+    const email = $("#pdf-email").value.trim();
+    const msg = $("#pdf-msg");
+
+    const emailOk = !email || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    if (prenom.length < 1 || nom.length < 1 || !emailOk || (!phone && !email)) {
+      msg.textContent = t("pdf.form.err");
+      msg.className = "form__msg form__msg--err";
+      return;
     }
+
+    const nomComplet = (prenom + " " + nom).trim();
+
+    /* Dépôt du prospect : au mieux. La sécurité par ligne autorise l'anonyme
+       à ÉCRIRE dans `leads`, jamais à le relire — un envoi manqué (réseau
+       coupé, base indisponible) ne doit pas priver un acheteur en gros de
+       son catalogue, qui reste l'objectif premier de ce formulaire. */
+    if (window.FT_API) {
+      fetch(window.FT_API.url + "/rest/v1/leads", {
+        method: "POST",
+        headers: Object.assign({ "Content-Type": "application/json", Prefer: "return=minimal" }, window.FT_API.headers),
+        body: JSON.stringify({
+          name: nomComplet, company: company || null,
+          phone: phone || null, email: email || null, lang: LANG
+        })
+      }).catch(() => {});
+    }
+
+    msg.textContent = t("pdf.form.ok");
+    msg.className = "form__msg form__msg--ok";
+    telechargerCatalogue();
+    form.reset();
+    setTimeout(closePdfGate, 1400);
   });
 }
 
@@ -530,6 +586,7 @@ document.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   closeLightbox();
+  closePdfGate();
   if (typeof closeCart === "function") closeCart();
   const mobile = $("#nav-mobile");
   if (mobile && mobile.classList.contains("open")) {
@@ -546,7 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   initSpotlight();
   initMagnetic();
-  initPdf();
+  initPdfGate();
   initLangSwitch();
   initTheme();
   const y = $("#year");
