@@ -15,3 +15,9 @@ node_modules/
 *.log
 *.tmp
 /tmp/
+_catalogue-print.html
+
+# Catalogue PDF : genere automatiquement sur le VPS (cron, voir
+# claudeprompt.md), plus versionne depuis le 30 aout 2026 pour ne pas
+# perpetuellement diverger du fichier vraiment servi.
+assets/catalogue/catalogue-farafinatigne.pdf

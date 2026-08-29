@@ -231,18 +231,48 @@ Pour ajouter un produit : déposer la photo dans `assets/images/<slug>.jpg`
 
 ## Capture des prospects (catalogue PDF)
 
-Le téléchargement du catalogue est **conditionné à un formulaire nom + e-mail**
-(+ société et pays facultatifs). Le site étant statique, la transmission se fait :
+Depuis le 29 août 2026, le téléchargement est **conditionné à un formulaire**
+(prénom, nom, entreprise facultative, téléphone **ou** e-mail — l'un des deux
+suffit). `common.js` (`initPdfGate`) dépose directement le prospect dans la
+table Supabase `leads` via `window.FT_API` (clé anonyme, écriture seule — la
+sécurité par ligne empêche toute lecture). Le téléchargement démarre même si
+l'envoi échoue (réseau coupé, base injoignable) : capter le contact ne doit
+jamais bloquer un acheteur pressé.
 
-1. dans `localStorage` sous `ft-leads` (secours, récupérable depuis la console) ;
-2. via `LEAD_ENDPOINT` dans `common.js` s'il est renseigné (Formspree, Getform,
-   Basin, Google Apps Script…) ;
-3. sinon, ouverture d'un e-mail pré-rempli vers `farafinatigne@gmail.com`.
+Les prospects apparaissent dans **FarafinaOffice → Clients → Prospects**, prêts
+à convertir en fiche client. Ancien mécanisme (`LEAD_ENDPOINT`, `localStorage`)
+abandonné à la même date.
 
-**À faire avant la mise en production** : créer un formulaire chez un de ces
-services et coller l'URL dans `LEAD_ENDPOINT` — sans ça, les prospects ne
-remontent que si le visiteur laisse partir l'e-mail. `contact.js` utilise le même
-endpoint.
+## Catalogue PDF — mise à jour automatique
+
+`tools/build-catalogue.mjs` sait déjà lire les prix **en direct depuis la
+base de production** (repli sur `js/products.js` si elle est injoignable) :
+le PDF dit donc toujours ce que dit la boutique, sans double saisie. Ce qui
+manquait : quelqu'un pour le relancer à chaque changement de prix.
+
+Depuis le 30 août 2026, une tâche planifiée sur le VPS s'en charge, toutes
+les 6 heures (00h07 / 06h07 / 12h07 / 18h07) :
+
+- script : `tools/build-catalogue-cron.sh` dans ce dépôt, déployé sur le VPS
+  dans `/opt/farafina/scripts/` (pas dans `site/`, pour ne rien exposer) ;
+  la crontab elle-même (`crontab -l` sous root) n'est pas versionnée ;
+- il démarre un Chrome headless éphémère (`chromedp/headless-shell`) et un
+  conteneur Node 22 jetables, relance `tools/build-catalogue.mjs` contre
+  `https://farafinatigne.com`, puis nettoie tout ;
+- `tools/build-catalogue.mjs` **n'écrit le PDF qu'à la toute fin**, une fois
+  le rendu terminé sans erreur : un passage qui échoue laisse le fichier en
+  ligne intact ;
+- journal : `/opt/farafina/backups/catalogue-cron.log` (tronqué automatiquement
+  au-delà de 2000 lignes).
+
+`tools/build-catalogue.mjs` est déployé sur le VPS dans `site/tools/`, un
+chemin **bloqué à la lecture publique par nginx** (`location ^~ /tools/`)
+puisqu'il n'a rien à faire dans le site servi.
+
+Relancer à la main depuis le VPS : `ssh bekst-vps
+/opt/farafina/scripts/build-catalogue-cron.sh` (compter ~30 secondes). Depuis
+un poste de travail, la méthode historique reste valable : voir l'en-tête de
+`tools/build-catalogue.mjs`.
 
 ## Dépôt Git
 
@@ -252,8 +282,9 @@ un dépôt `.git` parasite — ne jamais lancer `git add` / `git commit` depuis 
 
 Dépôt public : **`Hamadoun23/farafinatigne`** —
 <https://github.com/Hamadoun23/farafinatigne>, branche `main`.
-Le PDF du catalogue (5,8 Mo) est versionné ; la brochure source de 59 Mo (`../docs/`)
-et les visuels bruts (`../assets/`) restent hors dépôt.
+Le PDF du catalogue n'est **plus** versionné depuis le 30 août 2026 (voir
+plus haut, généré automatiquement sur le VPS) ; la brochure source de 59 Mo
+(`../docs/`) et les visuels bruts (`../assets/`) restent hors dépôt aussi.
 
 ## Mise en ligne
 
